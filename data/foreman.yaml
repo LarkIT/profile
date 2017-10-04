@@ -1,0 +1,7 @@
+profile::cloudwatch::logs:
+  foreman_production:
+    path: '/var/log/foreman/production.log'
+    log_group_name: 'mbi'
+  foreman_cron:
+    path: '/var/log/foreman/cron.log'
+    log_group_name: 'mbi'

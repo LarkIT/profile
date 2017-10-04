@@ -1,0 +1,13 @@
+profile::cloudwatch::logs:
+  Messages:
+    path: '/var/log/messages'
+    log_group_name: 'mbi'
+  Secure:
+    path: '/var/log/secure'
+    log_group_name: 'mbi'
+  Yum:
+    path: '/var/log/yum.log'
+    log_group_name: 'mbi'
+  Mail:
+    path: '/var/log/maillog'
+    log_group_name: 'mbi'

@@ -1,0 +1,7 @@
+profile::cloudwatch::logs:
+  railsapp:
+    path: '/web/railsapp/%{trusted.extensions.pp_environment}/current/log/%{trusted.extensions.pp_environment}.log'
+    log_group_name: '%{trusted.extensions.pp_application}'
+  railscron:
+    path: '/web/railsapp/%{trusted.extensions.pp_environment}/current/log/cron.log'
+    log_group_name: '%{trusted.extensions.pp_application}'

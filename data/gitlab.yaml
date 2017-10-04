@@ -1,0 +1,70 @@
+profile::cloudwatch::logs:
+  gitlab_shell:
+    path: /var/log/gitlab/gitlab-shell/gitlab-shell.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_production:
+    path: /var/log/gitlab/gitlab-rails/production.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_application:
+    path: /var/log/gitlab/gitlab-rails/application.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_host:
+    path: /var/log/gitlab/gitlab-rails/githost.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_redis:
+    path: /var/log/gitlab/redis/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_postgresql:
+    path: /var/log/gitlab/postgresql/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_logrotate:
+    path: /var/log/gitlab/logrotate/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_unicornerr:
+    path: /var/log/gitlab/unicorn/unicorn_stderr.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_unicornstdout:
+    path: /var/log/gitlab/unicorn/unicorn_stdout.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_unicorncurrent:
+    path: /var/log/gitlab/unicorn/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_sidekiq:
+    path: /var/log/gitlab/sidekiq/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_gitaly:
+    path: /var/log/gitlab/gitaly/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_workhorse:
+    path: /var/log/gitlab/gitlab-workhorse/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_nginxerr:
+    path: /var/log/gitlab/nginx/error.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_nginxcurrent:
+    path: /var/log/gitlab/nginx/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_nginx_gitlab_access:
+    path: /var/log/gitlab/nginx/gitlab_access.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_nginx_error:
+    path: /var/log/gitlab/nginx/gitlab_error.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_nginix_access:
+    path: /var/log/gitlab/nginx/access.log
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_prometheus:
+    path: /var/log/gitlab/prometheus/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_node_exporter:
+    path: /var/log/gitlab/node-exporter/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_redis_exporter:
+    path: /var/log/gitlab/redis-exporter/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_postgres_exporter:
+    path: /var/log/gitlab/postgres-exporter/current
+    log_group_name: '%{trusted.extensions.pp_application}'
+  gitlab_monitor:
+    path: /var/log/gitlab/gitlab-monitor/current
+    log_group_name: '%{trusted.extensions.pp_application}'

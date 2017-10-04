@@ -18,10 +18,12 @@ class profile::ntp {
   include '::ntp'
 
   service { 'ntpdate':
-    enable => true
+    enable  => true,
+    require => Class[ 'ntp' ],
   }
 
   service { 'chronyd':
-    enable => false
+    enable  => false,
+    require => Class[ 'ntp' ],
   }
 }

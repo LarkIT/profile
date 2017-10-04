@@ -8,12 +8,14 @@ class profile::foreman (
 
   # From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)
-  hiera_include('classes')
-
-#  file{'/etc/puppetlabs/puppet/hiera.yaml':
-#    ensure => present,
-#    source => "puppet:///modules/${module_name}/hiera.yaml", # NOTE: This location is also used by foreman-installer.sh (bootstrap)
-#  }
+  #hiera_include('classes')
+  include foreman
+  include foreman_proxy
+  include puppet
+  include foreman::cli
+  include foreman::plugin::default_hostgroup
+  include foreman::plugin::setup
+  include foreman::compute::ec2
 
   class {'::r10k::webhook':
     require => Class['r10k::webhook::config'],

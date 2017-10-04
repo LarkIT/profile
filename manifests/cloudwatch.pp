@@ -15,7 +15,7 @@
 class profile::cloudwatch (
   $manage_proxy_conf    = true,
   $install_python_devel = true,
-  $additional_packages  = $profile::cloudwatch::additional_packages,
+  $additional_packages  = 'python-devel',
   $enable_cloudwatch    = true,
 ) {
   

@@ -19,17 +19,17 @@ class profile::cloudwatch (
   $enable_cloudwatch    = true,
 ) {
   
-  if $enable_cloudwatch == true {
-    class { '::cloudwatchlogs':
-      logs => lookup('profile::cloudwatch::logs', Hash, deep),
-    }
+#  if $enable_cloudwatch == true {
+#    class { '::cloudwatchlogs':
+#      logs => lookup('profile::cloudwatch::logs', Hash, deep),
+#    }
 
-    if ($manage_proxy_conf) {
-      include profile::cloudwatch::proxy
-     }
+#    if ($manage_proxy_conf) {
+#      include profile::cloudwatch::proxy
+#     }
 
-    if ($install_python_devel) {
-      ensure_packages($additional_packages)
-    }
-  }
+#    if ($install_python_devel) {
+#      ensure_packages($additional_packages)
+#    }
+#  }
 }

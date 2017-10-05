@@ -15,7 +15,7 @@ class profile::base {
 #  include profile::cloudwatch
 
 
-  $packages=['screen','vim-enhanced','net-tools','bind-utils','oddjob-mkhomedir']
+  $packages=[ 'screen','vim-enhanced','net-tools','bind-utils','oddjob-mkhomedir', 'mlocate' ]
 
   package {$packages:
     ensure => latest,

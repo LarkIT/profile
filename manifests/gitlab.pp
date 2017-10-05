@@ -16,7 +16,7 @@ class profile::gitlab (
   $admin_ips = ['172.20.0.0/16'],
   $ports = [22, 443],
 ) {
-#  include ::gitlab
+
   class{ 'gitlab':
     external_url => "https://${::fqdn}",
     nginx => { 

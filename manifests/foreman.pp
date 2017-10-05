@@ -29,18 +29,18 @@ class profile::foreman (
     require => Class['r10k::webhook::config'],
   }
 
-#  $git_webhook_config_defaults = {
-#    ensure => present,
-#  }
+  $git_webhook_config_defaults = {
+    ensure => present,
+  }
 
-#  if $git_webhook_config != {} {
-#    $git_webhook_config.each |$index, $value| {
-#      $git_webhook_config_merged = deep_merge($git_webhook_config_defaults,$value)
-#      git_webhook{ $index:
-#        * => $git_webhook_config_merged
-#      }
-#    }
-#  }
+  if $git_webhook_config != {} {
+    $git_webhook_config.each |$index, $value| {
+      $git_webhook_config_merged = deep_merge($git_webhook_config_defaults,$value)
+      git_webhook{ $index:
+        * => $git_webhook_config_merged
+      }
+    }
+  }
 
   $pkcs_private_key = 'pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem'
   $pkcs_public_key  = 'pkcs7_public_key: /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem'

@@ -4,7 +4,7 @@ class profile::foreman (
 ) {
 
   firewall { '100 INPUT allow http(s) from all':
-    dport  => [ '8080', '443', '8140' ],
+    dport  => [ '8080', '443', '8140', '8088' ],
     proto  => 'tcp',
     action => 'accept',
     chain  => 'INPUT',

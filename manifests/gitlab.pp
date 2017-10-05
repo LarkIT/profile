@@ -23,8 +23,8 @@ class profile::gitlab (
 #  ssl_certificate_key: /etc/puppetlabs/puppet/ssl/private_keys/%{trusted.certname}.pem
 
 #  include ::gitlab
-  class{ '::gitlab':
-#    external_url => https://${::fqdn},
+  class{ 'gitlab':
+    external_url => "https://${::fqdn}",
 #    nginx => { 
 #               ssl_certificate     => "/etc/puppetlabs/puppet/ssl/certs/%{trusted.certname}.pem",
 #               ssl_certificate_key => /etc/puppetlabs/puppet/ssl/private_keys/%{trusted.certname}.pem,

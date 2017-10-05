@@ -2,6 +2,14 @@
 class profile::foreman (
   $git_webhook_config = {},
 ) {
+
+  firewall { '100 INPUT allow http(s) from all':
+    dport  => [ '8080', '443', '8140' ],
+    proto  => 'tcp',
+    action => 'accept',
+    chain  => 'INPUT',
+  }
+
   include r10k
 #  include r10k::webhook::config
   include puppetdb

@@ -13,7 +13,7 @@
 #
 class profile::gitlab (
   $puppet_ip = undef,
-  $admin_ips = ['172.16.0.0/16'],
+  $admin_ips = ['172.20.0.0/16'],
   $ports = [22, 443],
 ) {
 

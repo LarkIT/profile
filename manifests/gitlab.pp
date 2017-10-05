@@ -16,12 +16,12 @@ class profile::gitlab (
   $admin_ips = ['172.20.0.0/16'],
   $ports = [22, 443],
 ) {
-
+  
   class{ 'gitlab':
     external_url => "https://${::fqdn}",
     nginx => { 
-      'ssl_certificate'     => "/etc/puppetlabs/puppet/ssl/certs/${trusted['extensions']['certname']}.pem",
-      'ssl_certificate_key' => "/etc/puppetlabs/puppet/ssl/private_keys/${trusted['extensions']['certname']}.pem",
+      'ssl_certificate'     => "/etc/puppetlabs/puppet/ssl/certs/${trusted['certname']}.pem",
+      'ssl_certificate_key' => "/etc/puppetlabs/puppet/ssl/private_keys/${trusted['certname']}.pem",
     }   
   }
 

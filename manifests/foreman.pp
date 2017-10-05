@@ -2,7 +2,7 @@
 class profile::foreman (
   $git_webhook_config = {},
 ) {
-#  include r10k
+  include r10k
 #  include r10k::webhook::config
 #  include puppetdb
 

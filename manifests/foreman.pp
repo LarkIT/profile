@@ -9,30 +9,30 @@ class profile::foreman (
   # From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)
   #hiera_include('classes')
-  include foreman
-  include foreman_proxy
-  include puppet
-  include foreman::cli
-  include foreman::plugin::default_hostgroup
-  include foreman::plugin::setup
-  include foreman::compute::ec2
+#  include foreman
+#  include foreman_proxy
+#  include puppet
+#  include foreman::cli
+#  include foreman::plugin::default_hostgroup
+#  include foreman::plugin::setup
+#  include foreman::compute::ec2
 
-  class {'::r10k::webhook':
-    require => Class['r10k::webhook::config'],
-  }
+#  class {'::r10k::webhook':
+#    require => Class['r10k::webhook::config'],
+#  }
 
-  $git_webhook_config_defaults = {
-    ensure => present,
-  }
+#  $git_webhook_config_defaults = {
+#    ensure => present,
+#  }
 
-  if $git_webhook_config != {} {
-    $git_webhook_config.each |$index, $value| {
-      $git_webhook_config_merged = deep_merge($git_webhook_config_defaults,$value)
-      git_webhook{ $index:
-        * => $git_webhook_config_merged
-      }
-    }
-  }
+#  if $git_webhook_config != {} {
+#    $git_webhook_config.each |$index, $value| {
+#      $git_webhook_config_merged = deep_merge($git_webhook_config_defaults,$value)
+#      git_webhook{ $index:
+#        * => $git_webhook_config_merged
+#      }
+#    }
+#  }
 
   $pkcs_private_key = 'pkcs7_private_key: /etc/puppetlabs/puppet/keys/private_key.pkcs7.pem'
   $pkcs_public_key  = 'pkcs7_public_key: /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem'

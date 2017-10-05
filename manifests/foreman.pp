@@ -19,15 +19,15 @@ class profile::foreman (
   #hiera_include('classes')
   include foreman
   include foreman_proxy
-  #include puppet
+  include puppet
   include foreman::cli
   include foreman::plugin::default_hostgroup
   include foreman::plugin::setup
   include foreman::compute::ec2
 
-  class{ 'puppet':
-    server_additional_settings => true,
-  }
+  #class{ 'puppet':
+  #  server_additional_settings => true,
+  #}
 
   class {'::r10k::webhook':
     require => Class['r10k::webhook::config'],

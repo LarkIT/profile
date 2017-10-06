@@ -40,7 +40,7 @@ class profile::railsapp (
   include ::lvm
 
   include ::swap_file
-  include ::redis
+#  include ::redis
 
 #  include ::repos::passenger
   include ::rvm

@@ -87,4 +87,11 @@ class profile::foreman (
       'common',
     ],
   }
+
+  file{ '/etc/puppetlabs/puppet/node.rb':
+    ensure => file,
+    owner  => 'puppet',
+    group  => 'puppet',
+    mode   => '0750',
+  }
 }

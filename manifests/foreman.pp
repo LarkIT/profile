@@ -16,14 +16,14 @@ class profile::foreman (
 
   # From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)
-  hiera_include('classes')
-  #include foreman
-  #include foreman_proxy
-  #include puppet
-  #include foreman::cli
-  #include foreman::plugin::default_hostgroup
-  #include foreman::plugin::setup
-  #include foreman::compute::ec2
+  #hiera_include('classes')
+  include foreman
+  include foreman_proxy
+  include puppet
+  include foreman::cli
+  include foreman::plugin::default_hostgroup
+  include foreman::plugin::setup
+  include foreman::compute::ec2
 
   #class{ 'puppet':
   #  server_additional_settings => true,

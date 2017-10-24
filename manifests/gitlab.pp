@@ -24,7 +24,13 @@ class profile::gitlab (
       'ssl_certificate_key' => "/etc/puppetlabs/puppet/ssl/private_keys/${trusted['certname']}.pem",
     },
     gitlab_rails => {
-      backup_keep_time => '604800',
+      backup_keep_time               => '604800',
+      backup_upload_remote_directory => 'gitlab-s3-backups',
+      backup_upload_connection       => {
+        'provider'        => 'AWS',
+        'region'          => 'us-west-2',
+        'use_iam_profile' => true 
+      },
     },
   }
 

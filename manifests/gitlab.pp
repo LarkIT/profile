@@ -23,6 +23,10 @@ class profile::gitlab (
       'ssl_certificate'     => "/etc/puppetlabs/puppet/ssl/certs/${trusted['certname']}.pem",
       'ssl_certificate_key' => "/etc/puppetlabs/puppet/ssl/private_keys/${trusted['certname']}.pem",
     }   
+    gitlab_rails => {
+      'webhook_timeout' => 10,
+      'gitlab_default_theme' => 2,
+    },
   }
 
   # Firewall

@@ -14,7 +14,8 @@
 class profile::gitlab (
   $puppet_ip = undef,
   $admin_ips = ['172.20.0.0/16'],
-  $ports = [22, 443],
+  $ports     = [22, 443],
+  $region    = $trusted['extensions']['pp_region'],
 ) {
   
   class{ 'gitlab':
@@ -28,7 +29,7 @@ class profile::gitlab (
       backup_upload_remote_directory => 'gitlab-s3-backups',
       backup_upload_connection       => {
         'provider'        => 'AWS',
-        'region'          => 'us-west-2',
+        'region'          => $region,
         'use_iam_profile' => true 
       },
     },
@@ -52,5 +53,12 @@ class profile::gitlab (
       chain  => 'INPUT',
       source => $ip,
     }
+  }
+
+  cron { 'GITLab Backup':
+    command => '/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1',
+    user    => 'root',
+    hour    => [2, 10],
+    minute  => 0,
   }
 }

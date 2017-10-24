@@ -15,7 +15,14 @@ class profile::base {
 #  include profile::cloudwatch
 
 
-  $packages=[ 'screen','vim-enhanced','net-tools','bind-utils','oddjob-mkhomedir', 'mlocate', 'telnet' ]
+  $packages=[ 'screen',
+              'vim-enhanced',
+              'net-tools',
+              'bind-utils',
+              'oddjob-mkhomedir',
+              'mlocate',
+              'telnet',
+              'unzip ]
 
   package {$packages:
     ensure => latest,

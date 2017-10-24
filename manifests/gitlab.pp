@@ -15,6 +15,7 @@ class profile::gitlab (
   $puppet_ip = undef,
   $admin_ips = ['172.20.0.0/16'],
   $ports     = [22, 443],
+  $s3_bucket = 'gitlab-s3-backups',
   $region    = $trusted['extensions']['pp_region'],
 ) {
   
@@ -26,7 +27,7 @@ class profile::gitlab (
     },
     gitlab_rails => {
       backup_keep_time               => '604800',
-      backup_upload_remote_directory => 'gitlab-s3-backups',
+      backup_upload_remote_directory => $s3_bucket,
       backup_upload_connection       => {
         'provider'        => 'AWS',
         'region'          => $region,

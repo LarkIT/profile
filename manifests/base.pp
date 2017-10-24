@@ -22,7 +22,7 @@ class profile::base {
               'oddjob-mkhomedir',
               'mlocate',
               'telnet',
-              'unzip ]
+              'unzip' ]
 
   package {$packages:
     ensure => latest,

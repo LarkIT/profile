@@ -22,7 +22,7 @@ class profile::gitlab (
     nginx => { 
       'ssl_certificate'     => "/etc/puppetlabs/puppet/ssl/certs/${trusted['certname']}.pem",
       'ssl_certificate_key' => "/etc/puppetlabs/puppet/ssl/private_keys/${trusted['certname']}.pem",
-    }   
+    },
     gitlab_rails => {
       backup_keep_time => '604800',
     },

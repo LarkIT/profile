@@ -56,10 +56,17 @@ class profile::gitlab (
     }
   }
 
+  cron { 'GITLab Backup secrets.json':
+    command => "/usr/local/bin/aws s3 cp /etc/gitlab/gitlab-secrets.json s3://gitlab-s3-backups/",
+    user    => 'root',
+    hour    => [2, 10],
+    minute  => 0,
+  }
+
   cron { 'GITLab Backup':
     command => '/opt/gitlab/bin/gitlab-rake gitlab:backup:create CRON=1',
     user    => 'root',
     hour    => [2, 10],
-    minute  => 0,
+    minute  => 1,
   }
 }

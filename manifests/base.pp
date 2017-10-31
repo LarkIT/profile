@@ -1,6 +1,6 @@
 # Base Profile
 class profile::base {
-   include firewall
+#   include firewall
 #  include ::profile::selinux
 #  include ::profile::auth
 #  include ::profile::ssh

@@ -19,7 +19,7 @@ class profile::openvpn (
 
   # OpenVPN_AS - please see https://github.com/LarkIT/puppet-openvpn_as
   #include ::openvpn_as
-  include ::openvpnas
+  include ::openvpn
 
   # Firewall should be handled by OpenVPN-AS Software?
 

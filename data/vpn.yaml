@@ -2,3 +2,4 @@ profile::cloudwatch::logs:
   openvpn:
     path: '/var/log/openvpnas.log'
     log_group_name: '%{trusted.extensions.pp_application}'
+firewall::purge: false

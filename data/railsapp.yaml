@@ -9,7 +9,7 @@ profile::cloudwatch::logs:
 rvm::key_server: hkp://keys.gnupg.net:80
 
 host_railsapp::default_rails_environments:
-  - %{trusted.extensions.pp_environment}
+  - "%{trusted.extensions.pp_environment}"
 host_railsapp::applications: railsapp
 host_railsapp::nginx::passenger::poolidletime: 0
 host_railsapp::nginx::passenger::spawnmethod: direct

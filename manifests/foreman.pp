@@ -97,9 +97,13 @@ class profile::foreman (
     source  => "/etc/puppetlabs/puppet/ssl/certs/${fqdn}.pem",
   }
 
+  file{ "/etc/pki/tls/certs/ca.pem":
+    mode    => '0644',
+    source  => "/etc/puppetlabs/puppet/ssl/certs/ca.pem",
+  }
 
   file{ "/etc/pki/tls/private/${fqdn}.pem":
-    mode    => '0644',
+    mode    => '0600',
     source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
   }
 

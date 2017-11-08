@@ -88,14 +88,19 @@ class profile::foreman (
     ],
   }
 
-  file{ '/etc/pki/tls/certs':
-    ensure => directory,
-  }
+#  file{ '/etc/pki/tls/certs':
+#    ensure => directory,
+#  }
 
   file{ "/etc/pki/tls/certs/${fqdn}.pem":
     mode    => '0644',
     source  => "/etc/puppetlabs/puppet/ssl/certs/${fqdn}.pem",
-    require => File[ '/etc/pki/tls/certs' ],
+  }
+
+
+  file{ "/etc/pki/tls/private/${fqdn}.pem":
+    mode    => '0644',
+    source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
   }
 
 }

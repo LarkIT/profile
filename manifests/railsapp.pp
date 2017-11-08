@@ -66,11 +66,11 @@ class profile::railsapp (
   }
 
   # Monitoring - DISABLED FOR NOW
-  #$monitor = pick($host_railsapp::process_mon, 'nginx: master process')
-  #sensu::check {'webserver running':
-  #  handlers => [ 'default' ],
-  #  interval => 180,
-  #  command  => "/etc/sensu/plugins/check-process.rb -p \"${monitor}\" -C1 -W1 -u root",
-  #}
+  $monitor = pick($host_railsapp::process_mon, 'nginx: master process')
+  sensu::check {'webserver running':
+    handlers => [ 'default' ],
+    interval => 180,
+    command  => "/etc/sensu/plugins/check-process.rb -p \"${monitor}\" -C1 -W1 -u root",
+  }
 
 }

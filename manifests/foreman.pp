@@ -82,7 +82,7 @@ class profile::foreman (
     master_service     => 'puppetserver',
     hierarchy          => [
       'nodes/%{::trusted.certname}',
-      'role/%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
+      '%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
       'role/%{::trusted.extensions.pp_role}',
       'role/%{::role}',
       'common',

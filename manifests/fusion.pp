@@ -13,6 +13,7 @@
 #
 class profile::fusion
 {
+  include java
   include fusion
 
 }

@@ -82,11 +82,22 @@ class profile::foreman (
     master_service     => 'puppetserver',
     hierarchy          => [
       'nodes/%{::trusted.certname}',
+      '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
+      '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_role}',
+      '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}',
+      '%{::trusted.extensions.pp_application}/common',
       '%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
-      'role/%{::trusted.extensions.pp_role}',
-      'role/%{::role}',
+      '%{::trusted.extensions.pp_role}',
+      '%{::trusted.extensions.pp_environment}',
       'common',
-    ],
+     ],
+#    hierarchy          => [
+#      'nodes/%{::trusted.certname}',
+#      '%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
+#      'role/%{::trusted.extensions.pp_role}',
+#      'role/%{::role}',
+#      'common',
+#    ],
   }
 
   file{ "/etc/pki/tls/certs/${fqdn}.pem":

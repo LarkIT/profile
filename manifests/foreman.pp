@@ -87,6 +87,8 @@ class profile::foreman (
       '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}',
       '%{::trusted.extensions.pp_application}/common',
       '%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
+      'role/%{::trusted.extensions.pp_role}',
+      'role/%{::role}',
       '%{::trusted.extensions.pp_role}',
       '%{::trusted.extensions.pp_environment}',
       'common',

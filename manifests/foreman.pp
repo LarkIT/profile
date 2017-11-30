@@ -119,7 +119,7 @@ class profile::foreman (
 
   file{ "/etc/pki/tls/private/${fqdn}.pem":
     mode    => '0600',
-    source  => "/etc/puppetlabs/puppet/ssl/private_key/${fqdn}.pem",
+    source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
   }
 
 }

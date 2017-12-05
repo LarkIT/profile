@@ -1,0 +1,118 @@
+---
+### role/pulp.yaml - Pulp Server Data
+# LVM - DataDisks
+lvm::manage_pkg: true
+lvm::volume_groups:
+  pulp_vg:
+    physical_volumes:
+      - /dev/xvdf # 20GB
+    logical_volumes:
+      mongodb:
+        size: 20G
+        mountpath: /var/lib/mongodb
+      pulp:
+       size: 100G
+       mountpath: /var/lib/pulp
+
+#pulp::debugging_mode: true
+pulp::log_level: WARNING
+pulp::ssl_verify_client: optional
+pulp::https_cert: /etc/pki/tls/certs/%{::fqdn}.pem
+pulp::https_key: /etc/pki/tls/private/%{::fqdn}.pem
+pulp::https_chain: /etc/pki/tls/certs/ca.pem
+pulp::ssl_username: false
+
+#pulp::admin::verify_ssl: false
+#pulp::admin::log_filename: /var/log/pulp/admin.log
+#pulp::admin::call_log_filename: /var/log/pulp/server_calls.log
+pulp::admin::login::login_method: login
+pulp::admin::login::username: admin
+
+profile::pulp::rpmrepos_defaults:
+  remove_missing: true
+  retain_old_count: 2
+  serve_http: true
+  serve_https: true
+  validate: true
+  repoview: false
+
+profile::pulp::rpmrepos:
+  centos-7-x86_64-base:
+    display_name: CentOS 7 x86_64 Base
+    feed: http://mirror.centos.org/centos/7/os/x86_64/
+    relative_url: centos/7/os/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-CentOS-7
+  centos-7-x86_64-updates:
+    display_name: CentOS 7 x86_64 Updates
+    feed: http://mirror.centos.org/centos/7/updates/x86_64/
+    relative_url: centos/7/updates/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-CentOS-7
+  centos-7-x86_64-sclo:
+    display_name: CentOS 7 x86_64 - SCLo
+    feed: http://mirror.centos.org/centos/7/sclo/x86_64/sclo/
+    relative_url: centos/7/sclo/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+  centos-7-x86_64-sclo-rh:
+    display_name: CentOS 7 x86_64 - SCLo RedHat
+    feed: http://mirror.centos.org/centos/7/sclo/x86_64/rh/
+    relative_url: centos/7/sclo-rh/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+  epel-7-x86_64:
+    display_name: CentOS 7 x86_64 EPEL
+    feed: http://download.fedoraproject.org/pub/epel/7/x86_64/
+    relative_url: epel/7/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-EPEL-7
+  foreman-el7-x86_64:
+    display_name: Foreman Stable el7 - x86_64
+    feed: http://yum.theforeman.org/releases/latest/el7/x86_64/
+    relative_url: foreman/el7/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-foreman
+  foreman-plugins-el7-x86_64:
+    display_name: Foreman Plugins Stable el7 - x86_64
+    feed: http://yum.theforeman.org/plugins/latest/el7/x86_64/
+    relative_url: foreman-plugins/el7/x86_64/
+  gitlab-el7-x86_64:
+    display_name: Official GitLab CE el 7 - x86_64
+    feed: https://packages.gitlab.com/gitlab/gitlab-ce/el/7/x86_64/ # Note: This URL doesn't work for Pulp
+    relative_url: gitlab/el7/x86_64/
+  openvpn-el7-x86_64:
+    display_name: OpenVPN AccessServer
+    relative_url: openvpn/el7/x86_64/
+    validate: false
+  passenger-el7-x86_64:
+    display_name: Passenger Updates el7 - x86_64
+    feed: https://oss-binaries.phusionpassenger.com/yum/passenger/el/7/x86_64/
+    relative_url: passenger/el7/x86_64/
+    validate: false
+  postgres-9.4-el7-x86_64:
+    display_name: PostgreSQL 9.4 el7 - x86_64
+    feed: https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/
+    relative_url: postgres/9.4/rhel-7-x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-PGDG-94
+  postgres-9.6-el7-x86_64:
+    display_name: PostgreSQL 9.6 el7 - x86_64
+    feed: https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/
+    relative_url: postgres/9.6/rhel-7-x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-PGDG-96
+  pulp2-el7-x86_64:
+    display_name: Pulp 2 Production Releases
+    feed: https://repos.fedorapeople.org/repos/pulp/pulp/stable/2/7/x86_64/
+    relative_url: pulp/stable/2/7/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-pulp-2
+  puppetlabs-pc1-el7-x86_64:
+    display_name: Puppet Labs PC1 Repository el 7 - x86_64
+    feed: http://yum.puppetlabs.com/el/7/PC1/x86_64/
+    relative_url: puppetlabs/el/7/PC1/x86_64/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1
+  shibboleth-el7-x86_64:
+    display_name: Shibboleth Centos 7 Repo
+    feed: http://download.opensuse.org/repositories/security:/shibboleth/CentOS_7/
+    relative_url: shibboleth/el7/
+    gpg_key: /var/lib/pulp/static/rpm-gpg/RPM-GPG-KEY-Shibboleth
+
+## NOTE: To get new versions of OpenVPN added to the repo:
+##    curl -O http://swupdate.openvpn.org/as/openvpn-as-2.1.6-CentOS7.x86_64.rpm
+##    pulp-admin rpm repo uploads rpm --repo-id openvpn-el7-x86_64 -f openvpn-as-2.1.6-CentOS7.x86_64.rpm
+##    pulp-admin rpm repo publish run --repo-id openvpn-el7-x86_64
+
+### END

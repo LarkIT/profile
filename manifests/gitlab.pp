@@ -15,7 +15,7 @@ class profile::gitlab (
   $puppet_ip = undef,
   $admin_ips = ['172.20.0.0/16'],
   $ports     = [22, 443],
-  $s3_bucket = 'gitlab-s3-backups',
+  $s3_bucket = "${trusted['extensions']['pp_application']}-gitlab-s3-backups",
   $region    = $trusted['extensions']['pp_region'],
 ) {
   

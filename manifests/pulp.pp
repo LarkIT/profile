@@ -18,7 +18,7 @@ class profile::pulp (
   $rpmrepos_defaults = {},
   $internal_repos = false,
 ) {
-
+include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml
   include ::lvm
 

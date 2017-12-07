@@ -40,7 +40,7 @@ class profile::pulp_client (
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      taret  => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
+      target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
       source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1",
     }
 

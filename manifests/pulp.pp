@@ -139,11 +139,4 @@ include profile::pulp_client
     source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
   }
 
-  file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template("${module_name}/pulp-bootstrap.repo.erb"),
-  }
 }

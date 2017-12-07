@@ -14,9 +14,10 @@
 #
 #
 class profile::pulp (
-  $rpmrepos = {},
+  $rpmrepos          = {},
   $rpmrepos_defaults = {},
-  $internal_repos = false,
+  $internal_repos    = false,
+  $pulp_server       = "${trusted['extensions']['pp_application']}-pulp-01.${trusted['extensions']['pp_application']}.lan"
 ) {
 include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml
@@ -136,5 +137,13 @@ include profile::pulp_client
   file{ "/etc/pki/tls/private/${fqdn}.pem":
     mode    => '0600',
     source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
+  }
+
+  file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template("${module_name}/pulp-bootstrap.repo.erb"),
   }
 }

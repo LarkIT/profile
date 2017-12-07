@@ -1,0 +1,27 @@
+[base]
+name=CentOS-$releasever - Base
+baseurl=http://<%= @pulp_server %>/pulp/repos/centos/$releasever/os/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#released updates
+[updates]
+name=CentOS-$releasever - Updates
+baseurl=http://<%= @pulp_server %>/pulp/repos/centos/$releasever/updates/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[pulp2-stable]
+name=Pulp 2 Production Releases
+baseurl=http://<%= @pulp_server %>/pulp/repos/pulp/stable/2/7/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=https://<%= @pulp_server %>/pulp/static/rpm-gpg/RPM-GPG-KEY-pulp-2
+
+[puppetlabs-pc1-7-x86_64]
+name=Puppet Labs PC1 Repository el 7 - $basearch
+baseurl=http://<%= @pulp_server %>/pulp/repos/puppetlabs/el/7/PC1/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1
+file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1

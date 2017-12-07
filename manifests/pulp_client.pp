@@ -9,17 +9,7 @@ class profile::pulp_client (
   $pulp_server     = "${trusted['extensions']['pp_application']}-pulp-01.${trusted['extensions']['pp_application']}.lan"
 ) {
 
-  if ($::os[family] == 'RedHat') { # Only affect Red Hat family servers
-    # Trust Pulp CA Cert
-    include ::ca_cert
-    ca_cert::ca {'PulpCA':
-      ensure => 'trusted',
-      source => $ca_cert
-    }
-
-    # Red Hat Family Common
-    include pulp::consumer
-
+  if ${trusted['extensions']['pp_role']} != 'pulp {
     file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
       ensure  => 'file',
       owner   => 'root',
@@ -43,6 +33,19 @@ class profile::pulp_client (
       target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
       source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1",
     }
+  }
+
+
+  if ($::os[family] == 'RedHat') { # Only affect Red Hat family servers
+    # Trust Pulp CA Cert
+    include ::ca_cert
+    ca_cert::ca {'PulpCA':
+      ensure => 'trusted',
+      source => $ca_cert
+    }
+
+    # Red Hat Family Common
+    include pulp::consumer
 
     if $server_name {
       case $::operatingsystem {

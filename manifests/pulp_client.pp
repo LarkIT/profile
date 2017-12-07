@@ -28,18 +28,11 @@ class profile::pulp_client (
       content => template("${module_name}/pulp-bootstrap.repo.erb"),
     }
 
-#    archive { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1':
-#      ensure        => present,
-#      extract       => false,
-#      extract_path  => '/etc/pki/rpm-gpg',
-#      source        => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1',
-#    }
-
     staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1':
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1',
+      target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1',
       source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
     }
 
@@ -47,7 +40,7 @@ class profile::pulp_client (
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
+      taret  => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
       source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1",
     }
 

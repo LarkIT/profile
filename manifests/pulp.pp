@@ -17,7 +17,6 @@ class profile::pulp (
   $rpmrepos          = {},
   $rpmrepos_defaults = {},
   $internal_repos    = false,
-  $pulp_server       = "${trusted['extensions']['pp_application']}-pulp-01.${trusted['extensions']['pp_application']}.lan"
 ) {
 include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml

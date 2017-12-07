@@ -1,11 +1,12 @@
 # profile::pulp_client - Software Repos for Pulp Clients
 class profile::pulp_client (
   $server_protocol = 'https',
-  $server_name = undef,
-  $server_ip = undef,
-  $extra_repos = [],
+  $server_name     = undef,
+  $server_ip       = undef,
+  $extra_repos     = [],
   $disable_warning = false,
-  $ca_cert = 'file:///etc/puppetlabs/puppet/ssl/certs/ca.pem',
+  $ca_cert         = 'file:///etc/puppetlabs/puppet/ssl/certs/ca.pem',
+  $pulp_server     = "${trusted['extensions']['pp_application']}-pulp-01.${trusted['extensions']['pp_application']}.lan"
 ) {
 
   if ($::os[family] == 'RedHat') { # Only affect Red Hat family servers
@@ -25,6 +26,20 @@ class profile::pulp_client (
       group   => 'root',
       mode    => '0644',
       content => template("${module_name}/pulp-bootstrap.repo.erb"),
+    }
+
+    staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1':
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
+    }
+
+    staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1':
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
     }
 
     if $server_name {

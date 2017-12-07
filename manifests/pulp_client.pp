@@ -10,15 +10,15 @@ class profile::pulp_client (
 ) {
 
   if $trusted['extensions']['pp_role'] != 'pulp' {
-    $remove_repos = [ 'CentOS-Base.repo',
-                      'CentOS-CR.repo',
-                      'CentOS-Debuginfo.repo',
-                      'CentOS-fasttrack.repo',
-                      'CentOS-Media.repo',
-                      'CentOS-Sources.repo',
-                      'CentOS-Vault.repo',
-                      'epel.repo',
-                      'puppetlabs-pc1.repo'
+    $remove_repos = [ '/etc/yum.repos.d/CentOS-Base.repo',
+                      '/etc/yum.repos.d/CentOS-CR.repo',
+                      '/etc/yum.repos.d/CentOS-Debuginfo.repo',
+                      '/etc/yum.repos.d/CentOS-fasttrack.repo',
+                      '/etc/yum.repos.d/CentOS-Media.repo',
+                      '/etc/yum.repos.d/CentOS-Sources.repo',
+                      '/etc/yum.repos.d/CentOS-Vault.repo',
+                      '/etc/yum.repos.d/epel.repo',
+                      '/etc/yum.repos.d/puppetlabs-pc1.repo'
                     ]
 
     file{ $remove_repos:

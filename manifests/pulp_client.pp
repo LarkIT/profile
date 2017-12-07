@@ -10,6 +10,21 @@ class profile::pulp_client (
 ) {
 
   if $trusted['extensions']['pp_role'] != 'pulp' {
+    $remove_repos = [ 'CentOS-Base.repo',
+                      'CentOS-CR.repo',
+                      'CentOS-Debuginfo.repo',
+                      'CentOS-fasttrack.repo',
+                      'CentOS-Media.repo',
+                      'CentOS-Sources.repo',
+                      'CentOS-Vault.repo',
+                      'epel.repo',
+                      'puppetlabs-pc1.repo'
+                    ]
+
+    file{ $remove_repos:
+      ensure => absent,
+    }
+
     file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
       ensure  => 'file',
       owner   => 'root',

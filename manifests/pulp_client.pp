@@ -9,7 +9,7 @@ class profile::pulp_client (
   $pulp_server     = "${trusted['extensions']['pp_application']}-pulp-01.${trusted['extensions']['pp_application']}.lan"
 ) {
 
-  if $trusted['extensions']['pp_role'] != 'pulp {
+  if $trusted['extensions']['pp_role'] != 'pulp' {
     file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
       ensure  => 'file',
       owner   => 'root',

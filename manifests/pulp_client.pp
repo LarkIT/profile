@@ -32,6 +32,7 @@ class profile::pulp_client (
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
+      path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1',
       source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
     }
 
@@ -39,7 +40,8 @@ class profile::pulp_client (
       owner  => 'root',
       group  => 'root',
       mode   => '0644',
-      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
+      path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
+      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1",
     }
 
     if $server_name {

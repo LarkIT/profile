@@ -66,7 +66,6 @@ class profile::pulp_client (
       case $::operatingsystem {
         'CentOS': {
           include repos::centos
-          #include repos::larkit
           include repos::pulp2
           include repos::epel
           include repos::puppetlabs_pc1

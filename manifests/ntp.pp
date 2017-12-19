@@ -15,7 +15,10 @@
 class profile::ntp {
 
   # Include the service
-  include '::ntp'
+  #include '::ntp'
+  class{ '::ntp':
+    servers => [ '169.254.169.123' ],
+  }
 
   service { 'ntpdate':
     enable  => true,

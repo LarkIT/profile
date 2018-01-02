@@ -62,6 +62,7 @@ class profile::pulp_client (
     # Red Hat Family Common
     include pulp::consumer
 
+    notify{"Nick $server_name":} 
     if $server_name {
       case $::operatingsystem {
         'CentOS': {

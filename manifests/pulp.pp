@@ -31,8 +31,15 @@ include profile::pulp_client
     include ::epel
   }
 
-  include ::pulp
-  include ::pulp::admin
+  class { 'pulp':
+    https_cert  => "/etc/pki/tls/certs/${::fqdn}.pem",
+    https_key   => "/etc/pki/tls/private/${::fqdn}.pem",
+    https_chain => '/etc/pki/tls/certs/ca.pem',
+  }
+
+  class { 'pulp::admin': 
+    require => Service['httpd']
+  } 
 
 
   # Populate RPM-GPG-KEY files

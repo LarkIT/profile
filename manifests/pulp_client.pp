@@ -9,46 +9,46 @@ class profile::pulp_client (
   $pulp_server     = "${trusted['extensions']['pp_application']}-pulp-01.${trusted['extensions']['pp_application']}.lan"
 ) {
 
-  if $trusted['extensions']['pp_role'] != 'pulp' {
-    $remove_repos = [ '/etc/yum.repos.d/CentOS-Base.repo',
-                      '/etc/yum.repos.d/CentOS-CR.repo',
-                      '/etc/yum.repos.d/CentOS-Debuginfo.repo',
-                      '/etc/yum.repos.d/CentOS-fasttrack.repo',
-                      '/etc/yum.repos.d/CentOS-Media.repo',
-                      '/etc/yum.repos.d/CentOS-Sources.repo',
-                      '/etc/yum.repos.d/CentOS-Vault.repo',
-                      '/etc/yum.repos.d/epel.repo',
-                      '/etc/yum.repos.d/puppetlabs-pc1.repo'
-                    ]
+#  if $trusted['extensions']['pp_role'] != 'pulp' {
+#    $remove_repos = [ '/etc/yum.repos.d/CentOS-Base.repo',
+#                      '/etc/yum.repos.d/CentOS-CR.repo',
+#                      '/etc/yum.repos.d/CentOS-Debuginfo.repo',
+#                      '/etc/yum.repos.d/CentOS-fasttrack.repo',
+#                      '/etc/yum.repos.d/CentOS-Media.repo',
+#                      '/etc/yum.repos.d/CentOS-Sources.repo',
+#                      '/etc/yum.repos.d/CentOS-Vault.repo',
+#                      '/etc/yum.repos.d/epel.repo',
+#                      '/etc/yum.repos.d/puppetlabs-pc1.repo'
+#                    ]
 
-    file{ $remove_repos:
-      ensure => absent,
-    }
+#    file{ $remove_repos:
+#      ensure => absent,
+#    }
 
-    file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
-      ensure  => 'file',
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => template("${module_name}/pulp-bootstrap.repo.erb"),
-    }
+#    file{ '/etc/yum.repos.d/pulp-bootstrap.repo':
+#      ensure  => 'file',
+#      owner   => 'root',
+#      group   => 'root',
+#      mode    => '0644',
+#      content => template("${module_name}/pulp-bootstrap.repo.erb"),
+#    }
 
-    staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1':
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-      target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1',
-      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
-    }
+#    staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1':
+#      owner  => 'root',
+#      group  => 'root',
+#      mode   => '0644',
+#      target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1',
+#      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppetlabs-PC1",
+#    }
 
-    staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1':
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-      target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
-      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1",
-    }
-  }
+#    staging::file { '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1':
+#      owner  => 'root',
+#      group  => 'root',
+#      mode   => '0644',
+#      target => '/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet-PC1',
+#      source => "https://${pulp_server}/pulp/static/rpm-gpg/RPM-GPG-KEY-puppet-PC1",
+#    }
+#  }
 
 
   if ($::os[family] == 'RedHat') { # Only affect Red Hat family servers

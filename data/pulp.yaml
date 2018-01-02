@@ -17,14 +17,8 @@ lvm::volume_groups:
 #pulp::debugging_mode: true
 pulp::log_level: WARNING
 pulp::ssl_verify_client: optional
-pulp::https_cert: /etc/pki/tls/certs/%{::fqdn}.pem
-pulp::https_key: /etc/pki/tls/private/%{::fqdn}.pem
-pulp::https_chain: /etc/pki/tls/certs/ca.pem
 pulp::ssl_username: false
 
-#pulp::admin::verify_ssl: false
-#pulp::admin::log_filename: /var/log/pulp/admin.log
-#pulp::admin::call_log_filename: /var/log/pulp/server_calls.log
 pulp::admin::login::login_method: login
 pulp::admin::login::username: admin
 

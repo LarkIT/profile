@@ -37,6 +37,7 @@ include profile::pulp_client
     https_key   => "/etc/pki/tls/private/${::fqdn}.pem",
     https_chain => '/etc/pki/tls/certs/ca.pem',
   }
+  
   include ::pulp::admin
 
 

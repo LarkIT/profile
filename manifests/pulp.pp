@@ -31,7 +31,6 @@ include profile::pulp_client
     include ::epel
   }
 
-#  include ::pulp
   class { 'pulp':
     https_cert  => "/etc/pki/tls/certs/${::fqdn}.pem",
     https_key   => "/etc/pki/tls/private/${::fqdn}.pem",

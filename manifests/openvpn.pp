@@ -12,14 +12,34 @@
 #
 #
 class profile::openvpn (
+  $service = 'openvpnas',
+  $domain  = $fqdn,
 ) {
 
   # Repo
   include ::repos::openvpn
 
+  class{ 'profile::letsencrypt':
+    service => $service, 
+    domains => [ $domain ],
+  }
+
   # OpenVPN_AS - please see https://github.com/LarkIT/puppet-openvpn_as
-  include ::openvpn_as
+  class{ 'openvpn_as':
+    require => Class[ 'profile::letsencrypt' ],
+  }
 
-  # Firewall should be handled by OpenVPN-AS Software?
+  file{ '/usr/local/openvpn_as/etc/web-ssl/server.key':
+    ensure => link,
+    mode   => '0600',
+    target => "/etc/letsencrypt/live/${domain}/privkey.pem",
+    notify => Service[ 'openvpnas' ],
+  }
 
+  file{ '/usr/local/openvpn_as/etc/web-ssl/server.crt':
+    ensure => link,
+    mode   => '0600',
+    target => "/etc/letsencrypt/live/${domain}/cert.pem",
+    notify => Service[ 'openvpnas' ],
+  }
 }

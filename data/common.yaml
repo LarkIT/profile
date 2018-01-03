@@ -1,13 +1,17 @@
 profile::cloudwatch::logs:
   Messages:
     path: '/var/log/messages'
-    log_group_name: 'mbi'
+    log_group_name: '%{trusted.extensions.pp_application}'
   Secure:
     path: '/var/log/secure'
-    log_group_name: 'mbi'
+    log_group_name: '%{trusted.extensions.pp_application}'
   Yum:
     path: '/var/log/yum.log'
-    log_group_name: 'mbi'
+    log_group_name: '%{trusted.extensions.pp_application}'
   Mail:
     path: '/var/log/maillog'
-    log_group_name: 'mbi'
+    log_group_name: '%{trusted.extensions.pp_application}'
+
+profile::letsencrypt::config:
+   configure_epel: false
+   email: letsencrypt@lark-it.com

@@ -16,6 +16,7 @@ class profile::base {
 
 
   $packages=[ 'screen',
+              'rpmconf',
               'vim-enhanced',
               'net-tools',
               'bind-utils',

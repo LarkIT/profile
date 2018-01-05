@@ -38,8 +38,9 @@ include profile::pulp_client
      }
   }
 
-  class { 'lvm::volume_groups':
-    * => $pulp_config_defaults
+  class { 'lvm':
+ #   * => $pulp_config_defaults
+    volume_groups => $pulp_config_defaults
   }
 
   # SELECT INTNERNAL OR EXTERNAL REPOS

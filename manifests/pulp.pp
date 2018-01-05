@@ -24,14 +24,12 @@ include profile::pulp_client
   $pulp_config_defaults = {
     'pulp_vg' =>
     {
-      'physical_volumes' => ['/dev/xvdf']
-
+      'physical_volumes' => ['/dev/xvdf'],
       'logical_volumes' => {
         'mongodb' => {
           'size' => '20G',
           'mountpath' => '/var/lib/mongodb'
-        }
-
+        },
         'pulp' => {
           'size' => '100G',
           'mountpath' => '/var/lib/pulp'

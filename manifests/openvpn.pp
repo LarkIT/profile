@@ -12,22 +12,24 @@
 #
 #
 class profile::openvpn (
-  $service = 'openvpnas',
-  $domain  = $fqdn,
+  $service            = 'openvpnas',
+  $domain             = $fqdn,
+  $enable_lestencrypt = false,
 ) {
 
   # Repo
   include ::repos::openvpn
 
-  class{ 'profile::letsencrypt':
-    service => $service, 
-    domains => [ $domain ],
+  if $enable_lestencrypt == true {
+    class{ 'profile::letsencrypt':
+      service => $service, 
+      domains => [ $domain ],
+      before  => Class[ 'openvpn_as' ],
+    }
   }
 
   # OpenVPN_AS - please see https://github.com/LarkIT/puppet-openvpn_as
-  class{ 'openvpn_as':
-    require => Class[ 'profile::letsencrypt' ],
-  }
+  include openvpn_as
 
   file{ '/usr/local/openvpn_as/etc/web-ssl/server.key':
     ensure => link,

@@ -21,7 +21,6 @@ class profile::foreman (
   include foreman_proxy
   include puppet
   include foreman::cli
-  include foreman::plugin::default_hostgroup
   include foreman::plugin::setup
   include foreman::compute::ec2
 

@@ -17,6 +17,9 @@ class profile::pulp (
   $rpmrepos          = {},
   $rpmrepos_defaults = {},
   $internal_repos    = false,
+  $mongolvsize       = '20G',
+  $pulplvsize        = '100G',
+
 ) {
 include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml
@@ -27,11 +30,11 @@ include profile::pulp_client
       'physical_volumes' => ['/dev/xvdf'],
       'logical_volumes' => {
         'mongodb' => {
-          'size' => '20G',
+          'size' => ${mongolvsize},
           'mountpath' => '/var/lib/mongodb'
         },
         'pulp' => {
-          'size' => '100G',
+          'size' => ${pulplvsize},
           'mountpath' => '/var/lib/pulp'
         }
       }

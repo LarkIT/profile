@@ -30,11 +30,11 @@ include profile::pulp_client
       'physical_volumes' => ['/dev/xvdf'],
       'logical_volumes' => {
         'mongodb' => {
-          'size' => ${mongolvsize},
+          'size' => "${mongolvsize}",
           'mountpath' => '/var/lib/mongodb'
         },
         'pulp' => {
-          'size' => ${pulplvsize},
+          'size' => "${pulplvsize}",
           'mountpath' => '/var/lib/pulp'
         }
       }

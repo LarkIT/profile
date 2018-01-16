@@ -14,14 +14,13 @@
 #
 #
 class profile::pulp (
-  $rpmrepos          = {},
+  $rpmrepos          = $::profile::pulp::rpmrepos,
   $rpmrepos_defaults = {},
   $internal_repos    = false,
   $mongolvsize       = '20G',
   $pulplvsize        = '100G',
 
 ) {
-include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml
 
   $pulp_config_defaults = {
@@ -73,7 +72,7 @@ include profile::pulp_client
     group   => 'apache',
     source  => "puppet:///modules/${module_name}/pulp/rpm-gpg",
     recurse => true,
-  }
+  }9
 
   file {'/root/sync.sh':
     ensure  => 'file',

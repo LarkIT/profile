@@ -72,7 +72,7 @@ class profile::pulp (
     group   => 'apache',
     source  => "puppet:///modules/${module_name}/pulp/rpm-gpg",
     recurse => true,
-  }9
+  }
 
   file {'/root/sync.sh':
     ensure  => 'file',

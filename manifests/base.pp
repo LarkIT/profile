@@ -10,7 +10,7 @@ class profile::base {
 #  include ::profile::monitoring::sensu_client
 
   include profile::ntp
-  include profile::pulp_client
+  #include profile::pulp_client
 #  include profile::squid_client
 #  include profile::cloudwatch
 

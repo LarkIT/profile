@@ -39,6 +39,8 @@ class profile::pulp (
       }
      }
   }
+  #Instantiate upstream repos
+  create_resources('pulp_rpmrepo', $rpmrepos, $rpmrepos_defaults)
 
   class { 'lvm':
  #   * => $pulp_config_defaults
@@ -85,7 +87,6 @@ class profile::pulp (
   }
 
   # RPM Repos
-  create_resources('pulp_rpmrepo', $rpmrepos, $rpmrepos_defaults)
 
   # Ordering
   Class['lvm'] -> Class['pulp'] -> File['/var/lib/pulp/static/rpm-gpg'] -> Pulp_rpmrepo <| |> -> Pulp_schedule <| |>

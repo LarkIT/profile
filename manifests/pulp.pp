@@ -14,13 +14,38 @@
 #
 #
 class profile::pulp (
-  $rpmrepos          = {},
+  $rpmrepos          = $::profile::pulp::rpmrepos,
   $rpmrepos_defaults = {},
   $internal_repos    = false,
+  $mongolvsize       = '20G',
+  $pulplvsize        = '100G',
+
 ) {
-include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml
-  include ::lvm
+
+  $pulp_config_defaults = {
+    'pulp_vg' =>
+    {
+      'physical_volumes' => ['/dev/xvdf'],
+      'logical_volumes' => {
+        'mongodb' => {
+          'size' => "${mongolvsize}",
+          'mountpath' => '/var/lib/mongodb'
+        },
+        'pulp' => {
+          'size' => "${pulplvsize}",
+          'mountpath' => '/var/lib/pulp'
+        }
+      }
+     }
+  }
+  #Instantiate upstream repos
+  create_resources('pulp_rpmrepo', $rpmrepos, $rpmrepos_defaults)
+
+  class { 'lvm':
+ #   * => $pulp_config_defaults
+    volume_groups => $pulp_config_defaults
+  }
 
   # SELECT INTNERNAL OR EXTERNAL REPOS
   if $internal_repos {
@@ -62,7 +87,6 @@ include profile::pulp_client
   }
 
   # RPM Repos
-  create_resources('pulp_rpmrepo', $rpmrepos, $rpmrepos_defaults)
 
   # Ordering
   Class['lvm'] -> Class['pulp'] -> File['/var/lib/pulp/static/rpm-gpg'] -> Pulp_rpmrepo <| |> -> Pulp_schedule <| |>

@@ -76,7 +76,7 @@ class profile::foreman (
     puppet_conf_manage => false,
     datadir_manage     => false,
     eyaml              => true,
-    eyaml_extension    => 'yaml',
+    eyaml_extension    => 'eyaml',
     provider           => 'puppetserver_gem',
     master_service     => 'puppetserver',
     hierarchy          => [

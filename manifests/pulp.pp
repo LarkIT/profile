@@ -18,6 +18,8 @@ class profile::pulp (
   $rpmrepos_defaults = {},
   $internal_repos    = false,
   $manage_pkg        = true,
+  $mongolvsize       = '20G',
+  $pulplvsize        = '100G',
 ) {
 include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml

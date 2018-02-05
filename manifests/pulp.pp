@@ -17,10 +17,32 @@ class profile::pulp (
   $rpmrepos          = {},
   $rpmrepos_defaults = {},
   $internal_repos    = false,
+  $manage_pkg        = true,
 ) {
 include profile::pulp_client
   # LVM: DataDisk Mounts - please see hieradata/role/pulp.yaml
-  include ::lvm
+
+  $pulp_config_defaults = {
+    'pulp_vg' =>
+    {
+      'physical_volumes' => ['/dev/xvdf'],
+      'logical_volumes' => {
+        'mongodb' => {
+         'size' => "${mongolvsize}",
+          'mountpath' => '/var/lib/mongodb'
+        },
+        'pulp' => {
+         'size' => "${pulplvsize}",
+          'mountpath' => '/var/lib/pulp'
+        }
+      }
+     }
+  }
+
+  class { 'lvm':
+    manage_pkg    => $manage_pkg, 
+    volume_groups => $pulp_config_defaults
+  }
 
   # SELECT INTNERNAL OR EXTERNAL REPOS
   if $internal_repos {

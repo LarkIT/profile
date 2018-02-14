@@ -8,5 +8,10 @@
 
 class profile::datadog
 {
-    include datadog_agent
+    datadog_enable = false
+
+    if (datadog_enable) {
+        include datadog_agent
+    }
+
 }

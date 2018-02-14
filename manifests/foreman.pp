@@ -16,17 +16,12 @@ class profile::foreman (
 
   # From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)
-  #hiera_include('classes')
   include foreman
   include foreman_proxy
   include puppet
   include foreman::cli
   include foreman::plugin::setup
   include foreman::compute::ec2
-
-  #class{ 'puppet':
-  #  server_additional_settings => true,
-  #}
 
   class {'::r10k::webhook':
     require => Class['r10k::webhook::config'],
@@ -49,6 +44,7 @@ class profile::foreman (
   $pkcs_public_key  = 'pkcs7_public_key: /etc/puppetlabs/puppet/keys/public_key.pkcs7.pem'
   $config_yaml = "---\n${pkcs_private_key}\n${pkcs_public_key}"
 
+  # Eyaml resources below are for allowing use of eyaml via CLI
   package { 'cli-hiera-eyaml':
     ensure   => present,
     name     => 'hiera-eyaml',
@@ -76,29 +72,27 @@ class profile::foreman (
     puppet_conf_manage => false,
     datadir_manage     => false,
     eyaml              => true,
-    eyaml_extension    => 'yaml',
+    eyaml_extension    => 'eyaml',
     provider           => 'puppetserver_gem',
     master_service     => 'puppetserver',
     hierarchy          => [
       'nodes/%{::trusted.certname}',
-      '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
-      '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_role}',
-      '%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}',
-      '%{::trusted.extensions.pp_application}/common',
+      'client/%{::trusted.extensions.pp_application}/product/%{::trusted.extensions.pp_product}/%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
+      'client/%{::trusted.extensions.pp_application}/product/%{::trusted.extensions.pp_product}/%{::trusted.extensions.pp_role}',
+      'client/%{::trusted.extensions.pp_application}/product/%{::trusted.extensions.pp_product}/%{::trusted.extensions.pp_environment}',
+      'client/%{::trusted.extensions.pp_application}/product/%{::trusted.extensions.pp_product}/common',
+      'client/%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
+      'client/%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_role}',
+      'client/%{::trusted.extensions.pp_application}/%{::trusted.extensions.pp_environment}',
+      'client/%{::trusted.extensions.pp_application}/common',
       '%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
       'role/%{::trusted.extensions.pp_role}',
       'role/%{::role}',
       '%{::trusted.extensions.pp_role}',
       '%{::trusted.extensions.pp_environment}',
+      'os/%{::operatingsystem}-%{::operatingsystemmajrelease}',
       'common',
      ],
-#    hierarchy          => [
-#      'nodes/%{::trusted.certname}',
-#      '%{::trusted.extensions.pp_environment}/%{::trusted.extensions.pp_role}',
-#      'role/%{::trusted.extensions.pp_role}',
-#      'role/%{::role}',
-#      'common',
-#    ],
   }
 
   file{ "/etc/pki/tls/certs/${fqdn}.pem":
@@ -120,5 +114,4 @@ class profile::foreman (
     mode    => '0600',
     source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
   }
-
 }

@@ -6,11 +6,11 @@
 # === Parameters
 #
 
-class profile::datadog
+class profile::datadog (
+  $datadog_enable = false,
+)
 {
-    datadog_enable = false
-
-    if (datadog_enable) {
+    if ($datadog_enable) {
         include datadog_agent
     }
 

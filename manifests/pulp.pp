@@ -46,6 +46,8 @@ include profile::pulp_client
     volume_groups => $pulp_config_defaults
   }
 
+  include repos::pgsql96
+
   # SELECT INTNERNAL OR EXTERNAL REPOS
   if $internal_repos {
     include ::repos::pulp2

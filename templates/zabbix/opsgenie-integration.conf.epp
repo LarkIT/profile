@@ -1,0 +1,69 @@
+<%- | $opsgenie_apikey,
+      $opsgenie_zabbix_command_url,
+      $opsgenie_zabbix_user,
+      $opsgenie_zabbix_password
+| -%>
+#This file is managed by Puppet. Please do not make any manual changes.
+apiKey=<%= $opsgenie_apikey %>
+######################################## MARID CONFIGURATION ##################################################
+
+######################################## PROXY SERVER CONFIGURATION ############################################
+http.proxy.server.enabled=false
+http.proxy.server.port=11111
+http.proxy.server.host=localhost
+#http.proxy.server.username=admin
+#http.proxy.server.password=changeme
+
+######################################## PROXY CONFIGURATION FOR EXTERNAL HTTP REQUESTS FROM MARID##############
+#http.proxy.enabled=false
+#http.proxy.host=<proxy_host>
+#http.proxy.port=<proxy_port>
+#http.proxy.username=<proxy_authentication_username>
+#http.proxy.password=<proxy_authentication_password>
+#http.proxy.protocol=<proxy_connection_protocol>
+#http.proxy.authMethod=<proxy_authentication_mechanism>
+
+######################################## HTTP SERVER CONFIGURATION ############################################
+#maridKey=changeme
+#http.server.enabled=true
+#http.server.host=localhost
+#http.server.port=8080
+#http.server.maxContentLength=2000000
+
+#async.script.shutdown.wait.time=90000
+#async.script.executor.thread.count=20
+#async.script.executor.queue.count=10000
+
+######################################## HTTPS SERVER CONFIGURATION ############################################
+#https.server.enabled=true
+#https.server.host=localhost
+#https.server.port=8443
+#https.server.maxContentLength=2000000
+
+#######################################ALERT ACTION SCRIPT CONFIGURATION #####################################
+#actions.<action_name>.script=<script_file_name>
+##############################################################################################################
+######################################## ZABBIX CONFIGURATION #######################################
+#if you're using marid key, you can add it as a parameter to viaMaridUrl: &maridKey=your_marid_key
+#viaMaridUrl=http://maridHost:port/script/marid2opsgenie.groovy?async=true
+#zabbix2opsgenie.logger=warning
+logPath=/var/log/opsgenie/zabbix2opsgenie.log
+
+#recipients=<comma_separated_list_of_recipients>
+#tags=<comma_separated_list_of_tags>
+
+####################################### PROXY CONFIGURATION FOR ZABBIX ############################################
+zabbix2opsgenie.http.proxy.enabled=false
+zabbix2opsgenie.http.proxy.port=11111
+zabbix2opsgenie.http.proxy.host=localhost
+zabbix2opsgenie.http.proxy.protocol=http
+#zabbix2opsgenie.http.proxy.username=admin
+#zabbix2opsgenie.http.proxy.password=changeme
+
+
+########################################ZABBIX INTEGRATION - ALERT ACTION CONFIGURATION ######################
+actions.Acknowledge.script=zabbixActionExecutor.groovy
+
+zabbix.command_url=<%= $opsgenie_zabbix_command_url %>
+zabbix.user=<%= $opsgenie_zabbix_user %>
+zabbix.password=<%= $opsgenie_zabbix_password %>

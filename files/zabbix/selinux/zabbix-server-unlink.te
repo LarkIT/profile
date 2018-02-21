@@ -1,0 +1,13 @@
+
+module zabbix-server-unlink 1.0;
+
+require {
+	type user_tmp_t;
+	type tmp_t;
+	type zabbix_t;
+	class sock_file { unlink write };
+}
+
+#============= zabbix_t ==============
+allow zabbix_t tmp_t:sock_file unlink;
+allow zabbix_t user_tmp_t:sock_file write;

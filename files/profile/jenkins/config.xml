@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors/>
+  <version>1.0</version>
+  <numExecutors>2</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="hudson.security.ProjectMatrixAuthorizationStrategy">
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:linux-admins</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:linux-admins</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:linux-admins</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:linux-admins</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:linux-admins</permission>
+    <permission>hudson.model.Computer.Build:linux-admins</permission>
+    <permission>hudson.model.Computer.Configure:linux-admins</permission>
+    <permission>hudson.model.Computer.Connect:linux-admins</permission>
+    <permission>hudson.model.Computer.Create:linux-admins</permission>
+    <permission>hudson.model.Computer.Delete:linux-admins</permission>
+    <permission>hudson.model.Computer.Disconnect:linux-admins</permission>
+    <permission>hudson.model.Hudson.Administer:linux-admins</permission>
+    <permission>hudson.model.Hudson.Read:linux-admins</permission>
+    <permission>hudson.model.Item.Build:linux-admins</permission>
+    <permission>hudson.model.Item.Cancel:linux-admins</permission>
+    <permission>hudson.model.Item.Configure:linux-admins</permission>
+    <permission>hudson.model.Item.Create:linux-admins</permission>
+    <permission>hudson.model.Item.Delete:linux-admins</permission>
+    <permission>hudson.model.Item.Discover:linux-admins</permission>
+    <permission>hudson.model.Item.Read:linux-admins</permission>
+    <permission>hudson.model.Item.Workspace:linux-admins</permission>
+    <permission>hudson.model.Run.Delete:linux-admins</permission>
+    <permission>hudson.model.Run.Update:linux-admins</permission>
+    <permission>hudson.model.View.Configure:linux-admins</permission>
+    <permission>hudson.model.View.Create:linux-admins</permission>
+    <permission>hudson.model.View.Delete:linux-admins</permission>
+    <permission>hudson.model.View.Read:linux-admins</permission>
+    <permission>hudson.scm.SCM.Tag:linux-admins</permission>
+  </authorizationStrategy>
+  <securityRealm class="hudson.security.PAMSecurityRealm" plugin="pam-auth@1.3">
+    <serviceName>jenkins</serviceName>
+  </securityRealm>
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <markupFormatter class="hudson.markup.EscapedMarkupFormatter"/>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds/>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>all</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+  </views>
+  <primaryView>all</primaryView>
+  <slaveAgentPort>5000</slaveAgentPort>
+  <label></label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+</hudson>

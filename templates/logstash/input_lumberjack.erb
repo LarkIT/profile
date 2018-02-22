@@ -1,0 +1,10 @@
+## START -- input_lumberjack
+input {
+ lumberjack {
+    port => <%= @lumberjack_port %>
+    type => "logs"
+    ssl_certificate => "<%= @lumberjack_sslcert_file %>"
+    ssl_key => "<%= @lumberjack_sslkey_file %>"
+  }
+}
+# END

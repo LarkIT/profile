@@ -1,0 +1,69 @@
+## START -- filter_apache
+filter {
+  ## apache-access logs (combined)
+  if [type] == "apache-access" {
+    grok {
+    match => { "message" => "%{COMBINEDAPACHELOG}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    if !("_grokparsefailure" in [tags]) {
+      mutate {
+        remove_field => [ "message" ]
+      }
+
+      geoip {
+        source => "clientip"
+      }
+    }
+  }
+
+  ## apache-ssl-access logs (combined)
+  if [type] == "apache-ssl-access" {
+    grok {
+    match => { "message" => "%{COMMONAPACHELOG}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    if !("_grokparsefailure" in [tags]) {
+      mutate {
+        remove_field => [ "message" ]
+      }
+
+      geoip {
+        source => "clientip"
+      }
+    }
+  }
+
+  ## apache-error logs
+  if [type] == "apache-error" {
+    grok {
+      patterns_dir => [ "/etc/logstash/patterns" ]
+      match => { "message" => "%{APACHE_ERROR_LOG}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+      remove_field => [ "message" ]
+    }
+
+    if !("_grokparsefailure" in [tags]) {
+
+      mutate {
+        remove_field => [ "message" ]
+      }
+
+      date {
+        # Try to pull the timestamp from the 'timestamp' field (parsed above with
+        # grok). The apache time format looks like: "18/Aug/2011:05:44:34 -0700"
+        #                        Sat Feb 08 06:31:09 2014
+        match => [ "timestamp", "EEE MMM dd HH:mm:ss yyyy" ]
+        remove_field => [ "timestamp" ]
+      }
+
+      geoip {
+        source => "clientip"
+      }
+    }
+  } # end apache-error
+}
+# END

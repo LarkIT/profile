@@ -171,4 +171,21 @@ include profile::pulp_client
     source  => "/etc/puppetlabs/puppet/ssl/private_keys/${fqdn}.pem",
   }
 
+  file{ '/root/sync_notify.sh':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0700',
+    source => "puppet:///modules/${module_name}/sync_notify.sh",
+    before => Cron[ 'Update Pulp Repos' ],
+  }
+
+  cron { 'Update Pulp Repos':
+    command  => '/root/sync_notify.sh',
+    user     => 'root',
+    hour     => 2,
+    minute   => 0,
+    monthday => '1-7',
+    weekday  => 4,
+  }
 }

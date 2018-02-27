@@ -1,0 +1,12 @@
+## START -- filter_monolog
+filter {
+  ## monolog - json_format for logstash
+  if [type] == "monolog" {
+    json {
+      source => "message"
+      remove_field => "message"
+    }
+
+  }
+}
+# END

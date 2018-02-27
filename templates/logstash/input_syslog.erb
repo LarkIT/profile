@@ -1,0 +1,8 @@
+## START -- input_syslog
+input {
+  tcp {
+    port => <%= @syslog_port %>
+    type => syslog
+  }
+}
+# END

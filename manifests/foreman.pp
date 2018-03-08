@@ -32,10 +32,12 @@ class profile::foreman (
   }
 
   if $git_webhook_config != {} {
-    $git_webhook_config.each |$index, $value| {
-      $git_webhook_config_merged = deep_merge($git_webhook_config_defaults,$value)
-      git_webhook{ $index:
-        * => $git_webhook_config_merged
+    if ($git_webhook_config[provider] == 'gitlab') {
+      $git_webhook_config.each |$index, $value| {
+        $git_webhook_config_merged = deep_merge($git_webhook_config_defaults,$value)
+        git_webhook{ $index:
+          * => $git_webhook_config_merged
+        }
       }
     }
   }
@@ -104,7 +106,7 @@ class profile::foreman (
     mode    => '0644',
     source  => "/etc/puppetlabs/puppet/ssl/certs/ca.pem",
   }
-  
+
   file{ "/etc/pki/tls/crl.pem":
     mode    => '0600',
     source  => "/etc/puppetlabs/puppet/ssl/crl.pem",

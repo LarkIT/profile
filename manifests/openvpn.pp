@@ -18,11 +18,11 @@ class profile::openvpn (
 ) {
 
   # Repo
-  include ::repos::openvpn
+  include ::repos::openvpn_as
 
   if $enable_lestencrypt == true {
     class{ 'profile::letsencrypt':
-      service => $service, 
+      service => $service,
       domains => [ $domain ],
       before  => Class[ 'openvpn_as' ],
     }

@@ -3,16 +3,16 @@
 # Setup / Install Sensu Client software
 #
 class profile::monitoring::sensu_client (
-  $rabbitmq_client_cert = undef,
-  $rabbitmq_client_key  = undef,
-  $rabbitmq_server      = undef,
-  $checks               = {},
-  $mem_warn             = 85,
-  $mem_crit             = 95,
-  $swap_warn            = 50,
-  $swap_crit            = 75,
-  $disk_warn            = 85,
-  $disk_crit            = 95,
+  String $rabbitmq_client_cert = undef,
+  String $rabbitmq_client_key  = undef,
+  String $rabbitmq_server      = undef,
+  Hash   $checks               = {},
+  Integer[0,100]   $mem_warn   = 85,
+  Integer[0,100]   $mem_crit   = 95,
+  Integer[0,100]   $swap_warn  = 50,
+  Integer[0,100]   $swap_crit  = 75,
+  Integer[0,100]   $disk_warn  = 85,
+  Integer[0,100]   $disk_crit  = 95,
 ) {
 
   include ::profile::firewall
@@ -72,11 +72,11 @@ class profile::monitoring::sensu_client (
   }
 
   sensu::check { 'memory':
-    handlers     => [ 'default' ],
-    command      => "/etc/sensu/plugins/check-memory.sh -w ${wmem} -c ${cmem}",
-    subscribers  => [ 'all' ],
-    interval     => 300,
-    occurrences  => 6,
+    handlers    => [ 'default' ],
+    command     => "/etc/sensu/plugins/check-memory.sh -w ${wmem} -c ${cmem}",
+    subscribers => [ 'all' ],
+    interval    => 300,
+    occurrences => 6,
   }
 
   if $::memory['swap'] {

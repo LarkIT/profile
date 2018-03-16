@@ -80,7 +80,7 @@ class profile::monitoring::sensu_client (
   }
 
   if $::memory['swap'] {
-    if $wswap > 0 and $cswap > 0 {
+    if $wswap.scanf("%i") > 0 and $cswap.scanf("%i") > 0 {
       sensu::check { 'swap':
         handlers    => [ 'default' ],
         command     => "/etc/sensu/plugins/check-swap.sh -w ${wswap} -c ${cswap}",

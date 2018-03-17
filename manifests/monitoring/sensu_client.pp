@@ -56,18 +56,18 @@ class profile::monitoring::sensu_client (
 
   if $::memory { # facter 3
     # Total system bytes * 80% / 1024 / 1024 to convert to MB
-    $wmem = inline_template("<%= ((@memory['system']['total_bytes'].to_i * (100 - Integer(@mem_warn))/100)/1024/1024).round %>")
-    $cmem = inline_template("<%= ((@memory['system']['total_bytes'].to_i * (100 - Integer(@mem_crit))/100)/1024/1024).round %>")
+    $wmem = inline_template("<%= ((@memory['system']['total_bytes'].to_i * (100 - Integer(@mem_warn))/100)/1024/1024).round %>").scanf("%i")[0]
+    $cmem = inline_template("<%= ((@memory['system']['total_bytes'].to_i * (100 - Integer(@mem_crit))/100)/1024/1024).round %>").scanf("%i")[0]
     if $::memory['swap'] {
-      $wswap = inline_template("<%= (@memory['swap']['total_bytes'].to_i * Integer(@swap_warn)/100/1024/1024).round %>")
-      $cswap = inline_template("<%= (@memory['swap']['total_bytes'].to_i * Integer(@swap_crit)/100/1024/1024).round %>")
+      $wswap = inline_template("<%= (@memory['swap']['total_bytes'].to_i * Integer(@swap_warn)/100/1024/1024).round %>").scanf("%i")[0]
+      $cswap = inline_template("<%= (@memory['swap']['total_bytes'].to_i * Integer(@swap_crit)/100/1024/1024).round %>").scanf("%i")[0]
     }
   } else { # facter 2
-    $wmem = inline_template('<%= (@memorysize_mb.to_i * (100 - Integer(@mem_warn))/100).round %>')
-    $cmem = inline_template('<%= (@memorysize_mb.to_i * (100 - Integer(@mem_crit))/100).round %>')
+    $wmem = inline_template('<%= (@memorysize_mb.to_i * (100 - Integer(@mem_warn))/100).round %>').scanf("%i")[0]
+    $cmem = inline_template('<%= (@memorysize_mb.to_i * (100 - Integer(@mem_crit))/100).round %>').scanf("%i")[0]
     if $::memory['swap'] {
-      $wswap = inline_template('<%= (@swapsize_mb.to_i * Integer(@swap_warn)/100).round %>')
-      $cswap = inline_template('<%= (@swapsize_mb.to_i * Integer(@swap_crit)/100).round %>')
+      $wswap = inline_template('<%= (@swapsize_mb.to_i * Integer(@swap_warn)/100).round %>').scanf("%i")[0]
+      $cswap = inline_template('<%= (@swapsize_mb.to_i * Integer(@swap_crit)/100).round %>').scanf("%i")[0]
     }
   }
 

@@ -16,8 +16,15 @@ class profile::ntp {
 
   # Include the service
   #include '::ntp'
+
+  if $ec2_userdata {
+    $ntp_servers = '169.254.169.123'
+  } else {
+    $ntp_servers = lookup('ntp::servers', Array[String], 'unique')
+  }
+
   class{ '::ntp':
-    servers => [ '169.254.169.123' ],
+    servers => $ntp_servers,
   }
 
   service { 'ntpdate':

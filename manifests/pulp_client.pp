@@ -30,8 +30,10 @@ class profile::pulp_client (
           include $extra_repos
 
           # Purge all non-managed repos!
-          resources { 'yumrepo':
-            purge => true,
+          if ! lookup('yum::purge', Boolean, 'first', true) {
+            resources { 'yumrepo':
+              purge => true,
+            }
           }
         }
         # Future support of RHEL or Amazon Linux

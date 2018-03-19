@@ -18,7 +18,7 @@ class profile::ntp {
   #include '::ntp'
 
   if $ec2_userdata {
-    $ntp_servers = '169.254.169.123'
+    $ntp_servers = [ '169.254.169.123' ]
   } else {
     $ntp_servers = lookup('ntp::servers', Array[String], 'unique')
   }

@@ -1,6 +1,7 @@
 # profile::pulp_client - Software Repos for Pulp Clients
 class profile::pulp_client (
   $server_protocol = 'https',
+  $gpg_uri         = 'static',
   $server_name     = undef,
   $server_ip       = undef,
   $extra_repos     = [],

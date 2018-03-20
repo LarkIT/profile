@@ -66,6 +66,13 @@ class profile::pulp_client (
         destination => $server_ip,
       }
     }
+    firewall { '200 OUTPUT yum ports tcp':
+      dport       => [ '80', '443' ],
+      proto       => 'tcp',
+      action      => 'accept',
+      chain       => 'OUTPUT',
+      destination => $yum_server,
+    }
     firewall { '899 OUTPUT log yum ports tcp':
       dport      => [ '80', '443' ],
       proto      => 'tcp',

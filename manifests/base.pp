@@ -7,8 +7,8 @@ class profile::base {
 #  include ::profile::duplicity
 #  include ::profile::newrelic
 #  include ::profile::monitoring::client
-#  include ::profile::monitoring::sensu_client
-
+  include profile::monitoring::sensu_client
+  include profile::base::smtp
   include profile::ntp
   include profile::pulp_client
 #  include profile::squid_client

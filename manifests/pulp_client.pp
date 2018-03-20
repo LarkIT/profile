@@ -66,5 +66,35 @@ class profile::pulp_client (
         destination => $server_ip,
       }
     }
+    firewall { '899 OUTPUT log yum ports tcp':
+      dport      => [ '80', '443' ],
+      proto      => 'tcp',
+      chain      => 'OUTPUT',
+      jump       => 'LOG',
+      tcp_flags  => 'FIN,SYN,RST,ACK SYN',
+      log_prefix => 'FIREWALL-yum-cleanup: ',
+    }
+    firewall { '899 OUTPUT log yum ports tcp IPv6':
+      dport      => [ '80', '443' ],
+      proto      => 'tcp',
+      chain      => 'OUTPUT',
+      jump       => 'LOG',
+      tcp_flags  => 'FIN,SYN,RST,ACK SYN',
+      log_prefix => 'FIREWALL-yum-cleanup: ',
+      provider   => 'ip6tables',
+    }
+    firewall { '900 OUTPUT yum ports tcp':
+      dport  => [ '80', '443' ],
+      proto  => 'tcp',
+      action => 'accept',
+      chain  => 'OUTPUT',
+    }
+    firewall { '900 OUTPUT yum ports tcp IPv6':
+      dport    => [ '80', '443' ],
+      proto    => 'tcp',
+      action   => 'accept',
+      chain    => 'OUTPUT',
+      provider => 'ip6tables',
+    }
   }
 }

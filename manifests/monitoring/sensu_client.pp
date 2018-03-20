@@ -26,7 +26,7 @@ class profile::monitoring::sensu_client (
     mode    => '0440',
     content => $rabbitmq_client_cert,
     require => Class['sensu::package'],
-    notify  => Class['sensu::client::service'],
+    notify  => Class['sensu::client'],
   }
 
   file { '/etc/sensu/conf.d/key.pem':
@@ -35,7 +35,7 @@ class profile::monitoring::sensu_client (
     mode    => '0440',
     content => $rabbitmq_client_key,
     require => Class['sensu::package'],
-    notify  => Class['sensu::client::service'],
+    notify  => Class['sensu::client'],
   }
 
   # Allow inbound connections.

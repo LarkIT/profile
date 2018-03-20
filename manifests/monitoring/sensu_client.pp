@@ -15,7 +15,6 @@ class profile::monitoring::sensu_client (
   $disk_crit            = 95,
 ) {
 
-  include ::profile::firewall
   include ::repos::sensu
   include ::sensu
 

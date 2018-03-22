@@ -3,10 +3,14 @@
 #
 # Configure Puppet Agent settings for service and config
 #
-class profile::base::puppet_agent {
+class profile::base::puppet_agent (
+  $manage_service = true,
+) {
 
-  service { 'puppet':
-    enable => true,
-    ensure => 'running',
+if $manage_service {
+    service { 'puppet':
+      enable => true,
+      ensure => 'running',
+    }
   }
 }

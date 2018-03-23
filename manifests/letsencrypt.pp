@@ -4,7 +4,7 @@
 #
 #
 class profile::letsencrypt (
-  $service,
+  $service = 'httpd',
   $domains = [$::fqdn],
   $config  = {},
 ){

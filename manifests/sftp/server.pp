@@ -85,16 +85,14 @@ class profile::sftp::server (
     #  written. We may have to come up with a new policy that includes "directories" for
     #  the ftpd_etc_t. (FIXME)
     selinux::fcontext{'set-ftpd-etc-context':
-      context             => 'ftpd_etc_t',
-      pathname            => '/etc/proftpd(/.*)?',
-      restorecond_path    => '/etc/proftpd',
-      restorecond_recurse => true,
+      seltype             => 'ftpd_etc_t',
+      pathspec            => '/etc/proftpd(/.*)?',
     }
 
     # FIXME: There is not currently a way to "move" a port from ssh_port_t to ftp_port_t
     # This will require manual intervention: (change the -a to -m on the failing command)
     selinux::port { 'allow-sftp-port-ftpd-selinux':
-      context  => 'ftp_port_t',
+      seltype  => 'ftp_port_t',
       protocol => 'tcp',
       port     => $port,
     }

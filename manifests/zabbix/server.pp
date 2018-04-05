@@ -153,8 +153,15 @@ class profile::zabbix::server (
   }
 
   file { $opsgenie_zabbix_config_file:
+    notify  => Service[ 'marid' ],
     ensure  => file,
     content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
+    require => Package[ 'opsgenie-zabbix' ],
+  }
+
+  service { 'marid':
+    ensure  => running,
+    enable  => true,
     require => Package[ 'opsgenie-zabbix' ],
   }
 
@@ -166,6 +173,6 @@ class profile::zabbix::server (
 #  }
 
   package { 'opsgenie-zabbix':
-    ensure   => present,
+    ensure  => present,
   }
 }

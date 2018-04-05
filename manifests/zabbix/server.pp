@@ -34,7 +34,7 @@ class profile::zabbix::server (
   $agent_listenip              = '0.0.0.0',
   $opsgenie_apikey             = undef,
   $opsgenie_zabbix_command_url = 'https://zabbix.lark-it.com/api_jsonrpc.php',
-  $opsgenie_zabbix_user        = 'opsgenie',
+  $opsgenie_zabbix_user        = 'zabbix-opsgenie',
   $opsgenie_zabbix_password    = 'password',
   $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf'
 ){

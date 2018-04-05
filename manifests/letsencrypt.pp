@@ -7,6 +7,8 @@ class profile::letsencrypt (
   $service = 'httpd',
   $domains = [$::fqdn],
   $config  = {},
+  $plugin  = 'standalone',
+  $webroot_paths = [],
 ){
 
   validate_array($domains)
@@ -17,6 +19,8 @@ class profile::letsencrypt (
 
   letsencrypt::certonly { $::fqdn:
     domains              => $domains,
+    plugin               => $plugin,
+    webroot_paths        => $webroot_paths,
     additional_args      => [ '--expand --non-interactive' ],
     cron_before_command  => "/bin/systemctl stop ${service}.service",
     cron_success_command => "/bin/systemctl reload ${service}.service",

@@ -13,9 +13,9 @@ class profile::letsencrypt (
 
   validate_array($domains)
 
+  notify { "Conf: ${config}": }
   class { 'letsencrypt':
     *     => $config,
-    email =>  'lark-systems@lark-it.com',
   }
 
   letsencrypt::certonly { $::fqdn:

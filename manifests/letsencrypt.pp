@@ -13,8 +13,6 @@ class profile::letsencrypt (
 
   validate_array($domains)
 
-  notify { "Plugin: ${plugin}": } 
-  notify { "Conf: ${config}": }
   class { 'letsencrypt':
     *     => $config,
   }
@@ -28,4 +26,6 @@ class profile::letsencrypt (
     cron_success_command => "/bin/systemctl reload ${service}.service",
     manage_cron          => true,
   }
+
 }
+

@@ -13,7 +13,7 @@ class profile::letsencrypt (
 
   validate_array($domains)
 
-  class{ 'letsencrypt':
+  class { 'letsencrypt':
     * => $config,
   }
 

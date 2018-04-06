@@ -13,7 +13,7 @@ class profile::letsencrypt (
 
   validate_array($domains)
 
-  notify { "Plugin: ${plugin}" } 
+  notify { "Plugin: ${plugin}": } 
   notify { "Conf: ${config}": }
   class { 'letsencrypt':
     *     => $config,

@@ -11,7 +11,6 @@ class profile::base {
 #  include profile::squid_client
   include profile::base::puppet_agent
   include profile::base::smtp
-#  include profile::monitoring::sensu_client
   include profile::ntp
   include profile::pulp_client
 

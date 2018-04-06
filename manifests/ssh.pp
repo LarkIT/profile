@@ -38,10 +38,4 @@ class profile::ssh (
     port      => $port,
     proto     => 'tcp',
   })
-
-  sensu::check {'sshd running':
-    handlers => [ 'default' ],
-    interval => 900,
-    command  => '/etc/sensu/plugins/check-process.rb -p "/usr/sbin/sshd" -c1 -w1',
-  }
 }

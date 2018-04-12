@@ -18,12 +18,13 @@ class profile::squid_client (
     ## Firewall
     if str2bool($::settings::storeconfigs) {
         # Pick up the rules that were left for us.
-        Firewall <<| tag == 'fw_squid_out' |>>
+        Firewall <<| tag == 'fw_proxy_out' |>>
     }
 
+    #Is this redundant with the exported resource in squid.pp?
     if ($server_ip) {
       firewall { "200 OUTPUT HTTP Proxy to Squid Server ${server_ip} 3128/tcp":
-        dport       => ['80', '443'],
+        dport       => [3128],
         proto       => 'tcp',
         action      => 'accept',
         chain       => 'OUTPUT',

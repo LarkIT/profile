@@ -29,7 +29,6 @@ class profile::zabbix::server (
   $apache_ssl_chain            = undef,
   $manage_vhost                = true,
   $default_vhost               = true,
-  $manage_selinux              = false,
   $agent_hostname              = 'lark-zabbix-01',
   $agent_listenip              = '0.0.0.0',
   $opsgenie_apikey             = undef,
@@ -38,8 +37,6 @@ class profile::zabbix::server (
   $opsgenie_zabbix_password    = 'password',
   $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf'
 ){
-
-  #include selinux
 
   #Install mysql client for managing remote database
   include mysql::client
@@ -95,7 +92,7 @@ class profile::zabbix::server (
     database_name     => $database_name,
     database_user     => $database_user,
     database_password => $database_password,
-    manage_selinux    => $manage_selinux,
+    #manage_selinux    => false,
   }
 
   #Install zabbix-web frontend
@@ -117,28 +114,41 @@ class profile::zabbix::server (
   }
 
   #Configure selinux for zabbix
-  file { '/etc/zabbix/selinux':
-    ensure  => 'directory',
-    source  => "puppet:///modules/${module_name}/zabbix/selinux",
-    recurse => 'remote',
-    mode    => '0744',
+  #file { '/etc/zabbix/selinux':
+  #  ensure  => 'directory',
+  #  source  => "puppet:///modules/${module_name}/zabbix/selinux",
+  #  recurse => 'remote',
+  #  mode    => '0744',
+  #}
+
+  #file { '/usr/local/bin/selinux-zabbix.sh':
+  #  ensure  => 'file',
+  #  source  => "puppet:///modules/${module_name}/zabbix/selinux-zabbix.sh",
+  #  mode    => '0700',
+	#  require => File[ '/etc/zabbix/selinux' ],
+  #}
+
+  #exec { 'execute zabbix selinux shell script':
+  #  command     => '/usr/local/bin/selinux-zabbix.sh',
+  #  refreshonly => true,
+  #  subscribe   => Package[ 'zabbix-server-mysql' ],
+  #  logoutput   => true,
+  #  before      => Service[ 'zabbix-server' ],
+  #  require     => File[ '/usr/local/bin/selinux-zabbix.sh' ],
+  #}
+
+  include selinux
+  selinux::module { 'zabbix-server-sock_file-unlink':
+    ensure    => present,
+    source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-server-sock_file-unlink.te",
+    builder   => 'simple',
   }
 
-  file { '/usr/local/bin/selinux-zabbix.sh':
-    ensure  => 'file',
-    source  => "puppet:///modules/${module_name}/zabbix/selinux-zabbix.sh",
-    mode    => '0700',
-	  require => File[ '/etc/zabbix/selinux' ],
+  selinux::boolean { 'httpd_can_network_connect':
+    ensure => 'on',
   }
 
-  exec { 'execute zabbix selinux shell script':
-    command     => '/usr/local/bin/selinux-zabbix.sh',
-    refreshonly => true,
-    subscribe   => Package[ 'zabbix-server-mysql' ],
-    logoutput   => true,
-    before      => Service[ 'zabbix-server' ],
-    require     => File[ '/usr/local/bin/selinux-zabbix.sh' ],
-  }
+
 
   #OpsGenie integration
   class { 'java':

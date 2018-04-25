@@ -92,7 +92,6 @@ class profile::zabbix::server (
     database_name     => $database_name,
     database_user     => $database_user,
     database_password => $database_password,
-    #manage_selinux    => false,
   }
 
   #Install zabbix-web frontend
@@ -104,7 +103,6 @@ class profile::zabbix::server (
     database_name     => $database_name,
     database_user     => $database_user,
     database_password => $database_password,
-    manage_selinux    => $manage_selinux,
     manage_vhost      => $manage_vhost,
     default_vhost     => $default_vhost,
     apache_use_ssl    => $apache_use_ssl,

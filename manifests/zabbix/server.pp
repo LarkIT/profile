@@ -151,13 +151,6 @@ class profile::zabbix::server (
     require => Package[ 'opsgenie-zabbix' ],
   }
 
-#  file { '/usr/share/zabbix/opsgenie-zabbix-2.19.0-1.all.noarch.rpm':
-#    ensure  => 'file',
-#    source  => "puppet:///modules/${module_name}/zabbix/opsgenie-zabbix-2.19.0-1.all.noarch.rpm",
-#    mode    => '0744',
-#    require => Class[ 'zabbix::server' ],
-#  }
-
   package { 'opsgenie-zabbix':
     ensure  => present,
   }

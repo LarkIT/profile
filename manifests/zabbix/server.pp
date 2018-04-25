@@ -36,7 +36,8 @@ class profile::zabbix::server (
   $opsgenie_zabbix_user        = 'zabbix-opsgenie',
   $opsgenie_zabbix_password    = 'password',
   $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf',
-  $zabbix_timezone             = 'America/Denver'
+  $zabbix_timezone             = 'America/Denver',
+  $zabbix_server_name          = 'Lark IT Zabbix',
 ){
 
   #Install mysql client for managing remote database
@@ -97,20 +98,21 @@ class profile::zabbix::server (
 
   #Install zabbix-web frontend
   class { 'zabbix::web':
-    zabbix_url        => $zabbix_url,
-    database_type     => $database_type,
-    database_host     => $database_host,
-    database_port     => $database_port,
-    database_name     => $database_name,
-    database_user     => $database_user,
-    database_password => $database_password,
-    manage_vhost      => $manage_vhost,
-    default_vhost     => $default_vhost,
-    apache_use_ssl    => $apache_use_ssl,
-    apache_ssl_key    => $apache_ssl_key_path,
-    apache_ssl_cert   => $apache_ssl_cert_path,
-    apache_ssl_chain  => $apache_ssl_chain_path,
-    zabbix_timezone   => $zabbix_timezone,
+    zabbix_url         => $zabbix_url,
+    database_type      => $database_type,
+    database_host      => $database_host,
+    database_port      => $database_port,
+    database_name      => $database_name,
+    database_user      => $database_user,
+    database_password  => $database_password,
+    manage_vhost       => $manage_vhost,
+    default_vhost      => $default_vhost,
+    apache_use_ssl     => $apache_use_ssl,
+    apache_ssl_key     => $apache_ssl_key_path,
+    apache_ssl_cert    => $apache_ssl_cert_path,
+    apache_ssl_chain   => $apache_ssl_chain_path,
+    zabbix_timezone    => $zabbix_timezone,
+    zabbix_server_name => $zabbix_server_name,
   }
 
   #Additional SELinux configuration

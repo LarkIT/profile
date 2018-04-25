@@ -113,29 +113,7 @@ class profile::zabbix::server (
     apache_ssl_chain  => $apache_ssl_chain_path,
   }
 
-  #Configure selinux for zabbix
-  #file { '/etc/zabbix/selinux':
-  #  ensure  => 'directory',
-  #  source  => "puppet:///modules/${module_name}/zabbix/selinux",
-  #  recurse => 'remote',
-  #  mode    => '0744',
-  #}
-
-  #file { '/usr/local/bin/selinux-zabbix.sh':
-  #  ensure  => 'file',
-  #  source  => "puppet:///modules/${module_name}/zabbix/selinux-zabbix.sh",
-  #  mode    => '0700',
-	#  require => File[ '/etc/zabbix/selinux' ],
-  #}
-
-  #exec { 'execute zabbix selinux shell script':
-  #  command     => '/usr/local/bin/selinux-zabbix.sh',
-  #  refreshonly => true,
-  #  subscribe   => Package[ 'zabbix-server-mysql' ],
-  #  logoutput   => true,
-  #  before      => Service[ 'zabbix-server' ],
-  #  require     => File[ '/usr/local/bin/selinux-zabbix.sh' ],
-  #}
+  #Additional SELinux configuration
 
   include selinux
   selinux::module { 'zabbix-server-sock_file-unlink':
@@ -147,8 +125,6 @@ class profile::zabbix::server (
   selinux::boolean { 'httpd_can_network_connect':
     ensure => 'on',
   }
-
-
 
   #OpsGenie integration
   class { 'java':

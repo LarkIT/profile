@@ -35,7 +35,8 @@ class profile::zabbix::server (
   $opsgenie_zabbix_command_url = 'https://zabbix.lark-it.com/api_jsonrpc.php',
   $opsgenie_zabbix_user        = 'zabbix-opsgenie',
   $opsgenie_zabbix_password    = 'password',
-  $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf'
+  $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf',
+  $zabbix_timezone             = 'America/Denver'
 ){
 
   #Install mysql client for managing remote database
@@ -109,6 +110,7 @@ class profile::zabbix::server (
     apache_ssl_key    => $apache_ssl_key_path,
     apache_ssl_cert   => $apache_ssl_cert_path,
     apache_ssl_chain  => $apache_ssl_chain_path,
+    zabbix_timezone   => $zabbix_timezone,
   }
 
   #Additional SELinux configuration

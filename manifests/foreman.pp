@@ -12,9 +12,10 @@ class profile::foreman (
 
   include r10k
   include r10k::webhook::config
-  include puppetdb
   include puppetdb::master::config
-
+  class { 'puppetdb::server':
+    database_host => 'localhost',
+  }
   # From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)
   include foreman

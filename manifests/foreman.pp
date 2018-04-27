@@ -12,7 +12,7 @@ class profile::foreman (
 
   include r10k
   include r10k::webhook::config
-  include puppetdb::master::config
+  #include puppetdb::master::config
   #class { 'puppetdb::server':
   #  database_host => 'localhost',
   #}

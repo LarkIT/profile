@@ -13,4 +13,11 @@ class profile::base::puppet {
   file { '/var/lib/puppet/':
     mode    => '0755',
   }
+
+  # This is hard coded for puppet 3.x.  Will need to be modified for puppet 4.x AIO install
+  sensu::check {'puppet-last-run':
+    handlers => [ 'default' ],
+    interval => 900,
+    command  => '/etc/sensu/plugins/check-puppet-last-run.rb --summary-file /var/lib/puppet/state/last_run_summary.yaml',
+  }
 }

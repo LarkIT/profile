@@ -146,4 +146,11 @@ class profile::ipa_server (
     destination => '0.0.0.0/0',
     provider    => 'ip6tables',
   }
+
+  sensu::check {'https_listening':
+    handlers => [ 'default' ],
+    interval => 600,
+    command  => "/etc/sensu/plugins/check-http.rb -u https://${::fqdn}/ipa/ui/ -P 443 -s true",
+  }
+
 }

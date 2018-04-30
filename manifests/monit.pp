@@ -48,4 +48,14 @@ class profile::monit (
   if str2bool($::settings::storeconfigs) {
     Monit::Check <<| tag == "${::environment}_${::client}_${::app_tier}_monit" |>>
   }
+
+    # MONITORING - DISABLED FOR NOW
+  #if ( $enable_webadmin ) {
+    #sensu::check {'monit status':
+    #  handlers    => [ 'default' ],
+    #  interval    => 180,
+    #  occurrences => 2,
+    #  command     => "/etc/sensu/plugins/check-monit-status.rb -U admin -P monit -p ${port}",
+    #}
+  #}
 }

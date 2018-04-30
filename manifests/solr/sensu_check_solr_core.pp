@@ -19,6 +19,12 @@ define profile::solr::sensu_check_solr_core (
   #validate_integer($interval)
   validate_string($handlers)
 
+  sensu::check {"solr_core ${core} (${server}-${port})":
+    handlers => [ 'default' ],
+    interval => 300,
+    command  => "/etc/sensu/plugins/check-http-json.rb -u http://${server}:${port}/solr/${core}/admin/ping?wt=json -K status -v OK",
+  }
+
   #   ssh_authorized_key { "${user}@${::fqdn}-${name}":
   #     ensure  => present,
   #     key     => $name,

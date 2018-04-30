@@ -46,4 +46,10 @@ class profile::base::ntp {
     proto    => 'udp',
     provider => 'ip6tables',
   }
+
+  sensu::check {'ntp_sync':
+    handlers => [ 'default' ],
+    interval => 900,
+    command  => '/etc/sensu/plugins/check-ntp.rb -w 75 -c 150',
+  }
 }

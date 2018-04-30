@@ -18,7 +18,13 @@ class profile::selinux (
   class { '::selinux':
     mode => $mode_to_set,
   }
-  
+
+  sensu::check {'selinux':
+    handlers => [ 'default' ],
+    interval => 1800,
+    command  => '/etc/sensu/plugins/check-selinux.rb',
+  }
+
   validate_hash($booleans)
   create_resources('::selinux::boolean', $booleans)
 }

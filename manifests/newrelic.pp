@@ -37,6 +37,12 @@ class profile::newrelic (
       newrelic_license_key => $license_key,
     }
 
+    sensu::check {'NewRelic nrsysmond process':
+      handlers => [ 'default' ],
+      interval => 1800,
+      command  => '/etc/sensu/plugins/check-process.rb -p "/usr/sbin/nrsysmond" -c2 -w2',
+    }
+
     if $php_agent and defined(Class['apache']) {
       if str2bool($::selinux) {
         package { 'newrelic_httpd-selinux': }

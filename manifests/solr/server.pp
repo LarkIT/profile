@@ -107,6 +107,12 @@ class profile::solr::server (
     proto     => 'tcp',
   })
 
+  sensu::check {'solr running':
+    handlers => [ 'default' ],
+    interval => 180,
+    command  => '/etc/sensu/plugins/check-process.rb -p "-Dsolr.solr.home=" -c1 -w1',
+  }
+
   # Get a "list" of cores for monitoring
   if is_hash($cores) {
     $monitor_cores = keys($cores)

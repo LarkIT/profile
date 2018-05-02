@@ -42,7 +42,7 @@ class profile::rails (
   include $additional_classes
   ensure_packages($additional_packages)
 
-  include ::repos::passenger
+  #include ::repos::passenger
   include ::rvm
   include ::host_railsapp
 

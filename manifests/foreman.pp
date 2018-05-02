@@ -16,6 +16,10 @@ class profile::foreman (
   class { 'puppetdb::server':
     database_host => 'localhost',
   }
+  class { 'puppetdb::database::postgresql':
+    listen_addresses => 'localhost',
+    manage_server    => false,
+  }
   #  From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)
   include foreman

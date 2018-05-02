@@ -14,7 +14,7 @@ class profile::foreman (
   include r10k::webhook::config
   class { 'puppetdb::master::config':
     require       => Class['foreman'],
-  } -> 
+  }
   class { 'puppetdb::database::postgresql':
     listen_addresses => 'localhost',
     manage_server    => false,

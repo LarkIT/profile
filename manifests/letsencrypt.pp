@@ -18,7 +18,6 @@ class profile::letsencrypt (
   letsencrypt::certonly { $::fqdn:
     domains              => $domains,
     additional_args      => [ '--expand --non-interactive' ],
-    cron_before_command  => "/bin/systemctl stop ${service}.service",
     cron_success_command => "/bin/systemctl reload ${service}.service",
     manage_cron          => true,
   }

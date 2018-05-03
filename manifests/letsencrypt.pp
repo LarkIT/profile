@@ -9,7 +9,7 @@ class profile::letsencrypt (
   $config               = {},
   $manage_cron          = true,
   $cron_before_command = "/bin/systemctl stop ${service}.service",
-  $cron_success_command = "/bin/systemctl reload ${service}.service",
+  $cron_success_command = "/bin/systemctl start ${service}.service",
 ){
 
   validate_array($domains)

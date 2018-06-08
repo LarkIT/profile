@@ -38,6 +38,7 @@ class profile::zabbix::server (
   $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf',
   $zabbix_timezone             = 'America/Denver',
   $zabbix_server_name          = 'Lark IT Zabbix',
+  $cachesize                   = '32M'
 ){
 
   #Install mysql client for managing remote database
@@ -94,6 +95,7 @@ class profile::zabbix::server (
     database_name     => $database_name,
     database_user     => $database_user,
     database_password => $database_password,
+    cachesize         => $cachesize,
   }
 
   #Install zabbix-web frontend

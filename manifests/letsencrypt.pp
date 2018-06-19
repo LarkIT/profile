@@ -4,17 +4,17 @@
 #
 #
 class profile::letsencrypt (
-  $service = 'httpd',
-  $domains = [$::fqdn],
-  $config  = {},
-  $plugin  = 'standalone',
+  $service       = 'httpd',
+  $domains       = [$::fqdn],
+  $config        = {},
+  $plugin        = 'standalone',
   $webroot_paths = [],
 ){
 
   validate_array($domains)
 
   class { 'letsencrypt':
-    *     => $config,
+    * => $config,
   }
 
   letsencrypt::certonly { $::fqdn:

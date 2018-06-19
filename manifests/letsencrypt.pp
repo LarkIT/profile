@@ -4,25 +4,28 @@
 #
 #
 class profile::letsencrypt (
-  $service              = 'httpd',
-  $domains              = [$::fqdn],
-  $config               = {},
-  $manage_cron          = true,
-  $cron_before_command = "/bin/systemctl stop ${service}.service",
-  $cron_success_command = "/bin/systemctl start ${service}.service",
+  $service = 'httpd',
+  $domains = [$::fqdn],
+  $config  = {},
+  $plugin  = 'standalone',
+  $webroot_paths = [],
 ){
 
   validate_array($domains)
 
-  class{ 'letsencrypt':
-    * => $config,
+  class { 'letsencrypt':
+    *     => $config,
   }
 
   letsencrypt::certonly { $::fqdn:
     domains              => $domains,
+    plugin               => $plugin,
+    webroot_paths        => $webroot_paths,
     additional_args      => [ '--expand --non-interactive' ],
-    cron_before_command  => $cron_before_command,
-    cron_success_command => $cron_success_command,
-    manage_cron          => $manage_cron,
+    cron_before_command  => "/bin/systemctl stop ${service}.service",
+    cron_success_command => "/bin/systemctl reload ${service}.service",
+    manage_cron          => true,
   }
+
 }
+

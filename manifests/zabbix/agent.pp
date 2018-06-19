@@ -12,6 +12,7 @@ class profile::zabbix::agent (
   $zabbix_server = 'zabbix.lark-it.com'
 ){
   class { 'zabbix::agent':
-    server => $zabbix_server,
+    server       => $zabbix_server,
+    serveractive => $zabbix_server,
   }
 }

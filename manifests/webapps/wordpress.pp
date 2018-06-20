@@ -23,13 +23,13 @@ class profile::webapps::wordpress (
   $_base = "/web/${application}/${environment}/public_html"
 
   selinux::fcontext {$_base:
-    pathname => "${_base}(/.*)?",
-    context  => 'httpd_sys_content_t',
+    pathspec => "${_base}(/.*)?",
+    seltype  => 'httpd_sys_content_t',
   }
 
   selinux::fcontext {"${_base}/wp-content/uploads":
-    pathname => "${_base}/wp-content/uploads(/.*)?",
-    context  => 'httpd_sys_rw_content_t',
+    pathspec => "${_base}/wp-content/uploads(/.*)?",
+    seltype  => 'httpd_sys_rw_content_t',
   }
 
   # RW dirs used by wordpress

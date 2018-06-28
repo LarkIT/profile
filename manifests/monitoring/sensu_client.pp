@@ -91,11 +91,17 @@ class profile::monitoring::sensu_client (
     }
   }
 
+  package { 'sensu-plugins-disk-checks':
+    ensure   => present,
+    provider => sensu_gem,
+  }
+
   sensu::check { 'disk-free':
     handlers    => [ 'default' ],
-    command     => "/etc/sensu/plugins/check-disk-usage.rb -t ext3,ext4,xfs -w ${disk_warn} -c ${disk_crit}",
+    command     => "check-disk-usage.rb -t ext3,ext4,xfs -w ${disk_warn} -c ${disk_crit}",
     subscribers => [ 'all' ],
     interval    => 3600,
+    require     => Package['sensu-plugins-disk-checks'],
   }
 
   sensu::check { 'cpu':

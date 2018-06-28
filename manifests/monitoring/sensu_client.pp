@@ -21,10 +21,6 @@ class profile::monitoring::sensu_client (
 
   create_resources(sensu::check, $checks)
 
-  resources { 'sensu::check':
-    purge => $purge_sensu_checks,
-  }
-
   file { '/etc/sensu/conf.d/cert.pem':
     owner   => 'sensu',
     group   => 'sensu',

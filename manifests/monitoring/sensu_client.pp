@@ -13,12 +13,17 @@ class profile::monitoring::sensu_client (
   $swap_crit            = 75,
   $disk_warn            = 85,
   $disk_crit            = 95,
+  $purge_sensu_checks   = true,
 ) {
 
   include ::repos::sensu
   include ::sensu
 
   create_resources(sensu::check, $checks)
+
+  resources { 'sensu::check':
+    purge => $purge_sensu_checks,
+  }
 
   file { '/etc/sensu/conf.d/cert.pem':
     owner   => 'sensu',

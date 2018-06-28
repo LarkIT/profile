@@ -98,7 +98,7 @@ class profile::monitoring::sensu_client (
 
   sensu::check { 'disk-free':
     handlers    => [ 'default' ],
-    command     => "check-disk-usage.rb -t ext3,ext4,xfs -w ${disk_warn} -c ${disk_crit}",
+    command     => "/opt/sensu/embedded/bin/check-disk-usage.rb -t ext3,ext4,xfs -w ${disk_warn} -c ${disk_crit}",
     subscribers => [ 'all' ],
     interval    => 3600,
     require     => Package['sensu-plugins-disk-checks'],

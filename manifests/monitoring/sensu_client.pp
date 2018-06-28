@@ -110,4 +110,9 @@ class profile::monitoring::sensu_client (
     interval    => 600,
     occurrences => 2,
   }
+
+  file_line { 'sudo_rule_sensu_puppet_check':
+    path => '/etc/sudoers',
+    line => '%sensu  ALL=NOPASSWD: /etc/sensu/plugins/check-puppet-last-run.rb',
+  }
 }

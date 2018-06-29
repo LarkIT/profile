@@ -15,5 +15,3 @@ profile::cloudwatch::logs:
 profile::letsencrypt::config:
    configure_epel: false
    email: letsencrypt@lark-it.com
-
-postgresql::globals::version: ‘9.6’

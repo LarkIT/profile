@@ -39,7 +39,6 @@ class profile::zabbix::server (
   $zabbix_timezone             = 'America/Denver',
   $zabbix_server_name          = 'Lark IT Zabbix',
   $cachesize                   = '32M',
-  $maxhousekeeperdelete        = '100',
 ){
 
   #Install mysql client for managing remote database
@@ -97,7 +96,6 @@ class profile::zabbix::server (
     database_user        => $database_user,
     database_password    => $database_password,
     cachesize            => $cachesize,
-    maxhousekeeperdelete => $maxhousekeeperdelete,
   }
 
   #Install zabbix-web frontend

@@ -103,4 +103,16 @@ class profile::monitoring::sensu_client (
     interval    => 600,
     occurrences => 2,
   }
+
+  sensu::check { 'postfix_running':
+    handlers => 'default',
+    command  => '/etc/sensu/plugins/check-process.rb -p postfix',
+    interval => 600,
+  }
+
+  sensu::check { 'mailq':
+    handlers => 'default',
+    command  => '/etc/sensu/plugins/check-mailq.rb -w 10 -c 30',
+    interval => 600,
+  }
 }

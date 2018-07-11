@@ -9,7 +9,6 @@ class profile::base::smtp (
 ){
 
   include ::postfix
-  include ::profile::monitoring::sensu_client
 
   $_smtp_relays = suffix(any2array($smtp_relays), '||SMTP')
   ensure_resource(profile::firewall::fwrule, $_smtp_relays, {
@@ -25,17 +24,4 @@ class profile::base::smtp (
       notify    => Class['postfix::newaliases'],
     }
   }
-
-  sensu::check { 'postfix_running':
-    handlers => 'default',
-    command  => '/etc/sensu/plugins/check-process.rb -p postfix',
-    interval => 600,
-  }
-
-  sensu::check { 'mailq':
-    handlers => 'default',
-    command  => '/etc/sensu/plugins/check-mailq.rb -w 10 -c 30',
-    interval => 600,
-  }
-
 }

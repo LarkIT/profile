@@ -13,6 +13,7 @@ class profile::monitoring::sensu_client (
   $swap_crit            = 75,
   $disk_warn            = 85,
   $disk_crit            = 95,
+  $purge_sensu_checks   = true,
 ) {
 
   include ::repos::sensu
@@ -90,11 +91,21 @@ class profile::monitoring::sensu_client (
     }
   }
 
+  package { 'sensu-plugins-disk-checks':
+    ensure   => present,
+    provider => sensu_gem,
+  }
+
+  package { 'sensu-plugins':
+    ensure => present,
+  }
+
   sensu::check { 'disk-free':
     handlers    => [ 'default' ],
-    command     => "/etc/sensu/plugins/check-disk-usage.rb -t ext3,ext4,xfs -w ${disk_warn} -c ${disk_crit}",
+    command     => "/opt/sensu/embedded/bin/check-disk-usage.rb -t ext3,ext4,xfs -w ${disk_warn} -c ${disk_crit}",
     subscribers => [ 'all' ],
     interval    => 3600,
+    require     => Package['sensu-plugins-disk-checks'],
   }
 
   sensu::check { 'cpu':
@@ -114,5 +125,10 @@ class profile::monitoring::sensu_client (
     handlers => 'default',
     command  => '/etc/sensu/plugins/check-mailq.rb -w 10 -c 30',
     interval => 600,
+  }
+  
+  file_line { 'sudo_rule_sensu_puppet_check':
+    path => '/etc/sudoers',
+    line => '%sensu  ALL=NOPASSWD: /etc/sensu/plugins/check-puppet-last-run.rb',
   }
 }

@@ -23,18 +23,18 @@ class profile::webapps::laravel (
   $_base = "/web/${application}/${environment}"
 
   selinux::fcontext {$_base:
-    pathname => "${_base}(/.*)?",
-    context  => 'httpd_sys_content_t',
+    pathspec => "${_base}(/.*)?",
+    seltype  => 'httpd_sys_content_t',
   }
 
   selinux::fcontext {"${_base}/bootstrap/cache":
-    pathname => "${_base}/bootstrap/cache(/.*)?",
-    context  => 'httpd_sys_rw_content_t',
+    pathspec => "${_base}/bootstrap/cache(/.*)?",
+    seltype  => 'httpd_sys_rw_content_t',
   }
 
   selinux::fcontext {"${_base}/storage":
-    pathname => "${_base}/storage(/.*)?",
-    context  => 'httpd_sys_rw_content_t',
+    pathspec => "${_base}/storage(/.*)?",
+    seltype  => 'httpd_sys_rw_content_t',
   }
 
   # RW dirs used by laravel

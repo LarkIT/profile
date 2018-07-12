@@ -23,18 +23,18 @@ class profile::webapps::cake (
   $_base = "/web/${application}/${environment}/public_html"
 
   selinux::fcontext {$_base:
-    pathname => "${_base}(/.*)?",
-    context  => 'httpd_sys_content_t',
+    pathspec => "${_base}(/.*)?",
+    seltype  => 'httpd_sys_content_t',
   }
 
   selinux::fcontext {"${_base}/logs":
-    pathname => "${_base}/logs(/.*)?",
-    context  => 'httpd_sys_rw_content_t',
+    pathspec => "${_base}/logs(/.*)?",
+    seltype  => 'httpd_sys_rw_content_t',
   }
 
   selinux::fcontext {"${_base}/tmp":
-    pathname => "${_base}/tmp(/.*)?",
-    context  => 'httpd_sys_rw_content_t',
+    pathspec => "${_base}/tmp(/.*)?",
+    seltype  => 'httpd_sys_rw_content_t',
   }
 
   # RW dirs used by cake

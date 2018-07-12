@@ -13,4 +13,9 @@ if $manage_service {
       ensure => 'running',
     }
   }
+  sensu::check {'puppet-last-run':
+    handlers => [ 'default' ],
+    interval => 900,
+    command  => 'sudo /etc/sensu/plugins/check-puppet-last-run.rb',
+  }
 }

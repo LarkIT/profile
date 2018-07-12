@@ -13,12 +13,27 @@ class profile::zabbix::proxy (
     $zabbix_proxy_name,
     $zabbix_server_host = 'zabbix.lark-it.com',
 ) {
+  
+  require profile::zabbix::agent
+
+  group { 'zabbix':
+    ensure => present,
+  }
+
+  file { '/etc/zabbix':
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'zabbix',
+    mode    => '0640',
+    require => Group['zabbix'],  
+  }
 
   file { '/etc/zabbix/zabbix.psk':
     content => $presharedkey,
     owner   => 'root',
     group   => 'zabbix',
-    mode    => '0660',  
+    mode    => '0660',
+    require => File['/etc/zabbix'],
   }
   
   class { 'zabbix::proxy':
@@ -29,5 +44,6 @@ class profile::zabbix::proxy (
     tlspskidentity     => 'PSK',
     hostname           => $zabbix_proxy_name,
     require            => File['/etc/zabbix/zabbix.psk'],
+    tlsconnect         => 'psk',
   }
 }

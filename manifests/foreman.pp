@@ -1,6 +1,7 @@
 # Foreman Profile
 class profile::foreman (
   $git_webhook_config = {},
+  $install_puppetdb = false,
 ) {
 
   firewall { '100 INPUT allow http(s) from all':
@@ -12,17 +13,19 @@ class profile::foreman (
 
   include r10k
   include r10k::webhook::config
-  class { 'puppetdb::master::config':
-    require       => Class['foreman'],
-  }
-  class { 'puppetdb::database::postgresql':
-    listen_addresses => 'localhost',
-    manage_server    => false,
-    require          => Class['foreman'],
-  } ->
-   class { 'puppetdb::server':
-    database_host => 'localhost',
-    require       => Class['foreman'],
+  if $install_puppetdb {
+    class { 'puppetdb::master::config':
+      require       => Class['foreman'],
+    }
+    class { 'puppetdb::database::postgresql':
+      listen_addresses => 'localhost',
+      manage_server    => false,
+      require          => Class['foreman'],
+    } ->
+      class { 'puppetdb::server':
+      database_host => 'localhost',
+      require       => Class['foreman'],
+    }
   }
   #  From KAFO (forman installer) -
   #  (/usr/share/gems/gems/kafo-2.0.0/modules/kafo_configure/manifests/init.pp)

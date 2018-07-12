@@ -46,4 +46,17 @@ class profile::zabbix::proxy (
     require            => File['/etc/zabbix/zabbix.psk'],
     tlsconnect         => 'psk',
   }
+
+  firewall { '200 OUTPUT zabbix proxy port tcp':
+    dport  => [ '10050' ],
+    proto  => 'tcp',
+    action => 'accept',
+    chain  => 'OUTPUT',
+  }
+  firewall { '500 INPUT zabbix proxy port tcp':
+    dport  => [ '10051' ],
+    proto  => 'tcp',
+    action => 'accept',
+    chain  => 'INPUT',
+  }
 }

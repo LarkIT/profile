@@ -15,4 +15,17 @@ class profile::zabbix::agent (
     server       => $zabbix_server,
     serveractive => $zabbix_server,
   }
+
+  firewall { '200 OUTPUT zabbix agent proxy port tcp':
+    dport  => [ '10051' ],
+    proto  => 'tcp',
+    action => 'accept',
+    chain  => 'OUTPUT',
+  }
+  firewall { '500 INPUT zabbix agent port tcp':
+    dport  => [ '10050' ],
+    proto  => 'tcp',
+    action => 'accept',
+    chain  => 'INPUT',
+  }
 }

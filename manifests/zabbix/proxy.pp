@@ -15,6 +15,7 @@ class profile::zabbix::proxy (
 ) {
   
   require profile::zabbix::agent
+  include selinux
 
   group { 'zabbix':
     ensure => present,
@@ -45,6 +46,12 @@ class profile::zabbix::proxy (
     hostname           => $zabbix_proxy_name,
     require            => File['/etc/zabbix/zabbix.psk'],
     tlsconnect         => 'psk',
+  }
+
+  selinux::module { 'zabbix-proxy-process-setrlimit':
+    ensure    => present,
+    source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-proxy-process-setrlimit.te",
+    builder   => 'simple',
   }
 
   firewall { '200 OUTPUT zabbix proxy port tcp':

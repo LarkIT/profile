@@ -115,6 +115,18 @@ class profile::monitoring::sensu_client (
     occurrences => 2,
   }
 
+  sensu::check { 'postfix_running':
+    handlers => 'default',
+    command  => '/etc/sensu/plugins/check-process.rb -p postfix',
+    interval => 600,
+  }
+
+  sensu::check { 'mailq':
+    handlers => 'default',
+    command  => '/etc/sensu/plugins/check-mailq.rb -w 10 -c 30',
+    interval => 600,
+  }
+  
   file_line { 'sudo_rule_sensu_puppet_check':
     path => '/etc/sudoers',
     line => '%sensu  ALL=NOPASSWD: /etc/sensu/plugins/check-puppet-last-run.rb',

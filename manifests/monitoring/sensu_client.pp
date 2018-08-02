@@ -127,11 +127,10 @@ class profile::monitoring::sensu_client (
     interval => 600,
   }
 
-  # This is hard coded for puppet 3.x.  Will need to be modified for puppet 4.x AIO install
   sensu::check {'puppet-last-run':
     handlers => [ 'default' ],
     interval => 900,
-    command  => '/etc/sensu/plugins/check-puppet-last-run.rb --summary-file /var/lib/puppet/state/last_run_summary.yaml',
+    command  => 'sudo /etc/sensu/plugins/check-puppet-last-run.rb',
   }
 
   file_line { 'sudo_rule_sensu_puppet_check':

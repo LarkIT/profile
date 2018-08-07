@@ -98,6 +98,7 @@ class profile::zabbix::server (
     database_password    => $database_password,
     cachesize            => $cachesize,
     startpingers         => $startpingers,
+    manage_service       => true,
   }
 
   #Install zabbix-web frontend

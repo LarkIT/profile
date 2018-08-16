@@ -1,0 +1,34 @@
+module zabbix_agent 1.0;
+require {
+        type kernel_t;
+        type user_home_t;
+        type devlog_t;
+        type sudo_exec_t;
+        type zabbix_agent_t;
+        class sock_file write;
+        class capability { audit_write sys_resource };
+        class unix_dgram_socket { connect create sendto };
+        class file { execute execute_no_trans ioctl open read };
+        class netlink_audit_socket { create nlmsg_relay };
+        type zabbix_agent_t;
+        class unix_dgram_socket write;
+        class netlink_audit_socket write;
+        type NetworkManager_t;
+        type zabbix_agent_t;
+        type initrc_t;
+        class process { noatsecure rlimitinh siginh };
+        class netlink_audit_socket read;
+}
+
+#============= zabbix_agent_t ==============
+allow zabbix_agent_t devlog_t:sock_file write;
+allow zabbix_agent_t kernel_t:unix_dgram_socket sendto;
+allow zabbix_agent_t self:capability { audit_write sys_resource };
+allow zabbix_agent_t self:netlink_audit_socket { create nlmsg_relay };
+allow zabbix_agent_t self:unix_dgram_socket { connect create };
+allow zabbix_agent_t sudo_exec_t:file { execute execute_no_trans };
+allow zabbix_agent_t user_home_t:file { execute execute_no_trans ioctl open read };
+allow zabbix_agent_t self:netlink_audit_socket write;
+allow zabbix_agent_t self:unix_dgram_socket write;
+allow NetworkManager_t initrc_t:process { noatsecure rlimitinh siginh };
+allow zabbix_agent_t self:netlink_audit_socket read;

@@ -11,6 +11,7 @@
 class profile::zabbix::agent (
   $zabbix_server = 'zabbix.lark-it.com'
 ){
+  include selinux
   class { 'zabbix::agent':
     server       => $zabbix_server,
     serveractive => $zabbix_server,
@@ -27,5 +28,15 @@ class profile::zabbix::agent (
     proto  => 'tcp',
     action => 'accept',
     chain  => 'INPUT',
+  }
+
+  selinux::module { 'zabbix_agent':
+    ensure    =>  present,
+    source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix_agent.te",
+    builder   => 'simple',
+  }
+
+  selinux::boolean { 'zabbix_can_network':
+    ensure => 'on',
   }
 }

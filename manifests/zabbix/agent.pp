@@ -53,5 +53,31 @@ class profile::zabbix::agent (
     mode    => '0750',
   }
 
+  file { '/opt/zabbix/autodiscovery/discovery_processes.perl':
+    require => File['/opt/zabbix/autodiscovery'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_processes.perl",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0750',
+  }
+
+  file { '/opt/zabbix/autodiscovery/discovery_tcp_services.perl':
+    require => File['/opt/zabbix/autodiscovery'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_tcp_services.perl",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0750',
+  }
+
+  file { '/opt/zabbix/autodiscovery/discovery_udp_services.perl':
+    require => File['/opt/zabbix/autodiscovery'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_udp_services.perl",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0750',
+  }
 
 }

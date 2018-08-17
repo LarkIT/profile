@@ -39,4 +39,19 @@ class profile::zabbix::agent (
   selinux::boolean { 'zabbix_can_network':
     ensure => 'on',
   }
+
+  file { [ '/opt/zabbix/', '/opt/zabbix/autodiscovery' ]:
+    ensure => directory,
+  }
+
+  file { '/opt/zabbix/autodiscovery/discovery_disks.perl':
+    require => File['/opt/zabbix/autodiscovery'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_disks.perl",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0750',
+  }
+
+
 }

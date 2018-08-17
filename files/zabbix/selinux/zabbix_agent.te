@@ -50,6 +50,10 @@ require {
         type streamer_t;
         class process getattr;
         class netlink_tcpdiag_socket create;
+        type postfix_showq_t;
+        type zabbix_agent_t;
+        class process getattr;
+        class netlink_tcpdiag_socket setopt;
 }
 
 #============= zabbix_agent_t ==============
@@ -93,3 +97,5 @@ allow zabbix_agent_t self:netlink_tcpdiag_socket create;
 allow zabbix_agent_t self:process getattr;
 allow zabbix_agent_t streamer_t:process getattr;
 allow zabbix_agent_t system_dbusd_t:process getattr;
+allow zabbix_agent_t postfix_showq_t:process getattr;
+allow zabbix_agent_t self:netlink_tcpdiag_socket setopt;

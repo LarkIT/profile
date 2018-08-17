@@ -80,4 +80,14 @@ class profile::zabbix::agent (
     mode    => '0750',
   }
 
+  file { '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf':
+    require => Package['zabbix-agent'],
+    notify  => Service['zabbix-agent'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/autodiscovery_linux.conf",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '644',
+  }
+
 }

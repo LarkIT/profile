@@ -14,7 +14,7 @@ class profile::zabbix::proxy (
     $zabbix_server_host = 'zabbix.lark-it.com',
 ) {
   
-  require profile::zabbix::agent
+  include profile::zabbix::agent
   include selinux
 
   group { 'zabbix':

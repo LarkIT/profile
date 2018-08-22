@@ -11,6 +11,9 @@
 class profile::zabbix::agent (
   $zabbix_server = 'zabbix.lark-it.com'
 ){
+
+  include selinux
+
   class { 'zabbix::agent':
     server       => $zabbix_server,
     serveractive => $zabbix_server,
@@ -33,10 +36,20 @@ class profile::zabbix::agent (
     ensure    =>  present,
     source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix_agent.te",
     builder   => 'simple',
+    before    => Class['zabbix::agent'],
+    notify    => Exec['zabbix_agent_semodule_refresh'],
   }
 
-  selinux::boolean { 'zabbix_can_network':
-    ensure => 'on',
+  exec { 'zabbix_agent_semodule_refresh':
+    command     => "/sbin/semodule -DB",
+    refreshonly => true,
+    notify      => Service['zabbix-agent'],
+  }
+  
+  unless defined(Class['profile::zabbix::proxy']) {
+    selinux::boolean { 'zabbix_can_network':
+      ensure => 'on',
+    }
   }
 
   file { [ '/opt/zabbix/', '/opt/zabbix/autodiscovery' ]:
@@ -95,5 +108,4 @@ class profile::zabbix::agent (
                 "zabbix  ALL=NOPASSWD: /opt/zabbix/autodiscovery/discovery_tcp_services.perl",
                 "zabbix  ALL=NOPASSWD: /opt/zabbix/autodiscovery/discovery_udp_services.perl"],
   }
-
 }

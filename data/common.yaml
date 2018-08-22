@@ -1,3 +1,6 @@
+---
+sudo::config_file_replace: false
+sudo::purge: false
 profile::cloudwatch::logs:
   Messages:
     path: '/var/log/messages'

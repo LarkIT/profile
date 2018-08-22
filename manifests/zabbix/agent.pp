@@ -11,8 +11,6 @@
 class profile::zabbix::agent (
   $zabbix_server = 'zabbix.lark-it.com'
 ){
-  include selinux
-  include sudo
   class { 'zabbix::agent':
     server       => $zabbix_server,
     serveractive => $zabbix_server,

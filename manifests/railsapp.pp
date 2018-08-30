@@ -16,8 +16,9 @@ class profile::railsapp (
   Array $additional_packages = [],
   Array $additional_classes = [],
 ) {
-include profile::pulp_client
+#include profile::pulp_client
   # Yes we know its bad
+  # So bad in fact, we're commenting it out
   $standard_railsapp_packages = [
   'nano',
   'git',

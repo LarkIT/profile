@@ -32,15 +32,14 @@ class profile::zabbix::agent (
   }
 
   selinux::module { 'zabbix-agent':
-    ensure    => absent,
-    before    => Class['zabbix::agent'],
-    notify    => Exec['zabbix_agent_semanage_delete'],
+    ensure => absent,
+    before => Class['zabbix::agent'],
+    notify => Service['zabbix-agent'],
   }
 
-  exec { 'zabbix_agent_semanage_delete':
-    command     => "/sbin/semanage -d zabbix-agent",
-    refreshonly => true,
-    notify      => Service['zabbix-agent'],
+  selinux::permissive { 'zabbix_agent_t': 
+    ensure => present,
+    notify => Service['zabbix-agent'],
   }
 
   unless defined(Class['profile::zabbix::proxy']) {

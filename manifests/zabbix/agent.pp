@@ -12,11 +12,10 @@ class profile::zabbix::agent (
   $zabbix_server = 'zabbix.lark-it.com'
 ){
 
-  include selinux
-
   class { 'zabbix::agent':
-    server       => $zabbix_server,
-    serveractive => $zabbix_server,
+    server         => $zabbix_server,
+    serveractive   => $zabbix_server,
+    manage_selinux => false,
   }
 
   firewall { '200 OUTPUT zabbix agent proxy port tcp':
@@ -32,20 +31,18 @@ class profile::zabbix::agent (
     chain  => 'INPUT',
   }
 
-  selinux::module { 'zabbix_agent':
-    ensure    =>  present,
-    source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix_agent.te",
-    builder   => 'simple',
+  selinux::module { 'zabbix-agent':
+    ensure    => absent,
     before    => Class['zabbix::agent'],
-    notify    => Exec['zabbix_agent_semodule_refresh'],
+    notify    => Exec['zabbix_agent_semanage_delete'],
   }
 
-  exec { 'zabbix_agent_semodule_refresh':
-    command     => "/sbin/semodule -DB",
+  exec { 'zabbix_agent_semanage_delete':
+    command     => "/sbin/semanage -d zabbix-agent",
     refreshonly => true,
     notify      => Service['zabbix-agent'],
   }
-  
+
   unless defined(Class['profile::zabbix::proxy']) {
     selinux::boolean { 'zabbix_can_network':
       ensure => 'on',

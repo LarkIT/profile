@@ -46,7 +46,8 @@ class profile::zabbix::proxy (
     hostname           => $zabbix_proxy_name,
     require            => File['/etc/zabbix/zabbix.psk'],
     tlsconnect         => 'psk',
-    manage_service     => true
+    manage_service     => true,
+    configfrequency    => '300'
   }
 
   selinux::module { 'zabbix-proxy-process-setrlimit':

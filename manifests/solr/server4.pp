@@ -70,6 +70,13 @@ class profile::solr::server4 (
     ensure_resource('solr::core', $cores, $core_defaults)
   }
 
+  # Use Trusted Facts for Tag Export/Import if Present
+  if $trusted['extensions'] {
+    $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
+  } else {
+    $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
+  }
+
   # Create exported resource cores
   if str2bool($::settings::storeconfigs) {
     Solr::Core <<| tag == "solr_${::environment}_${::client}_${::app_tier}_${::app_name}_core" |>>
@@ -84,10 +91,10 @@ class profile::solr::server4 (
       action      => 'accept',
       chain       => 'OUTPUT',
       destination => $::ipaddress,
-      tag         => "fw_${::environment}_${::client}_${::app_tier}_${::app_name}_solr_out_to_solr_server",
+      tag         => "fw_${tag_metadata}_solr_out_to_solr_server",
     }
     # Allow inbound connections.
-    Firewall <<| tag == "fw_${::environment}_${::client}_${::app_tier}_${::app_name}_solr_in_from_clients" |>>
+    Firewall <<| tag == "fw_${tag_metadata}_solr_in_from_clients" |>>
 
     # hosts entry for SOLR CLIENT to find SOLR SERVER
     @@host { $::fqdn:
@@ -95,7 +102,7 @@ class profile::solr::server4 (
       host_aliases => 'solr.puppet',
       comment      => 'profile::solr::sever',
       ip           => $::ipaddress,
-      tag          => "host_${::environment}_${::client}_${::app_tier}_${::app_name}_solr_server",
+      tag          => "host_${tag_metadata}_solr_server",
     }
   }
 

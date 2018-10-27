@@ -29,11 +29,12 @@ class profile::solr::client (
   # Java is needed for SOLR (is it needed for the client?)
   #include ::java
 
- if $trusted['extensions'] {
-   $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
- } else {
-   $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
- }
+  # Use Trusted Facts for Tag Export/Import if Present
+  if $trusted['extensions'] {
+    $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
+  } else {
+    $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
+  }
 
   # Firewall
   if str2bool($::settings::storeconfigs) {

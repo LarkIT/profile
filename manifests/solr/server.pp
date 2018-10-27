@@ -70,11 +70,12 @@ class profile::solr::server (
     ensure_resource('solr::core', $cores, $core_defaults)
   }
 
- if $trusted['extensions'] {
-   $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
- } else {
-   $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
- }
+  # Use Trusted Facts for Tag Export/Import if Present
+  if $trusted['extensions'] {
+    $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
+  } else {
+    $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
+  }
 
   # Create exported resource cores
   if str2bool($::settings::storeconfigs) {

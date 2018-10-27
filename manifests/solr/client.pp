@@ -38,13 +38,13 @@ class profile::solr::client (
       action => 'accept',
       chain  => 'INPUT',
       source => $::ipaddress,
-      tag    => "fw_$trusted['extensions']['pp_environment']_${::client}_$trusted['extensions']['pp_role']_$trusted['extensions']['pp_application']_solr_in_from_clients",
+      tag    => "fw_${trusted['extensions']['pp_environment']}_${::client}_${trusted['extensions']['pp_role']}_${trusted['extensions']['pp_application']}_solr_in_from_clients",
     }
     # Allow inbound connections.
-    Firewall <<| tag == "fw_$trusted['extensions']['pp_environment']_${::client}_$trusted['extensions']['pp_role']_$trusted['extensions']['pp_application']_solr_out_to_solr_server" |>>
+    Firewall <<| tag == "fw_${trusted['extensions']['pp_environment']}_${::client}_${trusted['extensions']['pp_role']}_${trusted['extensions']['pp_application']}_solr_out_to_solr_server" |>>
 
     # Pick up the hosts file entry that was left for us.
-    Host <<| tag == "host_$trusted['extensions']['pp_environment']_${::client}_$trusted['extensions']['pp_role']_$trusted['extensions']['pp_application']_solr_server" |>>
+    Host <<| tag == "host_${trusted['extensions']['pp_environment']}_${::client}_${trusted['extensions']['pp_role']}_${trusted['extensions']['pp_application']}_solr_server" |>>
   }
 
   # Manual firewall rule overrides

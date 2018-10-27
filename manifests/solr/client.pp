@@ -29,6 +29,12 @@ class profile::solr::client (
   # Java is needed for SOLR (is it needed for the client?)
   #include ::java
 
+ if $trusted['extensions'] {
+   $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
+ } else {
+   $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
+ }
+
   # Firewall
   if str2bool($::settings::storeconfigs) {
     # Let other systems connect outbound to us.
@@ -38,14 +44,13 @@ class profile::solr::client (
       action => 'accept',
       chain  => 'INPUT',
       source => $::ipaddress,
-      tag    => "fw_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_in_from_clients",
+      tag    => "fw_${tag_metadata}_solr_in_from_clients",
     }
     # Allow inbound connections.
-    Firewall <<| tag == "fw_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_out_to_solr_server" |>>
+    Firewall <<| tag == "fw_${tag_metadata}_solr_out_to_solr_server" |>>
 
     # Pick up the hosts file entry that was left for us.
-    notify { "Testing Trusted Facts Extensions - host_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_server": }
-    Host <<| tag == "host_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_server" |>>
+    Host <<| tag == "host_${tag_metadata}_solr_server" |>>
   }
 
   # Manual firewall rule overrides

@@ -44,6 +44,7 @@ class profile::solr::client (
     Firewall <<| tag == "fw_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_out_to_solr_server" |>>
 
     # Pick up the hosts file entry that was left for us.
+    notify { "Testing Trusted Facts Extensions - host_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_server": }
     Host <<| tag == "host_${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}_solr_server" |>>
   }
 

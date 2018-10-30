@@ -205,7 +205,8 @@ class profile::monitoring::sensu_server (
   }
 
   service { 'iptables' :
-    ensure => stopped,  
+    ensure => stopped,
+    enable => false,
   }
 
   # if (is_string($admin_ips) and $admin_ips != '') or (is_array($admin_ips) and !empty($admin_ips)) {

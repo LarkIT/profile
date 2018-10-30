@@ -77,8 +77,8 @@ class profile::ipa_server (
 
   Firewall <<| tag == 'ipa_server_replication' |>>
 
-  if $::ec2_public_ipv4 {
-    $_my_ip = $::ec2_public_ipv4
+  if $ec2_metadata {
+    $_my_ip = ${facts[ec2_metadata][public-ipv4]}
   } else {
     $_my_ip = $::ipaddress
   }

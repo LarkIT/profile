@@ -20,14 +20,14 @@ class profile::monitoring::sensu_server (
     fail("profile::monitoring::sensu_server: Valid values for ${http_cert_provider} are letsencrypt and ipa")
   }
 
-  include ::profile::firewall
+  #include ::profile::firewall
   include ::repos::sensu
   include ::repos::epel
-  include ::firewall
+  #include ::firewall
   include ::uchiwa
   include ::sensu
   include ::apache
-  include ::selinux
+  #include ::selinux
 
   # Redis setup
   class { '::redis': }
@@ -202,6 +202,10 @@ class profile::monitoring::sensu_server (
       persistent => true,
       value      => on,
     }
+  }
+
+  service { 'iptables' :
+    ensure => stopped,  
   }
 
   # if (is_string($admin_ips) and $admin_ips != '') or (is_array($admin_ips) and !empty($admin_ips)) {

@@ -204,12 +204,12 @@ class profile::monitoring::sensu_server (
     }
   }
 
-  if (is_string($admin_ips) and $admin_ips != '') or (is_array($admin_ips) and !empty($admin_ips)) {
-    $fw_admin_ips = suffix(any2array($admin_ips), '||admin-uchiwa')
-    ensure_resource(profile::firewall::fwrule, $fw_admin_ips, {
-      direction => 'INPUT',
-      port      => 443,
-      proto     => 'tcp',
-    })
-  }
+  # if (is_string($admin_ips) and $admin_ips != '') or (is_array($admin_ips) and !empty($admin_ips)) {
+  #   $fw_admin_ips = suffix(any2array($admin_ips), '||admin-uchiwa')
+  #   ensure_resource(profile::firewall::fwrule, $fw_admin_ips, {
+  #     direction => 'INPUT',
+  #     port      => 443,
+  #     proto     => 'tcp',
+  #   })
+  # }
 }

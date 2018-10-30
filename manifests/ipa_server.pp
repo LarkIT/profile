@@ -31,7 +31,7 @@ class profile::ipa_server (
     owner   => 'named',
     group   => 'root',
     mode    => '0440',
-    content => template("${module_name}/profile/ipa_server/named.conf.erb"),
+    content => template("${module_name}/ipa_server/named.conf.erb"),
     require => Package['bind'],
     notify  => Service['ipa'],
   }
@@ -146,11 +146,4 @@ class profile::ipa_server (
     destination => '0.0.0.0/0',
     provider    => 'ip6tables',
   }
-
-  sensu::check {'https_listening':
-    handlers => [ 'default' ],
-    interval => 600,
-    command  => "/etc/sensu/plugins/check-http.rb -u https://${::fqdn}/ipa/ui/ -P 443 -s true",
-  }
-
 }

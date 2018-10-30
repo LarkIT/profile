@@ -38,7 +38,7 @@ class profile::monitoring::sensu_server (
     package_provider  => 'yum',
     admin_enable      => true,
     delete_guest_user => true,
-    manage_repos      => false,
+    repos_ensure      => false,
     ssl               => true,
     ssl_only          => true,
     ssl_cacert        => '/etc/rabbitmq/ssl/server_cacert.pem',

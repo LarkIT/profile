@@ -120,7 +120,7 @@ class profile::monitoring::sensu_server (
     tag         => 'ptag_sensu_server',
   }
 
-  #create_resources(sensu::handler, $handlers)
+  create_resources(sensu::handler, $handlers)
   ensure_packages($handler_packages)
 
   # vhost for uchiwa

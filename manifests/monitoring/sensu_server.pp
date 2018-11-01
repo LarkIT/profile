@@ -171,6 +171,8 @@ class profile::monitoring::sensu_server (
     krb_auth_realms        => ['AUTH.LARK-IT.COM'],
     krb_local_user_mapping => 'on',
     krb_5keytab            => '/etc/httpd/conf/http.keytab',
+    krb_verify_kdc         => 'off',
+    krb_save_credentials   => 'on',
     ssl                    => true,
     ssl_cert               => $_ssl_cert,
     ssl_key                => $_ssl_key,

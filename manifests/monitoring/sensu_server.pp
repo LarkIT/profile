@@ -11,10 +11,11 @@ class profile::monitoring::sensu_server (
   $rabbitmq_srv_key    = undef,
   $rabbitmq_password   = $::sensu::rabbitmq_password,
   $admin_ips           = $::profile::firewall::admin_ips,
-  $handlers            = {},
   $handler_packages    = [],
   $http_cert_provider  = 'letsencrypt'
 ){
+
+  $handlers = lookup('profile::monitoring::sensu_server::handlers', Hash, 'Deep', undef)
 
   if ! member(['letsencrypt', 'ipa'], $http_cert_provider) {
     fail("profile::monitoring::sensu_server: Valid values for ${http_cert_provider} are letsencrypt and ipa")
@@ -120,9 +121,7 @@ class profile::monitoring::sensu_server (
     tag         => 'ptag_sensu_server',
   }
 
-
-  notify  {"TESTING - Sensu Handlers: ${handlers}": }
-  #create_resources(sensu::handler, $handlers)
+  create_resources(sensu::handler, $handlers)
   ensure_packages($handler_packages)
 
   # vhost for uchiwa

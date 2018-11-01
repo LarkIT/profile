@@ -187,6 +187,12 @@ class profile::monitoring::sensu_server (
         },
       },
     ],
+    directories            => {
+      path         => '/var/www/html',
+      auth_name    => 'Kerberos Login',
+      auth_type    => 'Kerberos',
+      auth_require => 'valid-user',
+    }
   }
 
   # Allow apache to authenticate through sssd to IPA

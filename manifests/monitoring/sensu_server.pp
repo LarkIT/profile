@@ -180,7 +180,7 @@ class profile::monitoring::sensu_server (
       {
         path    => '/',
         url     => 'http://127.0.0.1:3000/',
-        options => {
+        params => {
           'AuthName' => '"Kerberos Login"',
           'AuthType' => 'Kerberos',
           'Require'  => 'valid-user',

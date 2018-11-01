@@ -15,7 +15,7 @@ class profile::monitoring::sensu_server (
   $http_cert_provider  = 'letsencrypt'
 ){
 
-  $handlers = lookup('profile::monitoring::sensu_server::handlers', Hash, 'Deep', undef)
+  $handlers = lookup('profile::monitoring::sensu_server::handlers', Hash, 'deep', undef)
 
   if ! member(['letsencrypt', 'ipa'], $http_cert_provider) {
     fail("profile::monitoring::sensu_server: Valid values for ${http_cert_provider} are letsencrypt and ipa")

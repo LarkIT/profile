@@ -166,7 +166,7 @@ class profile::monitoring::sensu_server (
     servername             => $::fqdn,
     serveraliases          => 'sensu.lark-it.com',
     serveradmin            => 'admin@lark-it.com',
-    auth_kerb              => true,
+    auth_kerb              => false,
     krb_method_negotiate   => 'on',
     krb_auth_realms        => ['AUTH.LARK-IT.COM'],
     krb_local_user_mapping => 'on',
@@ -185,13 +185,13 @@ class profile::monitoring::sensu_server (
         reverse_urls => 'http://127.0.0.1:3000/',
       },
     ],
-    directories            => {
-      provider     => 'location',
-      path         => '/',
-      auth_name    => 'Kerberos Login',
-      auth_type    => 'Kerberos',
-      auth_require => 'valid-user',
-    }
+    # directories            => {
+    #   provider     => 'location',
+    #   path         => '/',
+    #   auth_name    => 'Kerberos Login',
+    #   auth_type    => 'Kerberos',
+    #   auth_require => 'valid-user',
+    # }
   }
 
   # Allow apache to authenticate through sssd to IPA

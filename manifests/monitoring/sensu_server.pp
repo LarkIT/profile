@@ -9,7 +9,7 @@ class profile::monitoring::sensu_server (
   $rabbitmq_srv_cacert = undef,
   $rabbitmq_srv_cert   = undef,
   $rabbitmq_srv_key    = undef,
-  $rabbitmq_password   = $::sensu::rabbitmq_password,
+  $rabbitmq_password   = lookup('sensu::rabbitmq_password', String, 'first', undef),
   $admin_ips           = $::profile::firewall::admin_ips,
   $handler_packages    = [],
   $http_cert_provider  = 'letsencrypt'
@@ -45,6 +45,9 @@ class profile::monitoring::sensu_server (
     ssl_cacert        => '/etc/rabbitmq/ssl/server_cacert.pem',
     ssl_cert          => '/etc/rabbitmq/ssl/server_cert.pem',
     ssl_key           => '/etc/rabbitmq/ssl/server_key.pem',
+    environment_variables => {
+      'NODE_PORT' => '5672',
+    }
   }
 
   file { '/etc/rabbitmq/ssl/server_cacert.pem':

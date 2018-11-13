@@ -42,7 +42,7 @@ class profile::zabbix::agent (
     notify => Service['zabbix-agent'],
   }
 
-  unless defined(Class['profile::zabbix::proxy']) {
+  unless (defined(Class['profile::zabbix::proxy'])) or (defined(Class['profile::zabbix::server'])) {
     selinux::boolean { 'zabbix_can_network':
       ensure => 'on',
     }

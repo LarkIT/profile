@@ -48,21 +48,40 @@ class profile::zabbix::agent (
     }
   }
 
-  file { [ '/opt/zabbix/', ]:
+  # Remove superseded script files
+  file { '/opt/zabbix/':
     ensure => absent,
   }
-
+  # Remove superseded Zabbix agent configuration
   file { '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf':
     notify  => Service['zabbix-agent'],
     ensure  => absent,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/autodiscovery_linux.conf",
+  }
 
+  file { '/etc/zabbix/scripts/':
+    ensure  => directory,
+  }
+
+  file { '/etc/zabbix/scripts/service_discovery.sh':
+    require => File['/etc/zabbix/scripts/'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/service_discovery.sh",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '744',
+  }
+
+  file { '/etc/zabbix/zabbix_agentd.d/service_discovery.conf':
+    require => Package['zabbix-agent'],
+    notify  => Service['zabbix-agent'],
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/zabbix/agent_config/service_discovery.conf",
+    owner   => 'root',
+    group   => 'root',
+    mode    => '644',
   }
 
   sudo::conf { 'zabbix':
-    content => ["zabbix  ALL=NOPASSWD: /opt/zabbix/autodiscovery/discovery_disks.perl",
-                "zabbix  ALL=NOPASSWD: /opt/zabbix/autodiscovery/discovery_processes.perl",
-                "zabbix  ALL=NOPASSWD: /opt/zabbix/autodiscovery/discovery_tcp_services.perl",
-                "zabbix  ALL=NOPASSWD: /opt/zabbix/autodiscovery/discovery_udp_services.perl"],
+    content => "zabbix  ALL=NOPASSWD: /etc/zabbix/scripts/service_discovery.sh",
   }
 }

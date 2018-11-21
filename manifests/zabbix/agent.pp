@@ -62,7 +62,6 @@ class profile::zabbix::agent (
   }
 
   file { '/etc/zabbix/scripts/service_discovery.sh':
-    ensure  => present,
     require => File['/etc/zabbix/scripts/'],
     ensure  => file,
     source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/service_discovery.sh",

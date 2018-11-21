@@ -48,7 +48,7 @@ class profile::zabbix::agent (
     }
   }
 
-  file { [ '/opt/zabbix/', ]:
+  file { '/opt/zabbix/':
     ensure => absent,
   }
 
@@ -57,11 +57,11 @@ class profile::zabbix::agent (
     ensure  => absent,
   }
 
-  file { '/etc/zabbix/scripts/',
+  file { '/etc/zabbix/scripts/':
     ensure  => present,
   }
 
-  file { '/etc/zabbix/scripts/service_discovery.sh'
+  file { '/etc/zabbix/scripts/service_discovery.sh':
     ensure  => present,
     require => File['/etc/zabbix/scripts/'],
     ensure  => file,
@@ -82,6 +82,6 @@ class profile::zabbix::agent (
   }
 
   sudo::conf { 'zabbix':
-    content => ["zabbix  ALL=NOPASSWD: /etc/zabbix/scripts/service_discovery.sh"],
+    content => "zabbix  ALL=NOPASSWD: /etc/zabbix/scripts/service_discovery.sh",
   }
 }

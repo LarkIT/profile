@@ -37,7 +37,7 @@ class profile::zabbix::agent (
     notify => Service['zabbix-agent'],
   }
 
-  selinux::permissive { 'zabbix_agent_t': 
+  selinux::permissive { 'zabbix_agent_t':
     ensure => present,
     notify => Service['zabbix-agent'],
   }
@@ -48,54 +48,15 @@ class profile::zabbix::agent (
     }
   }
 
-  file { [ '/opt/zabbix/', '/opt/zabbix/autodiscovery' ]:
-    ensure => directory,
-  }
-
-  file { '/opt/zabbix/autodiscovery/discovery_disks.perl':
-    require => File['/opt/zabbix/autodiscovery'],
-    ensure  => file,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_disks.perl",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0750',
-  }
-
-  file { '/opt/zabbix/autodiscovery/discovery_processes.perl':
-    require => File['/opt/zabbix/autodiscovery'],
-    ensure  => file,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_processes.perl",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0750',
-  }
-
-  file { '/opt/zabbix/autodiscovery/discovery_tcp_services.perl':
-    require => File['/opt/zabbix/autodiscovery'],
-    ensure  => file,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_tcp_services.perl",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0750',
-  }
-
-  file { '/opt/zabbix/autodiscovery/discovery_udp_services.perl':
-    require => File['/opt/zabbix/autodiscovery'],
-    ensure  => file,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/discovery_udp_services.perl",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0750',
+  file { [ '/opt/zabbix/', ]:
+    ensure => absent,
   }
 
   file { '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf':
-    require => Package['zabbix-agent'],
     notify  => Service['zabbix-agent'],
-    ensure  => file,
+    ensure  => absent,
     source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/autodiscovery_linux.conf",
-    owner   => 'root',
-    group   => 'root',
-    mode    => '644',
+
   }
 
   sudo::conf { 'zabbix':

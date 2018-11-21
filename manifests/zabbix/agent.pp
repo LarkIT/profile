@@ -58,7 +58,7 @@ class profile::zabbix::agent (
   }
 
   file { '/etc/zabbix/scripts/':
-    ensure  => present,
+    ensure  => directory,
   }
 
   file { '/etc/zabbix/scripts/service_discovery.sh':

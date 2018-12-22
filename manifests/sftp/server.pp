@@ -41,6 +41,13 @@ class profile::sftp::server (
 
   # TODO: Manage User/Groups?
 
+  # Use Trusted Facts for Tag Export/Import if Present
+  if $trusted['extensions'] {
+    $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
+  } else {
+    $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
+  }
+
   ## Firewall stuff
   if str2bool($::settings::storeconfigs) {
     # Let other systems connect outbound to us.
@@ -50,11 +57,11 @@ class profile::sftp::server (
       action      => 'accept',
       chain       => 'OUTPUT',
       destination => $::ipaddress,
-      tag         => "fw_${::environment}_${::client}_${::app_tier}_${::app_name}_sftp_out_to_sftp_server",
+      tag         => "fw_${tag_metadata}_sftp_out_to_sftp_server",
     }
 
     # Allow inbound connections from our discovered clients.
-    Firewall <<| tag == "fw_${::environment}_${::client}_${::app_tier}_${::app_name}_sftp_in_from_sftp_clients" |>>
+    Firewall <<| tag == "fw_${tag_metadata}_sftp_in_from_sftp_clients" |>>
 
     # hosts entry for SFTP CLIENT to find SFTP SERVER
     @@host { $::fqdn:
@@ -62,7 +69,7 @@ class profile::sftp::server (
       host_aliases => 'sftp.puppet',
       comment      => 'profile::sftp::server',
       ip           => $::ipaddress,
-      tag          => "host_${::environment}_${::client}_${::app_tier}_${::app_name}_sftp_server",
+      tag          => "host_${tag_metadata}_sftp_server",
     }
   }
 

@@ -16,6 +16,13 @@ class profile::sftp::client (
   validate_array($server_ips)
   #validate_int($port)
 
+  # Use Trusted Facts for Tag Export/Import if Present
+  if $trusted['extensions'] {
+    $tag_metadata = "${trusted['extensions']['pp_environment']}_${trusted['extensions']['pp_application']}"
+  } else {
+    $tag_metadata = "${::environment}_${::client}_${::app_tier}_${::app_name}"
+  }
+
   # Firewall
   if str2bool($::settings::storeconfigs) {
     # Let other systems connect outbound to us.
@@ -25,13 +32,13 @@ class profile::sftp::client (
       action => 'accept',
       chain  => 'INPUT',
       source => $::ipaddress,
-      tag    => "fw_${::environment}_${::client}_${::app_tier}_${::app_name}_sftp_in_from_sftp_clients",
+      tag    => "fw_${tag_metadata}_sftp_in_from_sftp_clients",
     }
     # Allow inbound connections.
-    Firewall <<| tag == "fw_${::environment}_${::client}_${::app_tier}_${::app_name}_sftp_out_to_sftp_server" |>>
+    Firewall <<| tag == "fw_${tag_metadata}_sftp_out_to_sftp_server" |>>
 
     # Pick up the hosts file entry that was left for us.
-    Host <<| tag == "host_${::environment}_${::client}_${::app_tier}_${::app_name}_sftp_server" |>>
+    Host <<| tag == "host_${tag_metadata}_sftp_server" |>>
   }
 
   # Manual firewall rule overrides

@@ -76,7 +76,7 @@ class profile::monitoring::sensu_client (
     command      => "/etc/sensu/plugins/check-memory.sh -w ${wmem} -c ${cmem}",
     subscribers  => [ 'all' ],
     interval     => 300,
-    occurrences  => 6,
+    occurrences  => 10,
   }
 
   if $::memory['swap'] {
@@ -86,7 +86,7 @@ class profile::monitoring::sensu_client (
         command     => "/etc/sensu/plugins/check-swap.sh -w ${wswap} -c ${cswap}",
         subscribers => [ 'all' ],
         interval    => 300,
-        occurrences => 2,
+        occurrences => 10,
       }
     }
   }
@@ -112,7 +112,7 @@ class profile::monitoring::sensu_client (
     handlers    => 'default',
     command     => '/etc/sensu/plugins/check-cpu.rb --sleep 20',
     interval    => 600,
-    occurrences => 2,
+    occurrences => 10,
   }
 
   sensu::check { 'postfix_running':

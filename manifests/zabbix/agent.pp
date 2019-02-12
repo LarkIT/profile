@@ -48,18 +48,12 @@ class profile::zabbix::agent (
     }
   }
 
-<<<<<<< HEAD
-  file { '/opt/zabbix/':
-    ensure => absent,
-  }
-
-=======
   # Remove superseded script files
   file { '/opt/zabbix/':
     ensure => absent,
   }
+
   # Remove superseded Zabbix agent configuration
->>>>>>> 6483cd1155011447e34ec78ffe7401271679d7db
   file { '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf':
     notify  => Service['zabbix-agent'],
     ensure  => absent,

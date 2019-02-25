@@ -40,6 +40,7 @@ class profile::zabbix::server (
   $zabbix_server_name          = 'Lark IT Zabbix',
   $cachesize                   = '32M',
   $startpingers                = '4',
+  $zabbix_web_zabbix_server    = '127.0.0.1',
 ){
 
   #Install mysql client for managing remote database
@@ -104,6 +105,7 @@ class profile::zabbix::server (
   #Install zabbix-web frontend
   class { 'zabbix::web':
     zabbix_url         => $zabbix_url,
+    zabbix_server      => $zabbix_web_zabbix_server,
     database_type      => $database_type,
     database_host      => $database_host,
     database_port      => $database_port,

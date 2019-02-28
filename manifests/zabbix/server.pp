@@ -40,7 +40,7 @@ class profile::zabbix::server (
   $zabbix_server_name          = 'Lark IT Zabbix',
   $cachesize                   = '32M',
   $startpingers                = '4',
-  $starttrappers               = '8',
+  $starttrappers               = '10',
 ){
 
   #Install mysql client for managing remote database

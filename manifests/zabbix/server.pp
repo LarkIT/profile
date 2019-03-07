@@ -12,35 +12,33 @@
 #
 #
 class profile::zabbix::server (
-  $create_database             = false,
-  $zabbix_url                  = 'zabbix.lark-it.com',
-  $database_type               = 'mysql',
-  $database_host               = 'zabbix-db-prod.cnrkhevutr7w.us-west-2.rds.amazonaws.com',
-  $database_port               = '3306',
-  $database_name               = 'zabbix_prod',
-  $database_user               = 'zabbix',
-  $database_password           = 'password',
-  $apache_use_ssl              = true,
-  $apache_ssl_key_path         = '/etc/pki/tls/private/zabbix.key',
-  $apache_ssl_cert_path        = '/etc/pki/tls/certs/zabbix.crt',
-  $apache_ssl_chain_path       = '/etc/pki/tls/certs/zabbix.ca-bundle',
-  $apache_ssl_key              = undef,
+  $create_database             = undef,
+  $database_type               = undef,
+  $database_host               = undef,
+  $database_port               = undef,
+  $database_name               = undef,
+  $database_user               = undef,
+  $database_password           = undef,
+  $apache_default_vhost        = undef,
+  $apache_manage_vhost         = undef,
   $apache_ssl_cert             = undef,
+  $apache_ssl_cert_path        = undef,
   $apache_ssl_chain            = undef,
-  $manage_vhost                = true,
-  $default_vhost               = true,
-  $agent_hostname              = 'lark-zabbix-01',
-  $agent_listenip              = '0.0.0.0',
-  $opsgenie_apikey             = undef,
-  $opsgenie_zabbix_command_url = 'https://zabbix.lark-it.com/api_jsonrpc.php',
-  $opsgenie_zabbix_user        = 'zabbix-opsgenie',
-  $opsgenie_zabbix_password    = 'password',
-  $opsgenie_zabbix_config_file = '/etc/opsgenie/conf/opsgenie-integration.conf',
-  $zabbix_timezone             = 'America/Denver',
-  $zabbix_server_name          = 'Lark IT Zabbix',
-  $cachesize                   = '32M',
-  $startpingers                = '4',
-  $starttrappers               = '10',
+  $apache_ssl_chain_path       = undef,
+  $apache_ssl_key              = undef,
+  $apache_ssl_key_path         = undef,
+  $apache_use_ssl              = undef,
+  $zabbix_web_server_name      = undef,
+  $zabbix_web_timezone         = undef,
+  $zabbix_web_url              = undef,
+  $zabbix_server_cachesize     = undef,
+  $zabbix_server_startpingers  = undef,
+  $zabbix_server_starttrappers = undef,
+  $zabbix_opsgenie_apikey      = undef,
+  $zabbix_opsgenie_config_file = undef,
+  $zabbix_opsgenie_command_url = undef,
+  $zabbix_opsgenie_user        = undef,
+  $zabbix_opsgenie_password    = undef,
 ){
 
   #Install mysql client for managing remote database
@@ -97,15 +95,15 @@ class profile::zabbix::server (
     database_name        => $database_name,
     database_user        => $database_user,
     database_password    => $database_password,
-    cachesize            => $cachesize,
-    startpingers         => $startpingers,
-    starttrappers        => $starttrappers,
+    cachesize            => $zabbix_server_cachesize,
+    startpingers         => $zabbix_server_startpingers,
+    starttrappers        => $zabbix_server_starttrappers,
     manage_service       => true,
   }
 
   #Install zabbix-web frontend
   class { 'zabbix::web':
-    zabbix_url         => $zabbix_url,
+    zabbix_url         => $zabbix_web_url,
     zabbix_server      => $zabbix_web_zabbix_server,
     database_type      => $database_type,
     database_host      => $database_host,
@@ -113,14 +111,14 @@ class profile::zabbix::server (
     database_name      => $database_name,
     database_user      => $database_user,
     database_password  => $database_password,
-    manage_vhost       => $manage_vhost,
-    default_vhost      => $default_vhost,
+    manage_vhost       => $apache_manage_vhost,
+    default_vhost      => $apache_default_vhost,
     apache_use_ssl     => $apache_use_ssl,
     apache_ssl_key     => $apache_ssl_key_path,
     apache_ssl_cert    => $apache_ssl_cert_path,
     apache_ssl_chain   => $apache_ssl_chain_path,
-    zabbix_timezone    => $zabbix_timezone,
-    zabbix_server_name => $zabbix_server_name,
+    zabbix_timezone    => $zabbix_web_timezone,
+    zabbix_server_name => $zabbix_web_server_name,
   }
 
   #Additional SELinux configuration
@@ -142,13 +140,13 @@ class profile::zabbix::server (
   }
 
   $opsgenie_zabbix_config = {
-    opsgenie_apikey             => $opsgenie_apikey,
-    opsgenie_zabbix_command_url => $opsgenie_zabbix_command_url,
-    opsgenie_zabbix_user        => $opsgenie_zabbix_user,
-    opsgenie_zabbix_password    => $opsgenie_zabbix_password,
+    opsgenie_apikey             => $zabbix_opsgenie_apikey,
+    opsgenie_zabbix_command_url => $zabbix_opsgenie_command_url,
+    opsgenie_zabbix_user        => $zabbix_opsgenie_user,
+    opsgenie_zabbix_password    => $zabbix_opsgenie_password,
   }
 
-  file { $opsgenie_zabbix_config_file:
+  file { $zabbix_opsgenie_config_file:
     notify  => Service[ 'marid' ],
     ensure  => file,
     content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),

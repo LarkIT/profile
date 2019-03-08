@@ -1,7 +1,7 @@
 #
 # === Class: profile::zabbix::server
 #
-# Setup Zabbix server with the databae on RDS
+# Setup Zabbix server
 #
 # === Parameters
 #
@@ -34,6 +34,7 @@ class profile::zabbix::server (
   $zabbix_server_cachesize     = undef,
   $zabbix_server_startpingers  = undef,
   $zabbix_server_starttrappers = undef,
+  $zabbix_opsgenie_enabled     = undef,
   $zabbix_opsgenie_apikey      = undef,
   $zabbix_opsgenie_config_file = undef,
   $zabbix_opsgenie_command_url = undef,
@@ -80,12 +81,12 @@ class profile::zabbix::server (
   }
 
   #Do not attempt to populate database with default structure unless $create_database is set to true
-  if $create_database == false {
-    file { '/etc/zabbix/.schema.done':
-      ensure => file,
-	  before => Class[ 'zabbix::database::mysql' ],
-    }
-  }
+  #if $create_database == false {
+  #  file { '/etc/zabbix/.schema.done':
+  #    ensure => file,
+	#  before => Class[ 'zabbix::database::mysql' ],
+  #  }
+  #}
 
   #Install zabbix-server
   class { 'zabbix::server':
@@ -135,31 +136,34 @@ class profile::zabbix::server (
   }
 
   #OpsGenie integration
-  class { 'java':
-    distribution => 'jre',
-  }
+  if $zabbix_opsgenie_enabled {
 
-  $opsgenie_zabbix_config = {
-    opsgenie_apikey             => $zabbix_opsgenie_apikey,
-    opsgenie_zabbix_command_url => $zabbix_opsgenie_command_url,
-    opsgenie_zabbix_user        => $zabbix_opsgenie_user,
-    opsgenie_zabbix_password    => $zabbix_opsgenie_password,
-  }
+    class { 'java':
+      distribution => 'jre',
+    }
 
-  file { $zabbix_opsgenie_config_file:
-    notify  => Service[ 'marid' ],
-    ensure  => file,
-    content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
-    require => Package[ 'opsgenie-zabbix' ],
-  }
+    $opsgenie_zabbix_config = {
+      opsgenie_apikey             => $zabbix_opsgenie_apikey,
+      opsgenie_zabbix_command_url => $zabbix_opsgenie_command_url,
+      opsgenie_zabbix_user        => $zabbix_opsgenie_user,
+      opsgenie_zabbix_password    => $zabbix_opsgenie_password,
+    }
 
-  service { 'marid':
-    ensure  => running,
-    enable  => true,
-    require => Package[ 'opsgenie-zabbix' ],
-  }
+    file { $zabbix_opsgenie_config_file:
+      notify  => Service[ 'marid' ],
+      ensure  => file,
+      content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
+      require => Package[ 'opsgenie-zabbix' ],
+    }
 
-  package { 'opsgenie-zabbix':
+    service { 'marid':
+      ensure  => running,
+      enable  => true,
+      require => Package[ 'opsgenie-zabbix' ],
+    }
+
+    package { 'opsgenie-zabbix':
     ensure  => present,
+    }
   }
 }

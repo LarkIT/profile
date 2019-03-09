@@ -12,7 +12,8 @@
 #
 #
 class profile::zabbix::server (
-  $create_database             = undef,
+  $mysql_install               = undef,
+  $mysql_root_password         = undef,
   $database_type               = undef,
   $database_host               = undef,
   $database_port               = undef,
@@ -42,8 +43,25 @@ class profile::zabbix::server (
   $zabbix_opsgenie_password    = undef,
 ){
 
-  #Install mysql client for managing remote database
+  #Install mysql
   include mysql::client
+
+  if $mysql_install {
+    class { 'mysql::server':
+      root_password           => $mysql_root_password,
+      remove_default_accounts => true,
+
+    }
+
+    mysql::db { $database_name:
+      user     => $database_user,
+      password => $database_password,
+      host     => $database_host,
+      grant    => ['ALL'],
+      before   => Class[ 'zabbix::server' ],
+    }
+
+  }
 
   #Configure apache
   class { 'apache':
@@ -53,41 +71,35 @@ class profile::zabbix::server (
 
   include apache::mod::php
 
-  file { $apache_ssl_key_path:
-    ensure  => file,
-    owner   => 'apache',
-    group   => 'apache',
-    mode    => '0600',
-    content => $apache_ssl_key,
-    before  => Class[ 'zabbix::web' ],
+  if $apache_use_ssl {
+
+    file { $apache_ssl_key_path:
+      ensure  => file,
+      owner   => 'apache',
+      group   => 'apache',
+      mode    => '0600',
+      content => $apache_ssl_key,
+      before  => Class[ 'zabbix::web' ],
+    }
+
+    file { $apache_ssl_cert_path:
+      ensure  => file,
+      owner   => 'apache',
+      group   => 'apache',
+      mode    => '0600',
+      content => $apache_ssl_cert,
+      before  => Class[ 'zabbix::web' ],
+    }
+
+    file { $apache_ssl_chain_path:
+      ensure  => file,
+      owner   => 'apache',
+      group   => 'apache',
+      mode    => '0600',
+      content => $apache_ssl_chain,
+      before  => Class[ 'zabbix::web' ],
+    }
   }
-
-  file { $apache_ssl_cert_path:
-    ensure  => file,
-    owner   => 'apache',
-    group   => 'apache',
-    mode    => '0600',
-    content => $apache_ssl_cert,
-    before  => Class[ 'zabbix::web' ],
-  }
-
-  file { $apache_ssl_chain_path:
-    ensure  => file,
-    owner   => 'apache',
-    group   => 'apache',
-    mode    => '0600',
-    content => $apache_ssl_chain,
-    before  => Class[ 'zabbix::web' ],
-  }
-
-  #Do not attempt to populate database with default structure unless $create_database is set to true
-  #if $create_database == false {
-  #  file { '/etc/zabbix/.schema.done':
-  #    ensure => file,
-	#  before => Class[ 'zabbix::database::mysql' ],
-  #  }
-  #}
-
   #Install zabbix-server
   class { 'zabbix::server':
     database_type        => $database_type,

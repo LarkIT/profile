@@ -112,6 +112,7 @@ class profile::zabbix::server (
     startpingers         => $zabbix_server_startpingers,
     starttrappers        => $zabbix_server_starttrappers,
     manage_service       => true,
+    manage_selinux       => false,
   }
 
   #Install zabbix-web frontend
@@ -132,13 +133,14 @@ class profile::zabbix::server (
     apache_ssl_chain   => $apache_ssl_chain_path,
     zabbix_timezone    => $zabbix_web_timezone,
     zabbix_server_name => $zabbix_web_server_name,
+    manage_selinux     => false
   }
 
   #Additional SELinux configuration
 
   include selinux
   selinux::module { 'zabbix-server-sock_file-unlink':
-    ensure    => present,
+    ensure    => absent,
     source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-server-sock_file-unlink.te",
     builder   => 'simple',
   }

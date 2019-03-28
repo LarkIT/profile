@@ -147,10 +147,6 @@ class profile::zabbix::server (
     ensure => 'on',
   }
 
-  selinux::boolean { 'httpd_can_connect_zabbix':
-    ensure => 'on',
-  }
-
   #OpsGenie integration
   if $zabbix_opsgenie_enabled {
 

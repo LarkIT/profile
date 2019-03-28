@@ -37,8 +37,8 @@ class profile::zabbix::agent (
     notify => Service['zabbix-agent'],
   }
 
-  selinux::permissive { 'zabbix_agent_t': 
-    ensure => present,
+  selinux::permissive { 'zabbix_agent_t':
+    ensure => absent,
     notify => Service['zabbix-agent'],
   }
 

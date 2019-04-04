@@ -137,8 +137,8 @@ class profile::zabbix::server (
   #SELinux configuration
   include selinux
 
-selinux::module { 'zabbix-server-ipc-unlink':
-    ensure    => present,
+  selinux::module { 'zabbix-server-ipc-unlink':
+    ensure    => absent,
     source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-server-ipc-unlink.te",
     builder   => 'simple',
   }

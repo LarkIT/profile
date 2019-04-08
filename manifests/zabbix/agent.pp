@@ -15,7 +15,6 @@ class profile::zabbix::agent (
   class { 'zabbix::agent':
     server         => $zabbix_server,
     serveractive   => $zabbix_server,
-    manage_selinux => false,
   }
 
   firewall { '200 OUTPUT zabbix agent proxy port tcp':
@@ -31,10 +30,15 @@ class profile::zabbix::agent (
     chain  => 'INPUT',
   }
 
+  # SELinux configuration
   unless (defined(Class['profile::zabbix::proxy'])) or (defined(Class['profile::zabbix::server'])) {
     selinux::boolean { 'zabbix_can_network':
       ensure => 'on',
     }
+  }
+
+  selinux::boolean { 'zabbix_run_sudo':
+    ensure => 'on',
   }
 
   #Clean up failed custom script attempt
@@ -44,11 +48,6 @@ class profile::zabbix::agent (
     force   => true,
     ensure  => absent,
     notify  => Service['zabbix-agent'],
-  }
-
-  selinux::module { 'zabbix-agent':
-    ensure => absent,
-    notify => Service['zabbix-agent'],
   }
 
   selinux::permissive { 'zabbix_agent_t':

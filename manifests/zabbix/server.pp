@@ -134,9 +134,6 @@ class profile::zabbix::server (
     zabbix_server_name => $zabbix_web_server_name,
   }
 
-  #SELinux configuration
-  include selinux
-
   selinux::boolean { 'httpd_can_network_connect':
     ensure => 'on',
   }

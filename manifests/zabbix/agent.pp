@@ -9,12 +9,16 @@
 # Status: Work in Progress
 #
 class profile::zabbix::agent (
-  $zabbix_server = 'zabbix.lark-it.com',
+  $zabbix_server        = 'zabbix.lark-it.com',
+  $zabbix_version       = undef,
+  $zabbix_package_state = undef,
 ){
 
   class { 'zabbix::agent':
-    server         => $zabbix_server,
-    serveractive   => $zabbix_server,
+    server               => $zabbix_server,
+    serveractive         => $zabbix_server,
+    zabbix_version       => $zabbix_version,
+    zabbix_package_state => $zabbix_package_state,
   }
 
   firewall { '200 OUTPUT zabbix agent proxy port tcp':

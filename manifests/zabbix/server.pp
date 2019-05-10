@@ -41,6 +41,8 @@ class profile::zabbix::server (
   $zabbix_opsgenie_command_url = undef,
   $zabbix_opsgenie_user        = undef,
   $zabbix_opsgenie_password    = undef,
+  $zabbix_version              = undef,
+  $zabbix_package_state        = undef,
 ){
 
   #Install mysql
@@ -112,26 +114,30 @@ class profile::zabbix::server (
     startpingers         => $zabbix_server_startpingers,
     starttrappers        => $zabbix_server_starttrappers,
     manage_service       => true,
+    zabbix_version       => $zabbix_version,
+    zabbix_package_state => $zabbix_package_state,
   }
 
   #Install zabbix-web frontend
   class { 'zabbix::web':
-    zabbix_url         => $zabbix_web_url,
-    zabbix_server      => $zabbix_web_zabbix_server,
-    database_type      => $database_type,
-    database_host      => $database_host,
-    database_port      => $database_port,
-    database_name      => $database_name,
-    database_user      => $database_user,
-    database_password  => $database_password,
-    manage_vhost       => $apache_manage_vhost,
-    default_vhost      => $apache_default_vhost,
-    apache_use_ssl     => $apache_use_ssl,
-    apache_ssl_key     => $apache_ssl_key_path,
-    apache_ssl_cert    => $apache_ssl_cert_path,
-    apache_ssl_chain   => $apache_ssl_chain_path,
-    zabbix_timezone    => $zabbix_web_timezone,
-    zabbix_server_name => $zabbix_web_server_name,
+    zabbix_url           => $zabbix_web_url,
+    zabbix_server        => $zabbix_web_zabbix_server,
+    database_type        => $database_type,
+    database_host        => $database_host,
+    database_port        => $database_port,
+    database_name        => $database_name,
+    database_user        => $database_user,
+    database_password    => $database_password,
+    manage_vhost         => $apache_manage_vhost,
+    default_vhost        => $apache_default_vhost,
+    apache_use_ssl       => $apache_use_ssl,
+    apache_ssl_key       => $apache_ssl_key_path,
+    apache_ssl_cert      => $apache_ssl_cert_path,
+    apache_ssl_chain     => $apache_ssl_chain_path,
+    zabbix_timezone      => $zabbix_web_timezone,
+    zabbix_server_name   => $zabbix_web_server_name,
+    zabbix_version       => $zabbix_version,
+    zabbix_package_state => $zabbix_package_state,
   }
 
   selinux::boolean { 'httpd_can_network_connect':

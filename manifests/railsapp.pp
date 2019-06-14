@@ -44,7 +44,7 @@ class profile::railsapp (
   include ::redis
 
   #include ::repos::passenger
-  class { '::rvm': gnupg_key_id => '3804BB82D39DC0E3' }
+  include ::rvm
   include ::host_railsapp
 
   ensure_packages($additional_packages)

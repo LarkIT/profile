@@ -35,7 +35,6 @@ class profile::rails (
   $additional_classes  = [],
   $additional_fw_rules = {},
   $enable_letsencrypt = false,
-  $letsencrypt_config = {},
 ) {
 
   validate_array($additional_packages)
@@ -48,24 +47,9 @@ class profile::rails (
   include ::repos::passenger
   include ::rvm
   include ::host_railsapp
+
   if $enable_letsencrypt {
-    if $trusted['pp_environment'] == 'stage' {
-      $webroot_subdirectory = 'staging'
-    }
-    if ($trusted['pp_environment'] == 'production') or ($trusted['pp_environment'] == 'aspire') {
-      $webroot_subdirectory = 'production'
-    }
-    class{ 'letsencrypt':
-      * => $letsencrypt_config,
-    }
-    letsencrypt::certonly { $::fqdn:
-      domains              => [$::fqdn],
-      plugin               => 'webroot',
-      webroot_paths        => ["/web/railsapp/${webroot_subdirectory}/current/public"],
-      additional_args      => ['--expand --non-interactive'],
-      cron_success_command => '/bin/systemctl restart nginx.service',
-      manage_cron          => true,
-    }
+    include profile::letsencrypt_rails
   }
 
   # No matter what... we want to allow http in...

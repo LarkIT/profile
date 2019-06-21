@@ -29,10 +29,12 @@
 #     - 'class1'
 #     - 'class2'
 #
+
 class profile::rails (
   $additional_packages = [],
   $additional_classes  = [],
   $additional_fw_rules = {},
+  $enable_letsencrypt = false,
 ) {
 
   validate_array($additional_packages)
@@ -45,6 +47,10 @@ class profile::rails (
   include ::repos::passenger
   include ::rvm
   include ::host_railsapp
+
+  if $enable_letsencrypt {
+    include profile::letsencrypt
+  }
 
   # No matter what... we want to allow http in...
   firewall { '100 INPUT allow http(s) from anyone':

@@ -1,6 +1,6 @@
 class profile::letsencrypt_rails (
   $service              = 'nginx',
-  $domain               = [$::fqdn],
+  $domains               = [$::fqdn],
   $config               = {},
   $manage_cron          = true,
   $cron_success_command = "/bin/systemctl start ${service}.service",
@@ -15,7 +15,7 @@ class profile::letsencrypt_rails (
     * => $config,
   }
   letsencrypt::certonly { $::fqdn:
-    domains              => $domain,
+    domains              => $domains,
     plugin               => 'webroot',
     webroot_paths        => ["/web/railsapp/${webroot_subdirectory}/current/public"],
     additional_args      => ['--expand --non-interactive'],

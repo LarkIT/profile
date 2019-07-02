@@ -43,7 +43,7 @@ class profile::railsapp (
   include ::swap_file
   include ::redis
 
-#  include ::repos::passenger
+  #include ::repos::passenger
   include ::rvm
   include ::host_railsapp
 

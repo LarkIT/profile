@@ -15,6 +15,7 @@
 class profile::railsapp (
   Array $additional_packages = [],
   Array $additional_classes = [],
+  $redis_vm_overcommit_memory = false,
 ) {
 #include profile::pulp_client
   # Yes we know its bad
@@ -73,5 +74,10 @@ class profile::railsapp (
 #    interval => 180,
 #    command  => "/etc/sensu/plugins/check-process.rb -p \"${monitor}\" -C1 -W1 -u root",
 #  }
+
+  # Redis memory allocation fix
+  if $redis_vm_overcommit_memory {
+    sysctl { 'vm.overcommit_memory': value => '1' }
+  }
 
 }

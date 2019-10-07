@@ -41,8 +41,8 @@ class profile::zabbix::server (
   $zabbix_opsgenie_command_url = undef,
   $zabbix_opsgenie_user        = undef,
   $zabbix_opsgenie_password    = undef,
-  $zabbix_version              = undef,
-  $zabbix_package_state        = undef,
+  $zabbix_version              = "3.4",
+  $zabbix_package_state        = "latest",
 ){
 
   #Install mysql

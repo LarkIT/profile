@@ -34,37 +34,11 @@ class profile::zabbix::agent (
     chain  => 'INPUT',
   }
 
-  unless (defined(Class['profile::zabbix::proxy'])) or (defined(Class['profile::zabbix::server'])) {
-    selinux::boolean { 'zabbix_can_network':
-      ensure => 'on',
-    }
-  }
-
-  selinux::boolean { 'zabbix_run_sudo':
-    ensure => 'on',
-  }
+  # Zabbix agent SELinux permissive domain
 
   selinux::permissive { 'zabbix_agent_t':
     ensure => present,
     notify => Service['zabbix-agent'],
-  }
-
-  file { '/usr/lib/zabbix/externalscripts/service_discovery.sh':
-    ensure  => file,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_scripts/service_discovery.sh",
-    owner   => 'zabbix',
-    group   => 'zabbix',
-    mode    => '755',
-  }
-
-  file { '/etc/zabbix/zabbix_agentd.d/service_discovery.conf':
-    require => Package['zabbix-agent'],
-    notify  => Service['zabbix-agent'],
-    ensure  => file,
-    source  => "puppet:///modules/${module_name}/zabbix/agent_config/service_discovery.conf",
-    owner   => 'zabbix',
-    group   => 'zabbix',
-    mode    => '644',
   }
 
   sudo::conf { 'zabbix':
@@ -72,7 +46,7 @@ class profile::zabbix::agent (
                  "zabbix ALL=NOPASSWD: /bin/ps" ],
   }
 
-#Clean up superseded configuration
+# Clean up superseded configuration
 
     file { [ '/opt/zabbix',
            '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf' ]:
@@ -85,6 +59,25 @@ class profile::zabbix::agent (
     ensure    => absent,
     builder   => 'simple',
     source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-agent-sudo.te"
+  }
+
+  file { '/etc/zabbix/zabbix_agentd.d/service_discovery.conf':
+    ensure  => absent,
+    notify  => Service['zabbix-agent'],
+  }
+
+  file { '/usr/lib/zabbix/externalscripts/service_discovery.sh':
+    ensure  => absent,
+  }
+
+  unless (defined(Class['profile::zabbix::proxy'])) or (defined(Class['profile::zabbix::server'])) {
+    selinux::boolean { 'zabbix_can_network':
+      ensure => 'off',
+    }
+  }
+
+  selinux::boolean { 'zabbix_run_sudo':
+    ensure => 'off',
   }
 
 }

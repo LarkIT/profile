@@ -47,7 +47,7 @@ class profile::zabbix::proxy (
     require            => File['/etc/zabbix/zabbix.psk'],
     tlsconnect         => 'psk',
     manage_service     => true,
-    configfrequency    => '300'
+    configfrequency    => '300',
     manage_selinux     => false,
   }
 

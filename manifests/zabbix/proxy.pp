@@ -56,6 +56,11 @@ class profile::zabbix::proxy (
 
   }
 
+  selinux::permissive { 'zabbix_t':
+    ensure => present,
+    notify => Service['zabbix-agent'],
+  }
+  
   selinux::module { 'zabbix-proxy-process-setrlimit':
     ensure    => absent,
     source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-proxy-process-setrlimit.te",

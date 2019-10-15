@@ -11,7 +11,9 @@
 class profile::zabbix::proxy (
     $presharedkey,
     $zabbix_proxy_name,
-    $zabbix_server_host = 'zabbix.lark-it.com',
+    $zabbix_server_host   = 'zabbix.lark-it.com',
+    $zabbix_version       = "3.4",
+    $zabbix_package_state = "latest",
 ) {
 
   include profile::zabbix::agent
@@ -38,17 +40,20 @@ class profile::zabbix::proxy (
   }
 
   class { 'zabbix::proxy':
-    zabbix_server_host => $zabbix_server_host,
-    database_type      => 'sqlite',
-    database_name      => '/tmp/database',
-    tlspskfile         => '/etc/zabbix/zabbix.psk',
-    tlspskidentity     => 'PSK',
-    hostname           => $zabbix_proxy_name,
-    require            => File['/etc/zabbix/zabbix.psk'],
-    tlsconnect         => 'psk',
-    manage_service     => true,
-    configfrequency    => '300',
-    manage_selinux     => false,
+    zabbix_server_host   => $zabbix_server_host,
+    database_type        => 'sqlite',
+    database_name        => '/tmp/database',
+    tlspskfile           => '/etc/zabbix/zabbix.psk',
+    tlspskidentity       => 'PSK',
+    hostname             => $zabbix_proxy_name,
+    require              => File['/etc/zabbix/zabbix.psk'],
+    tlsconnect           => 'psk',
+    manage_service       => true,
+    configfrequency      => '300',
+    manage_selinux       => false,
+    zabbix_version       => $zabbix_version,
+    zabbix_package_state => $zabbix_package_state,
+
   }
 
   selinux::module { 'zabbix-proxy-process-setrlimit':

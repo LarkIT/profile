@@ -72,7 +72,7 @@ class profile::zabbix::agent (
     notify => Service['zabbix-agent'],
   }
 
-  file { '/usr/loca/bin/zbx_service_restart_check.sh':
+  file { '/usr/local/bin/zbx_service_restart_check.sh':
     ensure => file, 
     source => "puppet:///modules/${module_name}/zabbix/agent_scripts/zbx_service_restart_check.sh",
     mode   => '0655',

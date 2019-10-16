@@ -60,7 +60,7 @@ class profile::zabbix::agent (
     ensure => file, 
     source => "puppet:///modules/${module_name}/zabbix/agent_config/userparameter_systemd_services.conf",
     mode   => '0644',
-    notify => Service['zabix-agent'],
+    notify => Service['zabbix-agent'],
   }
   
   # Zabbix agent custom scripts
@@ -69,14 +69,14 @@ class profile::zabbix::agent (
     ensure => file, 
     source => "puppet:///modules/${module_name}/zabbix/agent_scripts/zbx_service_discovery.sh",
     mode   => '0655',
-    notify => Service['zabix-agent'],
+    notify => Service['zabbix-agent'],
   }
 
   file { '/usr/loca/bin/zbx_service_restart_check.sh':
     ensure => file, 
     source => "puppet:///modules/${module_name}/zabbix/agent_scripts/zbx_service_restart_check.sh",
     mode   => '0655',
-    notify => Service['zabix-agent'],
+    notify => Service['zabbix-agent'],
   }
 
 

@@ -41,9 +41,17 @@ class profile::zabbix::agent (
     notify => Service['zabbix-agent'],
   }
 
-  sudo::conf { 'zabbix':
-    content => [ "zabbix ALL=NOPASSWD: /usr/lib/zabbix/externalscripts/service_discovery.sh",
-                 "zabbix ALL=NOPASSWD: /bin/ps" ],
+  selinux::boolean { 'zabbix_run_sudo':
+    ensure => 'on',
+  }
+
+  # Zabbix agent sudo configuration
+
+  sudo::conf { 'zabbix-systemd':
+    content  => [ "zabbix  ALL=NOPASSWD: /usr/local/bin/zbx_service_discovery.sh",
+                  "zabbix  ALL=NOPASSWD: /usr/local/bin/zbx_service_restart_check.sh",
+                  "zabbix  ALL=NOPASSWD: /bin/systemctl" ],
+    priority => 15,
   }
 
 # Clean up superseded configuration
@@ -77,7 +85,7 @@ class profile::zabbix::agent (
   }
 
   selinux::boolean { 'zabbix_run_sudo':
-    ensure => 'off',
+    ensure => 'on',
   }
 
 }

@@ -54,10 +54,36 @@ class profile::zabbix::agent (
     priority => 15,
   }
 
-# Clean up superseded configuration
+  # Zabbix agent user parameter config files
 
-    file { [ '/opt/zabbix',
-           '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf' ]:
+  file { '/etc/zabbix/zabbix_agentd.d/userparameter_systemd_services.conf':
+    ensure => file, 
+    source => "puppet:///modules/${module_name}/zabbix/agent_config/userparameter_systemd_services.conf",
+    mode   => '0644',
+    notify => Service['zabix-agent'],
+  }
+  
+  # Zabbix agent custom scripts
+  
+  file { '/usr/local/bin/zbx_service_discovery.sh':
+    ensure => file, 
+    source => "puppet:///modules/${module_name}/zabbix/agent_scripts/zbx_service_discovery.sh",
+    mode   => '0655',
+    notify => Service['zabix-agent'],
+  }
+
+  file { '/usr/loca/bin/zbx_service_restart_check.sh':
+    ensure => file, 
+    source => "puppet:///modules/${module_name}/zabbix/agent_scripts/zbx_service_restart_check.sh",
+    mode   => '0655',
+    notify => Service['zabix-agent'],
+  }
+
+
+  # Clean up superseded configuration
+
+  file { [ '/opt/zabbix',
+         '/etc/zabbix/zabbix_agentd.d/autodiscovery_linux.conf' ]:
     force   => true,
     ensure  => absent,
     notify  => Service['zabbix-agent'],
@@ -83,9 +109,4 @@ class profile::zabbix::agent (
       ensure => 'off',
     }
   }
-
-  selinux::boolean { 'zabbix_run_sudo':
-    ensure => 'on',
-  }
-
 }

@@ -10,7 +10,7 @@
 #
 class profile::zabbix::agent (
   $zabbix_server        = 'zabbix.lark-it.com',
-  $zabbix_version       = "3.4",
+  $zabbix_version       = "4.2",
   $zabbix_package_state = "latest",
 ){
 

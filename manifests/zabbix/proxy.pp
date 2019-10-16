@@ -12,7 +12,7 @@ class profile::zabbix::proxy (
     $presharedkey,
     $zabbix_proxy_name,
     $zabbix_server_host   = 'zabbix.lark-it.com',
-    $zabbix_version       = "3.4",
+    $zabbix_version       = "4.2",
     $zabbix_package_state = "latest",
 ) {
 

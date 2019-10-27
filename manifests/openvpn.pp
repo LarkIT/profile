@@ -42,7 +42,7 @@ class profile::openvpn (
       require => Class[ 'profile::letsencrypt' ],
       notify  => Service[ 'openvpnas' ],
     }
-    firewall { 'Certbot':
+    firewall { '700 INPUT Certbot port TCP 80':
       dport  => '80',
       proto  => 'tcp',
       action => 'accept',

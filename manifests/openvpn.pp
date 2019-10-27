@@ -42,6 +42,12 @@ class profile::openvpn (
       require => Class[ 'profile::letsencrypt' ],
       notify  => Service[ 'openvpnas' ],
     }
+    firewall { 'Certbot':
+      dport  => '80',
+      proto  => 'tcp',
+      action => 'accept',
+      chain  => 'INPUT',
+    }
   }
 
   # OpenVPN_AS - please see https://github.com/LarkIT/puppet-openvpn_as

@@ -175,7 +175,7 @@ class profile::zabbix::server (
       mode    => '0655',
       source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
       }
-    } 
+    }
 
     service { 'marid':
       ensure  => running,

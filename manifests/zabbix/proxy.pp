@@ -14,6 +14,7 @@ class profile::zabbix::proxy (
     $zabbix_server_host   = 'zabbix.lark-it.com',
     $zabbix_version       = "4.2",
     $zabbix_package_state = "latest",
+    $aws_rds_monitoring   = false,
 ) {
 
   include profile::zabbix::agent
@@ -65,6 +66,17 @@ class profile::zabbix::proxy (
     ensure    => absent,
     source_te => "puppet:///modules/${module_name}/zabbix/selinux/zabbix-proxy-process-setrlimit.te",
     builder   => 'simple',
+  }
+  
+  if $aws_rds_monitoring {
+      
+      file { '/usr/lib/zabbix/externalscripts/rds_stats.py':
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0655',
+      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
+      }
   }
 
   firewall { '200 OUTPUT zabbix proxy port tcp':

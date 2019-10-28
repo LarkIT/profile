@@ -173,7 +173,7 @@ class profile::zabbix::server (
       owner   => 'root',
       group   => 'root',
       mode    => '0655',
-      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stst.py",
+      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
       }
     } 
 

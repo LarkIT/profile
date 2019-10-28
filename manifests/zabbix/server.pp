@@ -43,6 +43,7 @@ class profile::zabbix::server (
   $zabbix_opsgenie_password    = undef,
   $zabbix_version              = "4.2",
   $zabbix_package_state        = "latest",
+  $aws_rds_monitoring          = false,
 ){
 
   #Install mysql
@@ -164,6 +165,17 @@ class profile::zabbix::server (
       content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
       require => Package[ 'opsgenie-zabbix' ],
     }
+
+    if $aws_rds_monitoring {
+      
+      file { '/usr/lib/zabbix/externalscripts/rds_stats.py':
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0655',
+      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stst.py",
+      }
+    } 
 
     service { 'marid':
       ensure  => running,

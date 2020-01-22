@@ -44,6 +44,7 @@ class profile::zabbix::server (
   $zabbix_version              = "4.2",
   $zabbix_package_state        = "latest",
   $aws_rds_monitoring          = false,
+  $ssl_cert_monitoring         = false,
 ){
 
   #Install mysql
@@ -174,6 +175,17 @@ class profile::zabbix::server (
       group   => 'root',
       mode    => '0655',
       source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
+      }
+    }
+
+    if $ssl_cert_monitoring {
+
+      file { '/usr/lib/zabbix/externalscripts/ssl_cert_check.sh':
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0655',
+      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
       }
     }
 

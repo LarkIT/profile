@@ -3,14 +3,16 @@
       $opsgenie_zabbix_user,
       $opsgenie_zabbix_password
 | -%>
-#This file is managed by Puppet. Please do not make any manual changes.
-apiKey=<%= $opsgenie_apikey %>
+apiKey = <%= $opsgenie_apikey %>
+#if you are using opsgenie from another domain e.g. eu, sandbox etc.
+#you should update the line below
+opsgenie.api.url = https://api.opsgenie.com
 ######################################## MARID CONFIGURATION ##################################################
 
 ######################################## PROXY SERVER CONFIGURATION ############################################
-http.proxy.server.enabled=false
-http.proxy.server.port=11111
-http.proxy.server.host=localhost
+#http.proxy.server.enabled=false
+#http.proxy.server.port=11111
+#http.proxy.server.host=localhost
 #http.proxy.server.username=admin
 #http.proxy.server.password=changeme
 
@@ -49,7 +51,7 @@ http.proxy.server.host=localhost
 #zabbix2opsgenie.logger=warning
 logPath=/var/log/opsgenie/zabbix2opsgenie.log
 
-#recipients=<comma_separated_list_of_recipients>
+#responders=<comma_separated_list_of_responders>
 #tags=<comma_separated_list_of_tags>
 
 ####################################### PROXY CONFIGURATION FOR ZABBIX ############################################
@@ -62,7 +64,10 @@ zabbix2opsgenie.http.proxy.protocol=http
 
 
 ########################################ZABBIX INTEGRATION - ALERT ACTION CONFIGURATION ######################
-actions.Acknowledge.script=zabbixActionExecutor.groovy
+#actions.Acknowledge.script=zabbixActionExecutor.groovy
+
+#for Zabbix version 4.0 and above uncomment the line below and comment out or delete the line above
+actions.Acknowledge.script=zabbixActionExecutorForZabbix4.groovy
 
 zabbix.command_url=<%= $opsgenie_zabbix_command_url %>
 zabbix.user=<%= $opsgenie_zabbix_user %>

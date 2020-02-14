@@ -197,7 +197,12 @@ class profile::zabbix::server (
     group   => 'root',
     mode    => '0644',
     source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
-    notify  => Class['profile::systemd_reload']
+    }
+
+    # Execute daemon-reload
+    exec { '/usr/bin/systemctl daemon-reload':
+    after       => File[ '/etc/systemd/system/oec.service' ]
+    refreshonly => true,
     }
 
   }

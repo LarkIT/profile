@@ -157,18 +157,26 @@ class profile::zabbix::server (
       opsgenie_zabbix_user        => $zabbix_opsgenie_user,
       opsgenie_zabbix_password    => $zabbix_opsgenie_password,
     }
-
+    
+    # Install opsgenie-zabbix
     package { 'opsgenie-zabbix':
       provider => rpm,
       source   => "https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm",
       ensure   => latest,
     }
 
+    # Configure opsgenie-zabbix 
     file { $zabbix_opsgenie_config_file:
-      # notify  => Service[ 'marid' ],
       ensure  => file,
       content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
       require => Package[ 'opsgenie-zabbix' ],
+    }
+
+    # Instal OEC
+    package { 'oec':
+      provider => rpm,
+      source   => "https://opsgeniedownloads.s3-us-west-2.amazonaws.com/repo/oec-1.0.3-1.x86_64.rpm",
+      ensure   => latest,
     }
   }
 

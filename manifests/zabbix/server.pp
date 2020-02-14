@@ -204,7 +204,7 @@ class profile::zabbix::server (
     group   => 'root',
     mode    => '0644',
     source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
-    notify  => notify => Class['systemd::daemon_reload']
+    notify  => Class['systemd::daemon_reload']
     }
 
   }

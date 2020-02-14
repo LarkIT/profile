@@ -152,7 +152,7 @@ class profile::zabbix::server (
   if $zabbix_opsgenie_enabled {
 
     class { 'java':
-      distribution => 'jre',
+    #  distribution => 'jre',
     }
 
     $opsgenie_zabbix_config = {
@@ -163,42 +163,44 @@ class profile::zabbix::server (
     }
 
     file { $zabbix_opsgenie_config_file:
-      notify  => Service[ 'marid' ],
+      # notify  => Service[ 'marid' ],
       ensure  => file,
       content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
       require => Package[ 'opsgenie-zabbix' ],
     }
 
-    if $aws_rds_monitoring {
-      
-      file { '/usr/lib/zabbix/externalscripts/rds_stats.py':
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0655',
-      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
-      }
-    }
-
-    if $ssl_cert_monitoring {
-
-      file { '/usr/lib/zabbix/externalscripts/ssl_cert_check.sh':
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0655',
-      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
-      }
-    }
-
-    service { 'marid':
-      ensure  => running,
-      enable  => true,
-      require => Package[ 'opsgenie-zabbix' ],
+    #service { 'marid':
+    #  ensure  => running,
+    #  enable  => true,
+    #  require => Package[ 'opsgenie-zabbix' ],
     }
 
     package { 'opsgenie-zabbix':
-    ensure  => present,
+      provider => rpm,
+      source   => https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm,
+      ensure   => latest,
+    }
+  }
+     
+  if $aws_rds_monitoring {
+      
+    file { '/usr/lib/zabbix/externalscripts/rds_stats.py':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0655',
+    source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
+    }
+  }
+
+  if $ssl_cert_monitoring {
+
+    file { '/usr/lib/zabbix/externalscripts/ssl_cert_check.sh':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0655',
+    source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
     }
   }
 }

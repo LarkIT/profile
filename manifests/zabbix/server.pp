@@ -151,15 +151,17 @@ class profile::zabbix::server (
   #OpsGenie integration
   if $zabbix_opsgenie_enabled {
 
-    #class { 'java':
-    #  distribution => 'jre',
-    #}
-
     $opsgenie_zabbix_config = {
       opsgenie_apikey             => $zabbix_opsgenie_apikey,
       opsgenie_zabbix_command_url => $zabbix_opsgenie_command_url,
       opsgenie_zabbix_user        => $zabbix_opsgenie_user,
       opsgenie_zabbix_password    => $zabbix_opsgenie_password,
+    }
+
+    package { 'opsgenie-zabbix':
+      provider => rpm,
+      source   => "https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm",
+      ensure   => latest,
     }
 
     file { $zabbix_opsgenie_config_file:
@@ -168,19 +170,8 @@ class profile::zabbix::server (
       content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
       require => Package[ 'opsgenie-zabbix' ],
     }
+  }
 
-    #service { 'marid':
-    #  ensure  => running,
-    #  enable  => true,
-    #  require => Package[ 'opsgenie-zabbix' ],
-    }
-
-    package { 'opsgenie-zabbix':
-      provider => rpm,
-      source   => "https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm",
-      ensure   => latest,
-    }
-     
   if $aws_rds_monitoring {
       
     file { '/usr/lib/zabbix/externalscripts/rds_stats.py':

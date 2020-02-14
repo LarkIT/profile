@@ -11,7 +11,7 @@
 #   class { 'profile::zabbix::server': }
 #
 #
-class systemd::daemon_reload {
+class profile::systemd::daemon_reload {
 
   exec { '/bin/systemctl daemon-reload':
     refreshonly => true,
@@ -204,7 +204,7 @@ class profile::zabbix::server (
     group   => 'root',
     mode    => '0644',
     source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
-    notify  => Class['systemd::daemon_reload']
+    notify  => Class['profile::systemd::daemon_reload']
     }
 
   }

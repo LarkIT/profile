@@ -186,7 +186,6 @@ class profile::zabbix::server (
     owner   => 'opsgenie',
     group   => 'opsgenie',
     mode    => '0755',
-    source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
     }
   }
 

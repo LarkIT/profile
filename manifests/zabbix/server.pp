@@ -201,7 +201,7 @@ class profile::zabbix::server (
 
     # Execute daemon-reload
     exec { '/usr/bin/systemctl daemon-reload':
-    after       => File[ '/etc/systemd/system/oec.service' ]
+    after       => File[ '/etc/systemd/system/oec.service' ],
     refreshonly => true,
     }
 

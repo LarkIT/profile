@@ -151,9 +151,9 @@ class profile::zabbix::server (
   #OpsGenie integration
   if $zabbix_opsgenie_enabled {
 
-    class { 'java':
+    #class { 'java':
     #  distribution => 'jre',
-    }
+    #}
 
     $opsgenie_zabbix_config = {
       opsgenie_apikey             => $zabbix_opsgenie_apikey,

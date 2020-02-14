@@ -180,7 +180,6 @@ class profile::zabbix::server (
       source   => "https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm",
       ensure   => latest,
     }
-  }
      
   if $aws_rds_monitoring {
       

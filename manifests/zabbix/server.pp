@@ -177,7 +177,7 @@ class profile::zabbix::server (
 
     package { 'opsgenie-zabbix':
       provider => rpm,
-      source   => https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm,
+      source   => "https://s3-us-west-2.amazonaws.com/opsgeniedownloads/repo/opsgenie-zabbix-2.22.0-1.all.noarch.rpm",
       ensure   => latest,
     }
   }

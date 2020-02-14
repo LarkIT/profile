@@ -178,6 +178,16 @@ class profile::zabbix::server (
       source   => "https://opsgeniedownloads.s3-us-west-2.amazonaws.com/repo/oec-1.0.3-1.x86_64.rpm",
       ensure   => latest,
     }
+    
+    # Create OEC config file directory
+    file { '/etc/opsgenie/oec':
+    require => Package[ 'oec' ],
+    ensure  => directory,
+    owner   => 'opsgenie',
+    group   => 'opsgenie',
+    mode    => '0755',
+    source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
+    }
   }
 
   if $aws_rds_monitoring {

@@ -1,0 +1,14 @@
+[Unit]
+Description=Opsgenie Edge Connector (OEC)
+After=network.target
+
+[Service]
+Environment="OEC_CONF_SOURCE_TYPE=local"
+Environment="OEC_CONF_LOCAL_FILEPATH=/etc/opsgenie/oec/zabbixConfig.json"
+Group=opsgenie
+User=opsgenie
+Type=simple
+ExecStart=/usr/local/bin/OpsgenieEdgeConnector
+
+[Install]
+WantedBy=multi-user.target

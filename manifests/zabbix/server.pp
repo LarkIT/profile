@@ -172,7 +172,7 @@ class profile::zabbix::server (
       require => Package[ 'opsgenie-zabbix' ],
     }
 
-    # Instal OEC
+    # Install OEC
     package { 'oec':
       provider => rpm,
       source   => "https://opsgeniedownloads.s3-us-west-2.amazonaws.com/repo/oec-1.0.3-1.x86_64.rpm",

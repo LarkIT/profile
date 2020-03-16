@@ -229,4 +229,19 @@ class profile::zabbix::server (
     source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
     }
   }
+
+  # Redirect vhost
+  apache::vhost { "zabbix_redirect":
+    default_vhost  => true
+    port           => "8080",
+    ssl            => false,
+    rewrites       => [
+      {
+        comment      => 'redirect all to https',
+        rewrite_cond => ['%{SERVER_PORT} !^443$'],
+        rewrite_rule => ["^/(.*)$ https://${zabbix_web_url}/\$1 [L,R]"],
+      }
+    ],
+  }
 }
+

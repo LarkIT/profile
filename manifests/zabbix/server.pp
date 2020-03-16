@@ -232,6 +232,8 @@ class profile::zabbix::server (
 
   # Redirect vhost
   apache::vhost { "zabbix_redirect":
+    docroot        => '/var/www/html',
+    manage_docroot => false,
     default_vhost  => true,
     port           => "8080",
     ssl            => false,

@@ -235,7 +235,7 @@ class profile::zabbix::server (
     docroot        => '/var/www/html',
     manage_docroot => false,
     default_vhost  => true,
-    port           => "8080",
+    port           => "80",
     ssl            => false,
     rewrites       => [
       {

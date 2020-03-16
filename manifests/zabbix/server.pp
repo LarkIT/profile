@@ -232,7 +232,7 @@ class profile::zabbix::server (
 
   # Redirect vhost
   apache::vhost { "zabbix_redirect":
-    default_vhost  => true
+    default_vhost  => true,
     port           => "8080",
     ssl            => false,
     rewrites       => [

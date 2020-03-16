@@ -140,7 +140,7 @@ class profile::zabbix::server (
     apache_ssl_key       => $apache_ssl_key_path,
     apache_ssl_cert      => $apache_ssl_cert_path,
     apache_ssl_chain     => $apache_ssl_chain_path,
-    apache_listen_port   => $apache_listen_port,
+    apache_listenport    => $apache_listen_port,
     zabbix_timezone      => $zabbix_web_timezone,
     zabbix_server_name   => $zabbix_web_server_name,
     zabbix_version       => $zabbix_version,

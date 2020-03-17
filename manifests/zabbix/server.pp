@@ -30,7 +30,6 @@ class profile::zabbix::server (
   $apache_ssl_key                 = undef,
   $apache_ssl_key_path            = undef,
   $apache_use_ssl                 = undef,
-  $apache_listen_port             = "80",
   $zabbix_web_server_name         = undef,
   $zabbix_web_timezone            = undef,
   $zabbix_web_url                 = undef,
@@ -140,7 +139,6 @@ class profile::zabbix::server (
     apache_ssl_key       => $apache_ssl_key_path,
     apache_ssl_cert      => $apache_ssl_cert_path,
     apache_ssl_chain     => $apache_ssl_chain_path,
-    apache_listenport    => $apache_listen_port,
     zabbix_timezone      => $zabbix_web_timezone,
     zabbix_server_name   => $zabbix_web_server_name,
     zabbix_version       => $zabbix_version,
@@ -229,22 +227,5 @@ class profile::zabbix::server (
     source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
     }
   }
-
-  # Redirect vhost
-  apache::vhost { "zabbix_redirect":
-    servername     => $fqdn,
-    docroot        => '/var/www/html',
-    manage_docroot => false,
-    default_vhost  => true,
-    port           => "80",
-    ssl            => false,
-    rewrites       => [
-      {
-        comment      => 'redirect all to https',
-        rewrite_cond => ['%{SERVER_PORT} !^443$'],
-        rewrite_rule => ["^/(.*)$ https://${zabbix_web_url}/\$1 [L,R]"],
-      }
-    ],
-  }
-}
+}  
 

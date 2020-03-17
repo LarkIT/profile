@@ -86,6 +86,7 @@ class profile::zabbix::server (
       mode    => '0600',
       content => $apache_ssl_key,
       before  => Class[ 'zabbix::web' ],
+      notify  => Service[ 'httpd' ],
     }
 
     file { $apache_ssl_cert_path:
@@ -95,6 +96,7 @@ class profile::zabbix::server (
       mode    => '0600',
       content => $apache_ssl_cert,
       before  => Class[ 'zabbix::web' ],
+      notify  => Service[ 'httpd' ],
     }
 
     file { $apache_ssl_chain_path:
@@ -104,6 +106,7 @@ class profile::zabbix::server (
       mode    => '0600',
       content => $apache_ssl_chain,
       before  => Class[ 'zabbix::web' ],
+      notify  => Service[ 'httpd' ],
     }
   }
   #Install zabbix-server

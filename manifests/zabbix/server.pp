@@ -232,7 +232,7 @@ class profile::zabbix::server (
 
   # Redirect vhost
   apache::vhost { "zabbix_redirect":
-    servername     => ${fqdn},
+    servername     => $fqdn,
     docroot        => '/var/www/html',
     manage_docroot => false,
     default_vhost  => true,

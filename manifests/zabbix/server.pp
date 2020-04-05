@@ -220,10 +220,10 @@ class profile::zabbix::server (
 
     # Copy OEC Zabbix script
     file { '/usr/local/bin/zabbixActionExecutorForZabbix4.py':
-      owner: 'opsgenie',
-      group: 'opsgenie',
-      mode: '0755'
-      source: "puppet:///modules/${module_name}/zabbix/server_config/zabbixActionExecutorForZabbix4.py",
+      owner   => 'opsgenie',
+      group   => 'opsgenie',
+      mode:   => '0755',
+      source: => "puppet:///modules/${module_name}/zabbix/server_config/zabbixActionExecutorForZabbix4.py",
       notify  => Service[ 'oec' ],
     }
 
@@ -231,7 +231,6 @@ class profile::zabbix::server (
       ensure => running,
       enable => true,
     }
-
   }
 
   if $aws_rds_monitoring {

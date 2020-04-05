@@ -39,7 +39,6 @@ class profile::zabbix::server (
   $zabbix_server_starthttppollers = undef,
   $zabbix_opsgenie_enabled        = undef,
   $zabbix_opsgenie_apikey         = undef,
-  $zabbix_opsgenie_config_file    = undef,
   $zabbix_opsgenie_command_url    = undef,
   $zabbix_opsgenie_user           = undef,
   $zabbix_opsgenie_password       = undef,

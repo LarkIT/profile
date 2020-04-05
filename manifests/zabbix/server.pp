@@ -222,8 +222,8 @@ class profile::zabbix::server (
     file { '/usr/local/bin/zabbixActionExecutorForZabbix4.py':
       owner   => 'opsgenie',
       group   => 'opsgenie',
-      mode:   => '0755',
-      source: => "puppet:///modules/${module_name}/zabbix/server_config/zabbixActionExecutorForZabbix4.py",
+      mode    => '0755',
+      source  => "puppet:///modules/${module_name}/zabbix/server_config/zabbixActionExecutorForZabbix4.py",
       notify  => Service[ 'oec' ],
     }
 

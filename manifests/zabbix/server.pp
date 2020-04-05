@@ -170,7 +170,7 @@ class profile::zabbix::server (
     }
 
     # Configure opsgenie-zabbix 
-    file { $zabbix_opsgenie_config_file:
+    file { /etc/opsgenie/conf/opsgenie-integration.conf:
       ensure  => file,
       content => epp('profile/zabbix/opsgenie-integration.conf.epp', $opsgenie_zabbix_config ),
       require => Package[ 'opsgenie-zabbix' ],

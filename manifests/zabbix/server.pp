@@ -206,9 +206,9 @@ class profile::zabbix::server (
     file { '/etc/opsgenie/oec/zabbixConfig.json':
     require => Package[ 'oec' ],
     ensure  => file,
-    owner   => opsgenie,
-    group   => opsgenie,
-    mode    => 0600,
+    owner   => 'opsgenie',
+    group   => 'opsgenie',
+    mode    => '0600',
     content => epp('profile/zabbix/zabbixConfig.json.epp', $opsgenie_zabbix_config ),
     }
 

@@ -185,37 +185,51 @@ class profile::zabbix::server (
     
     # Create OEC config file directory
     file { '/etc/opsgenie/oec':
-    require => Package[ 'oec' ],
-    ensure  => directory,
-    owner   => 'opsgenie',
-    group   => 'opsgenie',
-    mode    => '0755',
+      require => Package[ 'oec' ],
+      ensure  => directory,
+      owner   => 'opsgenie',
+      group   => 'opsgenie',
+      mode    => '0755',
     }
    
     # Copy OEC init script
     file { '/etc/systemd/system/oec.service':
-    require => Package[ 'oec' ],
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
+      require => Package[ 'oec' ],
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
     }
 
     # Execute daemon-reload
     exec { '/usr/bin/systemctl daemon-reload':
-    refreshonly => true,
+      refreshonly => true,
     }
 
     # Copy OEC config file
     file { '/etc/opsgenie/oec/zabbixConfig.json':
-    require => Package[ 'oec' ],
-    ensure  => file,
-    owner   => 'opsgenie',
-    group   => 'opsgenie',
-    mode    => '0600',
-    content => epp('profile/zabbix/zabbixConfig.json.epp', $opsgenie_zabbix_config ),
-    notify  => Service[ 'oec' ],
+      require => Package[ 'oec' ],
+      ensure  => file,
+      owner   => 'opsgenie',
+      group   => 'opsgenie',
+      mode    => '0600',
+      content => epp('profile/zabbix/zabbixConfig.json.epp', $opsgenie_zabbix_config ),
+      notify  => Service[ 'oec' ],
+    }
+
+    # Copy OEC Zabbix script
+    file { '/usr/local/bin/zabbixActionExecutorForZabbix4.py':
+      owner: 'opsgenie',
+      group: 'opsgenie',
+      mode: '0755'
+      source: "puppet:///modules/${module_name}/zabbix/server_config/zabbixActionExecutorForZabbix4.py",
+      notify  => Service[ 'oec' ],
+    }
+
+    service { 'oec':
+      ensure => running,
+      enable => true,
     }
 
   }
@@ -223,22 +237,22 @@ class profile::zabbix::server (
   if $aws_rds_monitoring {
       
     file { '/usr/lib/zabbix/externalscripts/rds_stats.py':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0655',
-    source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0655',
+      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/rds_stats.py",
     }
   }
 
   if $ssl_cert_monitoring {
 
     file { '/usr/lib/zabbix/externalscripts/ssl_cert_check.sh':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0655',
-    source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0655',
+      source  => "puppet:///modules/${module_name}/zabbix/server_proxy_scripts/ssl_cert_check.sh",
     }
   }
 }  

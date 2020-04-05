@@ -161,7 +161,7 @@ class profile::zabbix::server (
       opsgenie_zabbix_user        => $zabbix_opsgenie_user,
       opsgenie_zabbix_password    => $zabbix_opsgenie_password,
     }
-    
+  
     # Install opsgenie-zabbix
     package { 'opsgenie-zabbix':
       provider => rpm,
@@ -200,6 +200,16 @@ class profile::zabbix::server (
     group   => 'root',
     mode    => '0644',
     source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
+    }
+
+    # Copy OEC config file
+    file { '/etc/opsgenie/oec/zabbixConfig.json':
+    require => Package[ 'oec' ],
+    ensure  => file.
+    owner   => opsgenie
+    group   => opsgenie
+    mode    => 0600
+    content => epp('profile/zabbix/zabbixConfig.json.epp', $opsgenie_zabbix_config ),
     }
 
     # Execute daemon-reload

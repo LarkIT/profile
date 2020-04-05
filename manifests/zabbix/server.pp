@@ -205,10 +205,10 @@ class profile::zabbix::server (
     # Copy OEC config file
     file { '/etc/opsgenie/oec/zabbixConfig.json':
     require => Package[ 'oec' ],
-    ensure  => file.
-    owner   => opsgenie
-    group   => opsgenie
-    mode    => 0600
+    ensure  => file,
+    owner   => opsgenie,
+    group   => opsgenie,
+    mode    => 0600,
     content => epp('profile/zabbix/zabbixConfig.json.epp', $opsgenie_zabbix_config ),
     }
 

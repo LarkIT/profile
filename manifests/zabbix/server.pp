@@ -202,6 +202,11 @@ class profile::zabbix::server (
     source  => "puppet:///modules/${module_name}/zabbix/server_config/oec.service",
     }
 
+    # Execute daemon-reload
+    exec { '/usr/bin/systemctl daemon-reload':
+    refreshonly => true,
+    }
+
     # Copy OEC config file
     file { '/etc/opsgenie/oec/zabbixConfig.json':
     require => Package[ 'oec' ],
@@ -210,11 +215,7 @@ class profile::zabbix::server (
     group   => 'opsgenie',
     mode    => '0600',
     content => epp('profile/zabbix/zabbixConfig.json.epp', $opsgenie_zabbix_config ),
-    }
-
-    # Execute daemon-reload
-    exec { '/usr/bin/systemctl daemon-reload':
-    refreshonly => true,
+    notify  => Service[ 'oec' ],
     }
 
   }

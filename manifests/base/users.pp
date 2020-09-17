@@ -56,7 +56,7 @@ class profile::base::users (
       ensure => present,
     }
     user { 'centos':
-      uid            => '1000'
+      uid            => '1000',
       home           => '/home/centos',
       gid            => 'centos',
       groups         => [ 'wheel' ],

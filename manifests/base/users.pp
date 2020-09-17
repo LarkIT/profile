@@ -64,7 +64,7 @@ class profile::base::users (
     }
     ssh_authorized_key { 'emergency':
       type => 'ssh-rsa',
-      name => 'centos_user_key',
+      name => 'centos-user-key',
       user => 'centos',
       key  => $centos_user_key,
     }

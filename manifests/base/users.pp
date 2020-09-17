@@ -49,7 +49,4 @@ class profile::base::users (
 
   }
 
-  # Ensure the AWS default user is gone
-  user { 'centos': ensure => absent }
-
 }

@@ -55,6 +55,7 @@ class profile::base::users (
       ensure => present,
     }
     user { 'centos':
+      home           => '/home/centos',
       gid            => 'centos',
       groups         => [ 'wheel' ],
       purge_ssh_keys => true,

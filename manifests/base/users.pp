@@ -4,7 +4,7 @@
 #
 #
 class profile::base::users (
-  $root_pw         = $::root_pw,
+  $root_pw         = false,
   $emergency_pw    = undef,
   $emergency_key   = undef,
   $centos_user     = false,

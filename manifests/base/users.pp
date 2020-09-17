@@ -62,7 +62,7 @@ class profile::base::users (
       managehome     => true,
       require        => Group['centos']
     }
-    ssh_authorized_key { 'emergency':
+    ssh_authorized_key { 'centos_user':
       type => 'ssh-rsa',
       name => 'centos-user-key',
       user => 'centos',

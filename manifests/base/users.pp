@@ -9,6 +9,7 @@ class profile::base::users (
   $emergency_key   = undef,
   $centos_user     = false,
   $centos_user_key = undef,
+  $centos_user_pw  = undef,
 ){
 
   if $root_pw {
@@ -58,6 +59,7 @@ class profile::base::users (
     user { 'centos':
       uid            => '1000',
       home           => '/home/centos',
+      password       => $centos_user_pw,
       gid            => 'centos',
       groups         => [ 'wheel' ],
       purge_ssh_keys => true,
@@ -72,7 +74,7 @@ class profile::base::users (
       user => 'centos',
       key  => $centos_user_key,
     }
-    
+
   }
   else {
     user { 'centos': ensure => absent }

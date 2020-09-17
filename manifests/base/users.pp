@@ -52,16 +52,19 @@ class profile::base::users (
 
   if $centos_user {
     group { 'centos':
+      gid    => '1000',
       ensure => present,
     }
     user { 'centos':
+      uid            => '1000'
       home           => '/home/centos',
       gid            => 'centos',
       groups         => [ 'wheel' ],
       purge_ssh_keys => true,
       system         => true,
       managehome     => true,
-      require        => Group['centos']
+      require        => Group['centos'],
+      ensure         => present,
     }
     ssh_authorized_key { 'centos_user':
       type => 'ssh-rsa',

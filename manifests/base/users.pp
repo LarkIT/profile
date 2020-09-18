@@ -74,6 +74,9 @@ class profile::base::users (
       user => 'centos',
       key  => $centos_user_key,
     }
+    sudo::conf { 'centos_user':
+      content  => 'centos ALL=(ALL) ALL',
+    }
 
   }
   else {
